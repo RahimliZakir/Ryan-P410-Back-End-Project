@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-	
+
 	<!--
 		Basic
 	-->
@@ -15,16 +15,16 @@
 	<meta name="description" content="@ViewBag.Title | Ryan Template" />
 	<meta name="keywords" content="vcard, resposnive, resume, personal, card, cv, cards, portfolio" />
 	<meta name="author" content="beshleyua" />
-	
+
 	<!--
 		Load Fonts
 	-->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-	
+
 	<!--
 		Load CSS
 	-->
-	<link rel="stylesheet" href="~/libs/font-awesome/all.min.css"/>
+	<link rel="stylesheet" href="~/libs/font-awesome/css/all.min.css"/>
 	<link rel="stylesheet" href="~/assets/css/basic.css" />
 	<link rel="stylesheet" href="~/assets/css/layout.css" />
 	<link rel="stylesheet" href="~/assets/css/blogs.css" />
@@ -37,7 +37,7 @@
 		Background Gradient
 	-->
 	<link rel="stylesheet" href="~/assets/css/gradient.css" />
-	
+
 	<!--
 		Template New-Skin
 	-->
@@ -47,7 +47,7 @@
 		Template RTL 
 	-->
 	<!--<link rel="stylesheet" href="css/rtl.css" />-->
-	
+
 	<!--
 		Template Colors
 	-->
@@ -62,19 +62,19 @@
 		Template Dark
 	-->
 	<!--<link rel="stylesheet" href="css/template-dark/dark.css" />-->
-	
+
 
 	<!--[if lt IE 9]>
 	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	
+
 	<!--
 		Favicons
 	-->
 	@await RenderSectionAsync("css", required: false)
-	<link rel="shortcut icon" href="~/assets/images/favicons/favicon.ico">
-	
+	<link rel="shortcut icon" href="~/assets/images/favicons/favicon.ico" />
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125314689-11"></script>
 	<script>
@@ -89,7 +89,7 @@
 
 <body>
 	<div class="page new-skin">
-		
+
 		<!-- preloader -->
 		<div class="preloader">
 			<div class="centrize full-width">
@@ -192,7 +192,7 @@
 				<div class="profile no-photo">
 
 					<!-- profile image -->
-					<div class="slide" style="background-image: url(images/man5_big.jpg);"></div>
+					<div class="slide" style="background-image: url(/assets/images/man5_big.jpg);"></div>
 
 					<!-- profile titles -->
 					<div class="title">Ryan Adlard</div>
@@ -213,7 +213,7 @@
 						<a target="_blank" href="https://www.spotify.com/"><span class="fa fa-spotify"></span></a>
 						<a target="_blank" href="https://stackoverflow.com/"><span class="fa fa-stack-overflow"></span></a>
 					</div>
-					
+
 					<!-- profile buttons -->
 					<div class="lnks">
 						<a href="#" class="lnk">
@@ -330,10 +330,10 @@
 
 						<!-- title -->
 						<div class="title">My Skills</div>
-					
+
 						<!-- content -->
 						<div class="row">
-						
+
 							<!-- skill item -->
 							<div class="col col-d-6 col-t-6 col-m-12 border-line-v">
 								<div class="skills-list">
@@ -477,10 +477,10 @@
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="clear"></div>
 						</div>
-						
+
 					</div>
 
 					<!--
@@ -504,7 +504,7 @@
 													Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 												</div>
 												<div class="user">
-													<div class="img"><img src="images/man1.jpg" alt="" /></div>
+													<div class="img"><img src="~/assets/images/man1.jpg" alt="" /></div>
 													<div class="info">
 														<div class="name">Helen Floyd</div>
 														<div class="company">Art Director</div>
@@ -519,7 +519,7 @@
 													Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 												</div>
 												<div class="user">
-													<div class="img"><img src="images/man1.jpg" alt="" /></div>
+													<div class="img"><img src="~/assets/images/man1.jpg" alt="" /></div>
 													<div class="info">
 														<div class="name">Robert Chase</div>
 														<div class="company">CEO</div>
@@ -534,7 +534,7 @@
 													Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 												</div>
 												<div class="user">
-													<div class="img"><img src="images/man1.jpg" alt="" /></div>
+													<div class="img"><img src="~/assets/images/man1.jpg" alt="" /></div>
 													<div class="info">
 														<div class="name">Helen Floyd</div>
 														<div class="company">Art Director</div>
@@ -598,15 +598,15 @@
 							<div class="col col-d-6 col-t-6 col-m-12 grid-item photo border-line-h">
 								<div class="box-item">
 									<div class="image">
-										<a href="images/works/work1.jpg" class="has-popup-image">
-											<img src="images/works/work1.jpg" alt="" />
+										<a href="~/assets/images/works/work1.jpg" class="has-popup-image">
+											<img src="~/assets/images/works/work1.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-image"></span>
 											</span>
 										</a>
 									</div>
 									<div class="desc">
-										<a href="images/works/work1.jpg" class="name has-popup-image">Motorcycle Helmet</a>
+										<a href="~/assets/images/works/work1.jpg" class="name has-popup-image">Motorcycle Helmet</a>
 										<div class="category">Image</div>
 									</div>
 								</div>
@@ -617,7 +617,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="https://vimeo.com/97102654" class="has-popup-video">
-											<img src="images/works/work2.jpg" alt="" />
+											<img src="~/assets/images/works/work2.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-videocamera"></span>
 											</span>
@@ -635,7 +635,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="https://w.soundcloud.com/player/?visual=true&amp;url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F221650664&amp;show_artwork=true" class="has-popup-music">
-											<img src="images/works/work3.jpg" alt="" />
+											<img src="~/assets/images/works/work3.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-music-note"></span>
 											</span>
@@ -653,7 +653,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="#popup-1" class="has-popup-media">
-											<img src="images/works/work4.jpg" alt="" />
+											<img src="~/assets/images/works/work4.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-images"></span>
 											</span>
@@ -666,7 +666,7 @@
 									<div id="popup-1" class="popup-box mfp-fade mfp-hide">
 										<div class="content">
 											<div class="image">
-												<img src="images/works/work4.jpg" alt="">
+												<img src="~/assets/images/works/work4.jpg" alt="">
 											</div>
 											<div class="desc">
 												<div class="post-box">
@@ -717,19 +717,19 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="#gallery-1" class="has-popup-gallery">
-											<img src="images/works/work5.jpg" alt="" />
+											<img src="~/assets/images/works/work5.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-images"></span>
 											</span>
 										</a>
 										<div id="gallery-1" class="mfp-hide">
-											<a href="images/works/work6.jpg"></a>
-											<a href="images/works/work1.jpg"></a>
-											<a href="images/works/work5.jpg"></a>
+											<a href="~/assets/images/works/work6.jpg"></a>
+											<a href="~/assets/images/works/work1.jpg"></a>
+											<a href="~/assets/images/works/work5.jpg"></a>
 										</div>
 									</div>
 									<div class="desc">
-										<a href="images/works/work5.jpg" class="name has-popup-image">Gereal Travels</a>
+										<a href="~/assets/images/works/work5.jpg" class="name has-popup-image">Gereal Travels</a>
 										<div class="category">Gallery</div>
 									</div>
 								</div>
@@ -740,7 +740,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="https://w.soundcloud.com/player/?visual=true&amp;url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F221650664&amp;show_artwork=true" class="has-popup-music">
-											<img src="images/works/work8.jpg" alt="" />
+											<img src="~/assets/images/works/work8.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-music-note"></span>
 											</span>
@@ -758,7 +758,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="https://vimeo.com/97102654" class="has-popup-video">
-											<img src="images/works/work6.jpg" alt="" />
+											<img src="~/assets/images/works/work6.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-videocamera"></span>
 											</span>
@@ -776,7 +776,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="#popup-2" class="has-popup-media">
-											<img src="images/works/work7.jpg" alt="" />
+											<img src="~/assets/images/works/work7.jpg" alt="" />
 											<span class="info">
 												<span class="ion ion-images"></span>
 											</span>
@@ -789,7 +789,7 @@
 									<div id="popup-2" class="popup-box mfp-fade mfp-hide">
 										<div class="content">
 											<div class="image">
-												<img src="images/works/work7.jpg" alt="">
+												<img src="~/assets/images/works/work7.jpg" alt="">
 											</div>
 											<div class="desc">
 												<div class="post-box">
@@ -864,7 +864,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="blog-post-new.html">
-											<img src="images/blog/blog1.jpg" alt="By spite about do of allow" />
+											<img src="~/assets/images/blog/blog1.jpg" alt="By spite about do of allow" />
 											<span class="info">
 												<span class="ion ion-document-text"></span>
 											</span>
@@ -886,7 +886,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="blog-post-new.html">
-											<img src="images/blog/blog2.jpg" alt="By spite about do of allow" />
+											<img src="~/assets/images/blog/blog2.jpg" alt="By spite about do of allow" />
 											<span class="info">
 												<span class="ion ion-document-text"></span>
 											</span>
@@ -908,7 +908,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="blog-post-new.html">
-											<img src="images/blog/blog3.jpg" alt="By spite about do of allow" />
+											<img src="~/assets/images/blog/blog3.jpg" alt="By spite about do of allow" />
 											<span class="info">
 												<span class="ion ion-document-text"></span>
 											</span>
@@ -930,7 +930,7 @@
 								<div class="box-item">
 									<div class="image">
 										<a href="blog-post-new.html">
-											<img src="images/blog/blog1.jpg" alt="By spite about do of allow" />
+											<img src="~/assets/images/blog/blog1.jpg" alt="By spite about do of allow" />
 											<span class="info">
 												<span class="ion ion-document-text"></span>
 											</span>
@@ -1097,7 +1097,7 @@
 								<span class="comment-author-link">admin</span> on <a href="#">Designing the perfect</a>
 							</li>
 							<li class="recentcomments">
-								<span class="comment-author-link">admin</span> on <a href=#">Designing the perfect</a>
+								<span class="comment-author-link">admin</span> on <a href="#">Designing the perfect</a>
 							</li>
 							<li class="recentcomments">
 								<span class="comment-author-link">James</span> on <a href="#">Designing the perfect</a>
@@ -1146,7 +1146,7 @@
 		</div>
 
 	</div>
-	
+
 	<!--
 		jQuery Scripts
 	-->
@@ -1158,18 +1158,18 @@
 	<script src="~/assets/js/jquery.slimscroll.js"></script>
 	<script src="~/assets/js/owl.carousel.js"></script>
 	<script src="~/assets/js/typed.js"></script>
-	
+
 	<!--
 		Google map api
 	-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz2w7HUaWudHwd7AWQpCL48Qs050WOn9s"></script>
-	
+
 	<!--
 		Main Scripts
 	-->
 	<script src="~/assets/js/scripts.js"></script>
 	@await RenderSectionAsync("js", required: false)
-	
+
 </body>
 
 </html>
