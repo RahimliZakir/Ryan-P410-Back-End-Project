@@ -1,3 +1,5 @@
+using MediatR;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.Models.DataContexts;
 
@@ -11,8 +13,12 @@ services.AddControllersWithViews();
 
 services.AddDbContext<RyanDbContext>(options =>
 {
-    options.UseSqlServer("cString");
+    options.UseSqlServer(conf.GetConnectionString("cString"));
 });
+
+services.AddMediatR(typeof(Program));
+
+services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 WebApplication app = builder.Build();
 IWebHostEnvironment env = builder.Environment;
