@@ -1,0 +1,40 @@
+﻿@model AppInfo
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Map" class="label-required">Xəritə (iframe): </label>
+        <textarea asp-for="Map" class="form-control" style="min-height: 150px;"></textarea>
+        <span asp-validation-for="Map" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="label-required">Adres: </label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="label-required">Email: </label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="label-required">Telefon Nömrəsi: </label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IsFreelance" class="label-required">Freelance Statusu: </label>
+        <input asp-for="IsFreelance" class="form-check-input ms-3" />
+        <span asp-validation-for="IsFreelance" style="color: red;"></span>
+    </div>
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+    <button class="btn btn-info" type="submit">Əlavə et</button>
+</form>
+
+@section js{
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

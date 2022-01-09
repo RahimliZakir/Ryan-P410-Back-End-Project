@@ -4,9 +4,9 @@ namespace RyanP410.WebUI.AppCode.Extensions
 {
     public static partial class Extension
     {
-        public static bool? IsValid(this IActionContextAccessor ctx)
+        public static bool IsValid(this IActionContextAccessor ctx)
         {
-            return ctx.ActionContext?.ModelState.IsValid;
+            return ctx.ActionContext.ModelState.IsValid;
         }
     }
 }

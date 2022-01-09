@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "limonte-sweetalert2@11.3.4",
+      "destination": "wwwroot/libs/limonte-sweetalert2/"
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/libs/toastr.js/"
+    },
+    {
+      "library": "jquery-validate@1.19.3",
+      "destination": "wwwroot/libs/jquery-validate/"
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.12",
+      "destination": "wwwroot/libs/jquery-validation-unobtrusive/"
+    },
+    {
+      "library": "bootstrap@5.1.3",
+      "destination": "wwwroot/libs/bootstrap/"
+    }
+  ]
+}

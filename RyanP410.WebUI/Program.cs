@@ -9,6 +9,11 @@ IConfiguration conf = builder.Configuration;
 
 IServiceCollection services = builder.Services;
 
+services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+});
+
 services.AddControllersWithViews();
 
 services.AddDbContext<RyanDbContext>(options =>
