@@ -8,41 +8,41 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.AppCode.Infrastructure;
-using RyanP410.WebUI.AppCode.Modules.QuotesModule;
+using RyanP410.WebUI.AppCode.Modules.TestimonialsModule;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class QuotesController : Controller
+    public class TestimonialsController : Controller
     {
         readonly IMediator mediator;
 
-        public QuotesController(IMediator mediator)
+        public TestimonialsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
         public async Task<IActionResult> Index()
         {
-            QuotesQuery query = new QuotesQuery();
+            TestimonialsQuery query = new TestimonialsQuery();
 
-            IEnumerable<Quote> data = await mediator.Send(query);
+            IEnumerable<Testimonial> data = await mediator.Send(query);
 
             return View(data);
         }
 
-        public async Task<IActionResult> Details(QuoteSingleQuery query)
+        public async Task<IActionResult> Details(TestimonialSingleQuery query)
         {
-            Quote quote = await mediator.Send(query);
+            Testimonial testimonial = await mediator.Send(query);
 
-            if (quote == null)
+            if (testimonial == null)
             {
                 return NotFound();
             }
 
-            return View(quote);
+            return View(testimonial);
         }
 
         public IActionResult Create()
@@ -52,7 +52,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FullName,Profession,Content,File")] QuoteCreateCommand request)
+        public async Task<IActionResult> Create([Bind("FullName,Profession,Content,File")] TestimonialCreateCommand request)
         {
             int id = await mediator.Send(request);
 
@@ -64,29 +64,29 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(request);
         }
 
-        public async Task<IActionResult> Edit(QuoteSingleQuery query)
+        public async Task<IActionResult> Edit(TestimonialSingleQuery query)
         {
-            var quote = await mediator.Send(query);
+            var testimonial = await mediator.Send(query);
 
-            if (quote == null)
+            if (testimonial == null)
             {
                 return NotFound();
             }
 
-            var vm = new QuoteViewModel();
+            var vm = new TestimonialViewModel();
 
-            vm.Id = quote.Id;
-            vm.FullName = quote.FullName;
-            vm.Profession = quote.Profession;
-            vm.Content = quote.Content;
-            vm.ImagePath = quote.ImagePath;
+            vm.Id = testimonial.Id;
+            vm.FullName = testimonial.FullName;
+            vm.Profession = testimonial.Profession;
+            vm.Content = testimonial.Content;
+            vm.ImagePath = testimonial.ImagePath;
 
             return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FullName,Profession,Content,File,Id,FileTemp")] QuoteEditCommand request)
+        public async Task<IActionResult> Edit(int id, [Bind("FullName,Profession,Content,File,Id,FileTemp")] TestimonialEditCommand request)
         {
             int identifier = await mediator.Send(request);
 
@@ -99,7 +99,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(QuoteRemoveCommand request)
+        public async Task<IActionResult> Delete(TestimonialRemoveCommand request)
         {
             JsonCommandResponse response = await mediator.Send(request);
 

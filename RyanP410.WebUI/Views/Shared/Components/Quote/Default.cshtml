@@ -1,0 +1,24 @@
+﻿@model Quote
+
+<div class="row">
+    <div class="col col-d-12 col-t-12 col-m-12 border-line-v">
+        <div class="revs-item">
+            <div class="text">
+                <div>
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+            <div class="user">
+                <div class="img" style="width: 100px;">
+                    <img style="object-fit: cover; height: 100px;" src="~/uploads/quotes/@Model.ImagePath" alt="Ryan Adlard" />
+                </div>
+                <div class="info">
+                    <div class="name">@Model.FullName</div>
+                    <div class="company">@Model.Profession</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>

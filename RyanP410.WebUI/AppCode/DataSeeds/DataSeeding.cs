@@ -1,4 +1,5 @@
-﻿using RyanP410.WebUI.Models.DataContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.DataSeeds
@@ -11,6 +12,8 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
             {
                 RyanDbContext db = scope.ServiceProvider.GetRequiredService<RyanDbContext>();
 
+                db.Database.Migrate();
+
                 if (!db.AppInfos.Any())
                 {
                     await db.AppInfos.AddAsync(new AppInfo
@@ -20,6 +23,19 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
                         Email = "zakirer@code.edu.az",
                         PhoneNumber = "+994708911300",
                         IsFreelance = true
+                    });
+
+                    await db.SaveChangesAsync();
+                }
+
+                if (!db.Quotes.Any())
+                {
+                    await db.Quotes.AddAsync(new Quote
+                    {
+                        FullName = "Ayaz Arabaçı",
+                        Profession = "Şair",
+                        Content = "<p>Sən məni ürəyində bir azca yaxşı qoru,</p><p>Yaralarım sağalıb üzünə duran deyil.&nbsp;</p><p>Kür kimi,Araz kimi təzədən qovuşmasaq,</p><p>Mənə elə gəlir ki,ömür qurtaran deyil..</p><p></p>",
+                        ImagePath = "quote-9897b9dab27249acb56db91067d34114.jpg"
                     });
 
                     await db.SaveChangesAsync();
