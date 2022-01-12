@@ -59,19 +59,19 @@
                                 <div class="col col-d-6 col-t-6 col-m-12">
                                     <div class="group-val">
                                         <input asp-for="FullName" placeholder="Full Name" />
-                                        <span asp-validation-for="FullName"></span>
+                                        <span style="color: red;" asp-validation-for="FullName"></span>
                                     </div>
                                 </div>
                                 <div class="col col-d-6 col-t-6 col-m-12">
                                     <div class="group-val">
                                         <input asp-for="EmailAddress" placeholder="Email Address" />
-                                        <span asp-validation-for="EmailAddress"></span>
+                                        <span style="color: red;" asp-validation-for="EmailAddress"></span>
                                     </div>
                                 </div>
                                 <div class="col col-d-12 col-t-12 col-m-12">
                                     <div class="group-val">
                                         <textarea asp-for="Message" placeholder="Your Message"></textarea>
-                                        <span asp-validation-for="Message"></span>
+                                        <span style="color: red;" asp-validation-for="Message"></span>
                                     </div>
                                 </div>
                             </div>
@@ -101,10 +101,12 @@
 <script src="~/libs/AlertifyJS/alertify.min.js"></script>
 <script>
     $(document).ready(function(){
-      let lis = $('.top-menu li');
+      let lis = $('.top-menu li'); 
 
       $(lis).removeClass('active');
       $(lis).last().addClass('active');
+
+      $('#cform').off();
 
       $('#cform').on('submit', (e) => {
           e.preventDefault();
@@ -131,6 +133,7 @@
                  }
 
                  alertify.success(response.message);
+                 e.currentTarget.reset();
              },
              error: function(response){
                 console.log(response);
