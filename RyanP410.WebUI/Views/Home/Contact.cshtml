@@ -1,0 +1,139 @@
+﻿@model Contact
+
+@{
+    ViewData["Title"] = "Contact";
+}
+
+@section css{
+<link rel="stylesheet" href="~/libs/AlertifyJS/css/alertify.min.css" />
+<style>
+    .content.contacts .info-list ul li {
+        padding: 15px 25px;
+    }
+
+    .iframe-map iframe {
+        height: 250px;
+    }
+
+    .info-list li:first-of-type,
+    .info-list li:nth-of-type(2) {
+        margin: 20px 0;
+    }
+
+    .alertify-notifier div {
+        color: white !important;
+    }
+</style>
+}
+
+<div class="card-inner contacts active" id="contacts-card">
+    <div class="card-wrap">
+
+        <!--
+            Conacts Info
+        -->
+        <div class="content contacts">
+
+            <!-- title -->
+            <div class="title">Get in Touch</div>
+
+            <!-- content -->
+            @await Component.InvokeAsync("AppInfo")
+
+        </div>
+
+        <!--
+            Contact Form
+        -->
+        <div class="content contacts">
+
+            <!-- title -->
+            <div class="title">Contact Form</div>
+
+            <!-- content -->
+            <div class="row">
+                <div class="col col-d-12 col-t-12 col-m-12 border-line-v">
+                    <div class="contact_form">
+                        <form id="cform">
+                            <div class="row">
+                                <div class="col col-d-6 col-t-6 col-m-12">
+                                    <div class="group-val">
+                                        <input asp-for="FullName" placeholder="Full Name" />
+                                        <span asp-validation-for="FullName"></span>
+                                    </div>
+                                </div>
+                                <div class="col col-d-6 col-t-6 col-m-12">
+                                    <div class="group-val">
+                                        <input asp-for="EmailAddress" placeholder="Email Address" />
+                                        <span asp-validation-for="EmailAddress"></span>
+                                    </div>
+                                </div>
+                                <div class="col col-d-12 col-t-12 col-m-12">
+                                    <div class="group-val">
+                                        <textarea asp-for="Message" placeholder="Your Message"></textarea>
+                                        <span asp-validation-for="Message"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="align-left">
+                                <button type="submit" class="button">
+                                    <span class="text">Send Message</span>
+                                    <span class="arrow"></span>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="alert-success">
+                            <p>Thanks, your message is sent successfully.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section js{
+<script src="~/libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="~/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/libs/AlertifyJS/alertify.min.js"></script>
+<script>
+    $(document).ready(function(){
+      let lis = $('.top-menu li');
+
+      $(lis).removeClass('active');
+      $(lis).last().addClass('active');
+
+      $('#cform').on('submit', (e) => {
+          e.preventDefault();
+
+          if(!$(e.currentTarget).valid()){
+              return;
+          }
+
+          let formData = new FormData(e.currentTarget);
+
+          $.ajax({
+             url: '@Url.Action("SendContactMessage")',
+             type: "POST",
+             contentType: false,
+             processData: false,
+             data: formData,
+             success: function(response){
+                 if(response.error){
+                     alertify.error(response.message);
+                     return;
+                 }
+
+                 alertify.success(response.message);
+             },
+             error: function(response){
+                console.log(response);
+             }
+          });
+      }).validate();
+    });
+</script>
+}

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.DataSeeds;
 using RyanP410.WebUI.Models.DataContexts;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,8 @@ if (env.IsDevelopment())
 }
 
 app.UseStaticFiles();
+
+app.SeedData().Wait();
 
 app.UseRouting();
 

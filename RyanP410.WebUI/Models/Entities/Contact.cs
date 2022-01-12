@@ -8,6 +8,7 @@ namespace RyanP410.WebUI.Models.Entities
         public string FullName { get; set; } = null!;
 
         [Required(ErrorMessage = "Bu hissə boş qoyula bilməz!")]
+        [EmailAddress(ErrorMessage = "Xahiş olunur Email formatında daxil edin!")]
         public string EmailAddress { get; set; } = null!;
 
         [Required(ErrorMessage = "Bu hissə boş qoyula bilməz!")]
