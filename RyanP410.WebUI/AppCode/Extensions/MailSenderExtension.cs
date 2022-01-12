@@ -5,7 +5,7 @@ namespace RyanP410.WebUI.AppCode.Extensions
 {
     public static partial class Extension
     {
-        public static bool SendMail(this IConfiguration configuration, string fromMail, string password, string toMail, string subject, string body, bool isHtml = false, string? cc = null, int port = 587, string host = "smtp.gmail.com", bool ssl = true)
+        public static bool SendMail(this IConfiguration configuration, string fromMail, string password, string toMail, string subject, string body, bool isHtml = false, string? cc = null, int port = 25, string host = "smtp.mail.ru", bool ssl = true)
         {
             try
             {
