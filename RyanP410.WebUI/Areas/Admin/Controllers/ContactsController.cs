@@ -78,5 +78,13 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
             return Json(response);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ContactRemoveCommand request)
+        {
+            JsonCommandResponse response = await mediator.Send(request);
+
+            return Json(response);
+        }
     }
 }
