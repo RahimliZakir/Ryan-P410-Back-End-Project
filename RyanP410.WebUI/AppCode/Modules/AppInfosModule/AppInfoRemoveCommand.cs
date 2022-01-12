@@ -31,7 +31,7 @@ namespace RyanP410.WebUI.AppCode.Modules.AppInfosModule
                     goto end;
                 }
 
-                AppInfo? entity = await db.AppInfos.FirstOrDefaultAsync(a => a.Id.Equals(request.Id));
+                AppInfo? entity = await db.AppInfos.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
 
                 if (entity == null)
                 {

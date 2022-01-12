@@ -31,7 +31,7 @@ namespace RyanP410.WebUI.AppCode.Modules.ContactsModule
                     goto end;
                 }
 
-                Contact? entity = await db.Contacts.FirstOrDefaultAsync(a => a.Id.Equals(request.Id));
+                Contact? entity = await db.Contacts.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
 
                 if (entity == null)
                 {

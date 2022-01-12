@@ -52,7 +52,7 @@
                                 <td>@item.Address</td>
                                 <td>@item.Email</td>
                                 <td>@item.PhoneNumber</td>
-                                <td>@(item.IsFreelance ? "Freelance" : "Freelance deyil")</td>
+                                <td>@(item.IsFreelance ? "Available" : "Not Available")</td>
                                 <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
                                 <td style="float: right;">
                                     <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i></a>

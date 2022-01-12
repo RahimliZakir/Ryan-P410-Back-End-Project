@@ -8,5 +8,10 @@ namespace RyanP410.WebUI.AppCode.Extensions
         {
             return ctx.ActionContext.ModelState.IsValid;
         }
+
+        public static void AddModelError(this IActionContextAccessor ctx, string key, string exception)
+        {
+            ctx.ActionContext.ModelState.AddModelError(key, exception);
+        }
     }
 }

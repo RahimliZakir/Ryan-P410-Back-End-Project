@@ -29,6 +29,14 @@
     {
       "library": "AlertifyJS@1.13.1",
       "destination": "wwwroot/libs/AlertifyJS/"
+    },
+    {
+      "library": "ckeditor5@31.1.0",
+      "destination": "wwwroot/libs/ckeditor5/"
+    },
+    {
+      "library": "autosize.js@5.0.1",
+      "destination": "wwwroot/libs/autosize.js/"
     }
   ]
 }

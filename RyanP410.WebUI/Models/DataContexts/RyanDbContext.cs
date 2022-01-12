@@ -13,5 +13,6 @@ namespace RyanP410.WebUI.Models.DataContexts
 
         public DbSet<AppInfo> AppInfos { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Quote> Quotes { get; set; }
     }
 }
