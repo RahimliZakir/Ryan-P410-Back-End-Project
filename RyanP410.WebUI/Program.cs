@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.AppCode.DataSeeds;
+using RyanP410.WebUI.AppCode.ModelBinders;
 using RyanP410.WebUI.Models.DataContexts;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -15,7 +16,10 @@ services.AddRouting(options =>
     options.LowercaseUrls = true;
 });
 
-services.AddControllersWithViews();
+services.AddControllersWithViews(cfg =>
+{
+    cfg.ModelBinderProviders.Insert(0, new BooleanBinderProvider());
+});
 
 services.AddDbContext<RyanDbContext>(options =>
 {
@@ -42,7 +46,7 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=AppInfos}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 });

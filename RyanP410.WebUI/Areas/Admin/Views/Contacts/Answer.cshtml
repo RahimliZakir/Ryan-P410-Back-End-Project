@@ -1,0 +1,74 @@
+﻿@model AnswerContactFormModel
+
+@{
+    ViewData["Title"] = "Answer";
+}
+
+@section css{
+<link rel="stylesheet" href="libs/toastr.js/toastr.min.css" />
+}
+
+<div class="row justify-content-center mb-5">
+    <div class="col-md-8">
+        <form>
+            <input type="hidden" asp-for="Id" />
+            <label asp-for="FullName">Ad soyad: </label>
+            <input asp-for="FullName" class="form-control mb-3" readonly />
+            <label asp-for="EmailAddress">Email: </label>
+            <input asp-for="EmailAddress" class="form-control mb-3" readonly />
+            <label asp-for="Message">Müraciət: </label>
+            <textarea asp-for="Message" class="form-control mb-3" readonly></textarea>
+
+            <div class="form-group mt-3">
+                <label asp-for="AnswerMessage">Cavab: </label>
+                <input asp-for="AnswerMessage" class="form-control" />
+                <span style="color: red;" asp-validation-for="AnswerMessage"></span>
+            </div>
+
+            <a asp-action="Index" asp-controller="Contacts" class="btn btn-danger mt-3">Geriyə</a>
+            <button type="submit" class="btn btn-primary mt-3">Cavabla</button>
+        </form>
+    </div>
+</div>
+
+@section js{
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="libs/toastr.js/toastr.min.js"></script>
+<script src="libs/toastr.js/toastr.customize.min.js"></script>
+<script>
+    $(function(){
+        let form = $('form');
+
+        $(form).submit((e) => {
+           e.preventDefault();
+
+           if(!$(e.currentTarget).valid()){
+               return;
+           }
+
+           let formData = $(e.currentTarget).serialize();
+
+           $.ajax({
+               url: '@Url.Action("Answer")',
+               type: "POST",
+               data: formData,
+               success: function(response){
+                   if(response.error == false){
+                       toastr.success(response.message, "Uğurlu!");
+                       setTimeout(() => {
+                           window.location.href = '@Url.Action("Index")';
+                       } ,2500);
+                       return;
+                   }
+
+                   toastr.error(response.message, "Xəta!");
+               },
+               error: function(response){
+                 console.log(response)
+               }
+           });
+        }).validate();
+    });
+</script>
+}

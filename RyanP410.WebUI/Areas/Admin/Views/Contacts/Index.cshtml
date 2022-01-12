@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Contact>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form>
+    <div class="form-group">
+        <input type="checkbox" name="visibility" class="contact-vis" id="vis" @(TempData["Vis"]?.ToString() == "checked" ? "checked" : "") />
+        <label for="vis">Yalnız cavablanan mesajları göstər</label>
+    </div>
+</form>
+
+@if (TempData["Vis"]?.ToString() == "checked")
+{
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-warning" role="alert">
+            Hələ ki, cavablanan müraciət yoxdur!
+        </div>
+    }
+    else if (Model.Any(c => string.IsNullOrWhiteSpace(c.AnswerMessage) && c.AnswerDate == null))
+    {
+
+    }
+    else
+    {
+        <table class="table table-striped vis-yes mb-5">
+            <thead>
+                <tr>
+                    <th>Id: </th>
+                    <th>Email: </th>
+                    <th>Ad soyad: </th>
+                    <th>Müraciət: </th>
+                    <th>Göndərilmə tarixi: </th>
+                    <th>Cavab: </th>
+                    <th>Cavablanma tarixi: </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Contact item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.EmailAddress</td>
+                        <td>@item.FullName</td>
+                        <td>@item.Message</td>
+                        <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        <td>@item.AnswerMessage</td>
+                        <td>@item.AnswerDate?.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+else
+{
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-warning" role="alert">
+            Hələ ki, mesaj yoxdur!
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped vis-none mb-5">
+            <thead>
+                <tr>
+                    <th>Id: </th>
+                    <th>Email: </th>
+                    <th>Ad soyad: </th>
+                    <th>Müraciət: </th>
+                    <th>Göndərilmə tarixi: </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Contact item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.EmailAddress</td>
+                        <td>@item.FullName</td>
+                        <td>@item.Message</td>
+                        <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        <td><a asp-action="Answer" asp-route-id="@item.Id" class="btn btn-warning">Cavabla</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@section js{
+<script>
+    /* $('.vis-yes').css('visibility', 'hidden');*/
+    $('.contact-vis').on('change', (e) => {
+        $(e.currentTarget).closest('form').submit();
+        if ($(e.currentTarget).prop('checked')) {
+            $('.vis-none').css('visibility', 'hidden');
+            $('.vis-yes').css('visibility', 'visible');
+        }
+        else {
+            $('.vis-yes').css('visibility', 'hidden');
+            $('.vis-none').css('visibility', 'visible');
+        }
+    });
+</script>
+}
+

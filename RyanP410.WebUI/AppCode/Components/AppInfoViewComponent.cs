@@ -1,22 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RyanP410.WebUI.Models.DataContexts;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using RyanP410.WebUI.AppCode.Modules.AppInfosModule;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Components
 {
     public class AppInfoViewComponent : ViewComponent
     {
-        readonly RyanDbContext db;
+        readonly IMediator mediator;
 
-        public AppInfoViewComponent(RyanDbContext db)
+        public AppInfoViewComponent(IMediator mediator)
         {
-            this.db = db;
+            this.mediator = mediator;
         }
 
         async public Task<IViewComponentResult> InvokeAsync()
         {
-            AppInfo? appInfo = await db.AppInfos.FirstOrDefaultAsync();
+            var query = new AppInfoSingleQuery();
+
+            AppInfo? appInfo = await mediator.Send(query);
 
             return View(appInfo);
         }

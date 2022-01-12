@@ -109,6 +109,9 @@
       $('#cform').on('submit', (e) => {
           e.preventDefault();
 
+          console.log(e.currentTarget);
+          console.log($(e.currentTarget).valid());
+
           if(!$(e.currentTarget).valid()){
               return;
           }

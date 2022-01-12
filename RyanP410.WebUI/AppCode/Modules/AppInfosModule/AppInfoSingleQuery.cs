@@ -22,7 +22,7 @@ namespace RyanP410.WebUI.AppCode.Modules.AppInfosModule
             {
                 if (request.Id == null)
                 {
-                    return null;
+                    return await db.AppInfos.FirstOrDefaultAsync(cancellationToken); ;
                 }
 
                 AppInfo? appInfo = await db.AppInfos.FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken);
