@@ -65,7 +65,6 @@ namespace RyanP410.WebUI.AppCode.Modules.TestimonialsModule
                 {
                     try
                     {
-                        entity.Id = request.Id;
                         entity.FullName = request.FullName;
                         entity.Profession = request.Profession;
                         entity.Content = request.Content;

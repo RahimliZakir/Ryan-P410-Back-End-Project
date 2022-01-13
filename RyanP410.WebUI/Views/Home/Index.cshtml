@@ -327,3 +327,14 @@
 
     </div>
 </div>
+
+@section js{
+<script>
+    $(document).ready(function(){
+    let lis = $('.top-menu li');
+
+      $(lis).removeClass('active');
+      $(lis).first().addClass('active');
+    });
+</script>
+}
