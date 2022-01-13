@@ -9,6 +9,5 @@ namespace RyanP410.WebUI.Models.Entities
 
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public string Name { get; set; } = null!;
-        public object Address { get; internal set; }
     }
 }

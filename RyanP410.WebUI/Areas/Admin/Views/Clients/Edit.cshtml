@@ -1,0 +1,29 @@
+﻿@model ClientViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@section css{
+<link rel="stylesheet" href="libs/jquery-image-input/jquery.image-input.css" />
+}
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <image asp-for="file" asp-caption="Şəkil: " asp-path="/uploads/clients/@Model?.ImagePath"></image>
+            </div>
+            <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+            <button class="btn btn-info" type="submit">Yenilə</button>
+        </div>
+    </div>
+</form>
+
+@section js{
+<script src="libs/jquery-image-input/jquery.image-input.js"></script>
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

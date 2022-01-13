@@ -1,0 +1,33 @@
+﻿@model Client
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section css{
+<link rel="stylesheet" href="libs/jquery-image-input/jquery.image-input.css" />
+<style>
+    .ck-content {
+        height: 150px;
+    }
+</style>
+}
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="form-group">
+                <image asp-for="file" asp-caption="Şəkil: "></image>
+            </div>
+            <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+            <button class="btn btn-info" type="submit">Əlavə et</button>
+        </div>
+    </div>
+</form>
+
+@section js{
+<script src="libs/jquery-image-input/jquery.image-input.js"></script>
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

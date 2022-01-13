@@ -1,0 +1,21 @@
+﻿@model SkillViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form method="post" asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Name" class="label-required">Bacarıq: </label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" style="color: red;"></span>
+    </div>
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+    <button class="btn btn-info" type="submit">Yenilə</button>
+</form>
+
+@section js{
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,0 +1,32 @@
+﻿@model ServiceViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form method="post" asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+     <div class="form-group">
+        <label asp-for="Icon" class="label-required">İkon: </label>
+        <input asp-for="Icon" class="form-control" />
+        <span asp-validation-for="Icon" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Title" class="label-required">Başlıq: </label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="label-required">Ətraflı: </label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" style="color: red;"></span>
+    </div>
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+    <button class="btn btn-info" type="submit">Yenilə</button>
+</form>
+
+@section js{
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
