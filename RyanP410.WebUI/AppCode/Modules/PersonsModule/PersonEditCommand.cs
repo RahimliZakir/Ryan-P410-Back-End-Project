@@ -5,31 +5,31 @@ using RyanP410.WebUI.AppCode.Extensions;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
-namespace RyanP410.WebUI.AppCode.Modules.ClientsModule
+namespace RyanP410.WebUI.AppCode.Modules.PersonsModule
 {
-    public class ClientEditCommand : ClientViewModel, IRequest<int>
+    public class PersonEditCommand : PersonViewModel, IRequest<int>
     {
-        public class ClientEditCommandHandler : IRequestHandler<ClientEditCommand, int>
+        public class PersonEditCommandHandler : IRequestHandler<PersonEditCommand, int>
         {
             readonly RyanDbContext db;
-            readonly IHostEnvironment env;
             readonly IActionContextAccessor ctx;
+            readonly IHostEnvironment env;
 
-            public ClientEditCommandHandler(RyanDbContext db, IHostEnvironment env, IActionContextAccessor ctx)
+            public PersonEditCommandHandler(RyanDbContext db, IActionContextAccessor ctx, IHostEnvironment env)
             {
                 this.db = db;
-                this.env = env;
                 this.ctx = ctx;
+                this.env = env;
             }
 
-            public async Task<int> Handle(ClientEditCommand request, CancellationToken cancellationToken)
+            async public Task<int> Handle(PersonEditCommand request, CancellationToken cancellationToken)
             {
                 if (request.Id == null && request.Id <= 0)
                 {
                     return 0;
                 }
 
-                Client? entity = await db.Clients.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+                Person? entity = await db.Persons.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
 
                 if (entity == null)
                 {
@@ -45,13 +45,13 @@ namespace RyanP410.WebUI.AppCode.Modules.ClientsModule
                 }
                 else if (request.File == null)
                 {
-                    currentpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "clients", entity.ImagePath);
+                    currentpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "persons", "img", entity.ImagePath);
                 }
                 else if (request.File != null)
                 {
                     string ext = Path.GetExtension(request.File.FileName);
-                    string filename = $"client-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
-                    fullpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "clients", filename);
+                    string filename = $"person-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
+                    fullpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "persons", "img", filename);
 
                     using (FileStream fs = new(fullpath, FileMode.Create, FileAccess.Write))
                     {

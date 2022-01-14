@@ -10,6 +10,8 @@
     <Folder Include="Models\Entities\Membership\" />
     <Folder Include="wwwroot\admin-assets\" />
     <Folder Include="wwwroot\uploads\clients\" />
+    <Folder Include="wwwroot\uploads\persons\img\" />
+    <Folder Include="wwwroot\uploads\persons\cv\" />
     <Folder Include="wwwroot\uploads\testimonials\" />
     <Folder Include="wwwroot\uploads\quotes\" />
   </ItemGroup>

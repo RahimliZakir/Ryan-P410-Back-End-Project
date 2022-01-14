@@ -32,7 +32,7 @@ namespace RyanP410.WebUI.AppCode.Modules.ClientsModule
                 else
                 {
                     string ext = Path.GetExtension(request.File.FileName);
-                    string filename = $"quote-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
+                    string filename = $"client-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
                     string fullname = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "clients", filename);
 
                     using (FileStream fs = new(fullname, FileMode.Create, FileAccess.Write))
