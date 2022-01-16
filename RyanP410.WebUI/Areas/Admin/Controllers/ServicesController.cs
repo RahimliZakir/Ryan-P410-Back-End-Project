@@ -85,7 +85,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] ServiceEditCommand request)
+        public async Task<IActionResult> Edit(int id, [Bind("Icon,Title,Description,Id")] ServiceEditCommand request)
         {
             int identifier = await mediator.Send(request);
 

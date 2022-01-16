@@ -43,9 +43,9 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr>  
                                 <th scope="row">@item.Id</th>
-                                <td>@item.Icon</td>
+                                <td>@Html.Raw(item.Icon)</td>
                                 <td>@item.Name</td>
                                 <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
                                 <td style="float: right;">

@@ -16,6 +16,7 @@ namespace RyanP410.WebUI.Models.DataContexts
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Pricing> Pricings { get; set; }
         public DbSet<PricingDetail> PricingDetails { get; set; }
+        public DbSet<PricingsPricingDetailsCollection> PricingsPricingDetailsCollections { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<FunFact> FunFacts { get; set; }
         public DbSet<Client> Clients { get; set; }

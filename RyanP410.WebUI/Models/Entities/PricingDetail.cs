@@ -13,8 +13,6 @@ namespace RyanP410.WebUI.Models.Entities
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public bool New { get; set; }
 
-        public int PricingId { get; set; }
-
-        public virtual Pricing? Pricing { get; set; }
+        public virtual ICollection<PricingsPricingDetailsCollection> Collections { get; set; }
     }
 }

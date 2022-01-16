@@ -18,10 +18,6 @@ namespace RyanP410.WebUI.Models.Entities
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public string Per { get; set; } = null!;
 
-        public virtual ICollection<PricingDetail> PricingDetails { get; set; } = null!;
-
-        [NotMapped]
-        [Required(ErrorMessage = "Bu hissələr doldurulmalıdır!")]
-        public PricingDetailItemFormModel Items { get; set; } = null!;
+        public virtual ICollection<PricingsPricingDetailsCollection> Collections { get; set; }
     }
 }
