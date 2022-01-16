@@ -32,8 +32,5 @@ namespace RyanP410.WebUI.Models.Entities
 
         [NotMapped]
         public string? FileTemp { get; set; }
-
-        [NotMapped]
-        public string? ResumeTemp { get; set; }
     }
 }

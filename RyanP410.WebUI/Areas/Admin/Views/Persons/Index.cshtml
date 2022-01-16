@@ -52,7 +52,7 @@
                             <th>Ad: </th>
                             <th>Soyad: </th>
                             <th>Yaş: </th>
-                            <th>Şəkil: </th>
+                            <th style="width: 200px; display: inline-block;">Şəkil: </th>
                             <th>CV: </th>
                             <th>Ətraflı: </th>
                             <th>Yaşayış yeri: </th>
@@ -79,7 +79,7 @@
                                 <td>@item.Description.EllipseText(30)</td>
                                 <td>@item.Residence</td>
                                 <td>@item.Address</td>
-                                <td>@(item.Freelance ? "Available" : "Mot Available")</td>
+                                <td>@(item.Freelance ? "Available" : "Not Available")</td>
                                 <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
                                 <td style="float: right;" class="btns-td">
                                     <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i></a>

@@ -55,17 +55,56 @@ namespace RyanP410.WebUI.AppCode.Modules.PersonsModule
 
                     using (FileStream fs = new(fullpath, FileMode.Create, FileAccess.Write))
                     {
-                        await request.File.CopyToAsync(fs);
+                        await request.File.CopyToAsync(fs, cancellationToken);
                     }
 
                     request.ImagePath = filename;
+                }
+
+                string cvFullpath = null;
+                string? cvCurrentpath = null;
+
+                if (request.Resume == null && !string.IsNullOrWhiteSpace(entity.CvResumePath))
+                {
+                    request.CvResumePath = entity.CvResumePath;
+                }
+                else if (request.Resume != null)
+                {
+                    string cvExt = Path.GetExtension(request.Resume.FileName);
+                    string cvFilename = $"resume-{Guid.NewGuid().ToString().Replace("-", "")}{cvExt}";
+                    cvFullpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "persons", "cv", cvFilename);
+
+                    using (FileStream fs = new(cvFullpath, FileMode.Create, FileAccess.Write))
+                    {
+                        await request.Resume.CopyToAsync(fs, cancellationToken);
+                    }
+
+                    request.CvResumePath = cvFilename;
                 }
 
                 if (ctx.IsValid())
                 {
                     try
                     {
+                        if (request.Resume != null && string.IsNullOrWhiteSpace(entity.CvResumePath) == false)
+                        {
+                            cvCurrentpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "persons", "cv", entity.CvResumePath);
+
+                            if (System.IO.File.Exists(cvCurrentpath) && !string.IsNullOrWhiteSpace(cvCurrentpath))
+                            {
+                                System.IO.File.Delete(cvCurrentpath);
+                            }
+                        }
+
+                        entity.Name = request.Name;
+                        entity.Surname = request.Surname;
+                        entity.Age = request.Age;
+                        entity.Description = request.Description;
+                        entity.Residence = request.Residence;
+                        entity.Freelance = request.Freelance;
+                        entity.Address = request.Address;
                         entity.ImagePath = request.ImagePath;
+                        entity.CvResumePath = request.CvResumePath;
 
                         if (System.IO.File.Exists(currentpath) && !string.IsNullOrWhiteSpace(currentpath))
                         {

@@ -46,7 +46,7 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=AppInfos}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Persons}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 });

@@ -44,8 +44,12 @@ namespace RyanP410.WebUI.AppCode.Modules.PersonsModule
 
                     using (FileStream fs = new(fullname, FileMode.Create, FileAccess.Write))
                     {
-                        await request.File.CopyToAsync(fs);
-                        await request.Resume.CopyToAsync(fs);
+                        await request.File.CopyToAsync(fs, cancellationToken);
+                    }
+
+                    using (FileStream fs = new(cvFullname, FileMode.Create, FileAccess.Write))
+                    {
+                        await request.Resume.CopyToAsync(fs, cancellationToken);
                     }
 
 
@@ -70,6 +74,14 @@ namespace RyanP410.WebUI.AppCode.Modules.PersonsModule
                                 System.IO.File.Delete(cvFullname);
                             }
                         }
+
+                        person.Name = request.Name;
+                        person.Surname = request.Surname;
+                        person.Age = request.Age;
+                        person.Description = request.Description;
+                        person.Residence = request.Residence;
+                        person.Address = request.Address;
+                        person.Freelance = request.Freelance;
 
                         await db.Persons.AddAsync(person, cancellationToken);
                         await db.SaveChangesAsync(cancellationToken);

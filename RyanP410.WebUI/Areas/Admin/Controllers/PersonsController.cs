@@ -52,7 +52,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Surname,Age,Description,Residence,FreelanceAddress,File,Resume")] PersonCreateCommand request)
+        public async Task<IActionResult> Create([Bind("Name,Surname,Age,Description,Residence,Freelance,Address,File,Resume")] PersonCreateCommand request)
         {
             int id = await mediator.Send(request);
 
@@ -91,7 +91,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Surname,Age,Description,Residence,FreelanceAddress,File,Resume,Id")] PersonEditCommand request)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Surname,Age,Description,Residence,Freelance,Address,File,FileTemp,Resume,Id")] PersonEditCommand request)
         {
             int identifier = await mediator.Send(request);
 

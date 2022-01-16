@@ -36,7 +36,5 @@ namespace RyanP410.WebUI.AppCode.Modules.PersonsModule
         public IFormFile? Resume { get; set; }
 
         public string? FileTemp { get; set; }
-
-        public string? ResumeTemp { get; set; }
     }
 }

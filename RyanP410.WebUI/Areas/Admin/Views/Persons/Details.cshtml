@@ -55,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreatedDate">Freelance:</label>
-                <p class="form-paragraph">@(Model.Freelance ? "Available" : "Mot Available")</p>
+                <p class="form-paragraph">@(Model.Freelance ? "Available" : "Not Available")</p>
             </div>
             <div class="form-group">
                 <label asp-for="CreatedDate">Əlavə olunma zamanı:</label>
@@ -66,11 +66,11 @@
         <div class="col-6">
             <div class="form-group">
                 <div style="width: 50%;" class="img-div">
-                    <img style="width: 100%; height: 350px; object-fit: cover;" src="uploads/persons/cv/@Model.ImagePath" />
+                    <img style="width: 100%; height: 350px; object-fit: cover;" src="uploads/persons/img/@Model.ImagePath" />
                 </div>
             </div>
             <div class="form-group">
-                <img src="uploads/persons/cv/@Model.CvResumePath" />
+                <embed src="uploads/persons/cv/@Model.CvResumePath" width="100%" height="500px" />
             </div>
         </div>
     </div>
