@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.PricingDetailsModule;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
@@ -14,142 +17,90 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class PricingDetailsController : Controller
     {
-        private readonly RyanDbContext _context;
+        readonly IMediator mediator;
 
-        public PricingDetailsController(RyanDbContext context)
+        public PricingDetailsController(IMediator mediator)
         {
-            _context = context;
+            this.mediator = mediator;
         }
 
-        // GET: Admin/PricingDetails
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PricingDetails.ToListAsync());
+            PricingDetailsQuery query = new PricingDetailsQuery();
+
+            IEnumerable<PricingDetail> data = await mediator.Send(query);
+
+            return View(data);
         }
 
-        // GET: Admin/PricingDetails/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(PricingDetailSingleQuery query)
         {
-            if (id == null)
+            PricingDetail detail = await mediator.Send(query);
+
+            if (detail == null)
             {
                 return NotFound();
             }
 
-            var pricingDetail = await _context.PricingDetails
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pricingDetail == null)
-            {
-                return NotFound();
-            }
-
-            return View(pricingDetail);
+            return View(detail);
         }
 
-        // GET: Admin/PricingDetails/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/PricingDetails/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Id,CreatedDate")] PricingDetail pricingDetail)
+        public async Task<IActionResult> Create([Bind("Name")] PricingDetailCreateCommand request)
         {
-            if (ModelState.IsValid)
+            int id = await mediator.Send(request);
+
+            if (id > 0)
             {
-                _context.Add(pricingDetail);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(pricingDetail);
+
+            return View(request);
         }
 
-        // GET: Admin/PricingDetails/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(PricingDetailSingleQuery query)
         {
-            if (id == null)
+            var detail = await mediator.Send(query);
+
+            if (detail == null)
             {
                 return NotFound();
             }
 
-            var pricingDetail = await _context.PricingDetails.FindAsync(id);
-            if (pricingDetail == null)
-            {
-                return NotFound();
-            }
-            return View(pricingDetail);
+            var vm = new PricingDetailViewModel();
+
+            vm.Id = detail.Id;
+            vm.Name = detail.Name;
+
+            return View(vm);
         }
 
-        // POST: Admin/PricingDetails/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Id,CreatedDate")] PricingDetail pricingDetail)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] PricingDetailEditCommand request)
         {
-            if (id != pricingDetail.Id)
-            {
-                return NotFound();
-            }
+            int identifier = await mediator.Send(request);
 
-            if (ModelState.IsValid)
+            if (identifier > 0)
             {
-                try
-                {
-                    _context.Update(pricingDetail);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PricingDetailExists(pricingDetail.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(pricingDetail);
+
+            return View(request);
         }
 
-        // GET: Admin/PricingDetails/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(PricingDetailRemoveCommand request)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            JsonCommandResponse response = await mediator.Send(request);
 
-            var pricingDetail = await _context.PricingDetails
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pricingDetail == null)
-            {
-                return NotFound();
-            }
-
-            return View(pricingDetail);
-        }
-
-        // POST: Admin/PricingDetails/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var pricingDetail = await _context.PricingDetails.FindAsync(id);
-            _context.PricingDetails.Remove(pricingDetail);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PricingDetailExists(int id)
-        {
-            return _context.PricingDetails.Any(e => e.Id == id);
+            return Json(response);
         }
     }
 }
