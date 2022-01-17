@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.LanguagesModule;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
@@ -14,29 +17,26 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class LanguagesController : Controller
     {
-        private readonly RyanDbContext _context;
+        readonly IMediator mediator;
 
-        public LanguagesController(RyanDbContext context)
+        public LanguagesController(IMediator mediator)
         {
-            _context = context;
+            this.mediator = mediator;
         }
 
-        // GET: Admin/Languages
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Languages.ToListAsync());
+            LanguagesQuery query = new LanguagesQuery();
+
+            IEnumerable<Language> data = await mediator.Send(query);
+
+            return View(data);
         }
 
-        // GET: Admin/Languages/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(LanguageSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Language language = await mediator.Send(query);
 
-            var language = await _context.Languages
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (language == null)
             {
                 return NotFound();
@@ -45,111 +45,63 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(language);
         }
 
-        // GET: Admin/Languages/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Languages/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Percent,Id,CreatedDate")] Language language)
+        public async Task<IActionResult> Create(LanguageCreateCommand request)
         {
-            if (ModelState.IsValid)
+            int id = await mediator.Send(request);
+
+            if (id > 0)
             {
-                _context.Add(language);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(language);
+
+            return View(request);
         }
 
-        // GET: Admin/Languages/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(LanguageSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Language language = await mediator.Send(query);
 
-            var language = await _context.Languages.FindAsync(id);
-            if (language == null)
-            {
-                return NotFound();
-            }
-            return View(language);
-        }
-
-        // POST: Admin/Languages/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Percent,Id,CreatedDate")] Language language)
-        {
-            if (id != language.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(language);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LanguageExists(language.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(language);
-        }
-
-        // GET: Admin/Languages/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var language = await _context.Languages
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (language == null)
             {
                 return NotFound();
             }
 
-            return View(language);
+            var vm = new LanguageViewModel();
+
+            vm.Id = language.Id;
+            vm.Name = language.Name;
+            vm.Percent = language.Percent;
+
+            return View(vm);
         }
 
-        // POST: Admin/Languages/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Edit(int id, LanguageEditCommand request)
         {
-            var language = await _context.Languages.FindAsync(id);
-            _context.Languages.Remove(language);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int identifier = await mediator.Send(request);
+
+            if (identifier > 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(request);
         }
 
-        private bool LanguageExists(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(LanguageRemoveCommand request)
         {
-            return _context.Languages.Any(e => e.Id == id);
+            JsonCommandResponse response = await mediator.Send(request);
+
+            return Json(response);
         }
     }
 }

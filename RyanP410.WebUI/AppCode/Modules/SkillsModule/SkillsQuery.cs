@@ -5,9 +5,9 @@ using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
 {
-    public class SkillsQuery : IRequest<IEnumerable<Skill>>
+    public class SkillsQuery : IRequest<IEnumerable<Coding>>
     {
-        public class SkillsQueryHandler : IRequestHandler<SkillsQuery, IEnumerable<Skill>>
+        public class SkillsQueryHandler : IRequestHandler<SkillsQuery, IEnumerable<Coding>>
         {
             readonly RyanDbContext db;
 
@@ -16,7 +16,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                 this.db = db;
             }
 
-            public async Task<IEnumerable<Skill>> Handle(SkillsQuery request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Coding>> Handle(SkillsQuery request, CancellationToken cancellationToken)
             {
                 return await db.Skills.ToListAsync(cancellationToken);
             }

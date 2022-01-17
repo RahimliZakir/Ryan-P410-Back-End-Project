@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.EducationsModule;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
@@ -14,29 +17,26 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class EducationsController : Controller
     {
-        private readonly RyanDbContext _context;
+        readonly IMediator mediator;
 
-        public EducationsController(RyanDbContext context)
+        public EducationsController(IMediator mediator)
         {
-            _context = context;
+            this.mediator = mediator;
         }
 
-        // GET: Admin/Educations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Educations.ToListAsync());
+            EducationsQuery query = new EducationsQuery();
+
+            IEnumerable<Education> data = await mediator.Send(query);
+
+            return View(data);
         }
 
-        // GET: Admin/Educations/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(EducationSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Education education = await mediator.Send(query);
 
-            var education = await _context.Educations
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (education == null)
             {
                 return NotFound();
@@ -45,111 +45,65 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(education);
         }
 
-        // GET: Admin/Educations/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Educations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Position,Place,Description,BeginYear,EndYear,Id,CreatedDate")] Education education)
+        public async Task<IActionResult> Create(EducationCreateCommand request)
         {
-            if (ModelState.IsValid)
+            int id = await mediator.Send(request);
+
+            if (id > 0)
             {
-                _context.Add(education);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(education);
+
+            return View(request);
         }
 
-        // GET: Admin/Educations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(EducationSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Education education = await mediator.Send(query);
 
-            var education = await _context.Educations.FindAsync(id);
-            if (education == null)
-            {
-                return NotFound();
-            }
-            return View(education);
-        }
-
-        // POST: Admin/Educations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Position,Place,Description,BeginYear,EndYear,Id,CreatedDate")] Education education)
-        {
-            if (id != education.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(education);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EducationExists(education.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(education);
-        }
-
-        // GET: Admin/Educations/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var education = await _context.Educations
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (education == null)
             {
                 return NotFound();
             }
 
-            return View(education);
+            var vm = new EducationViewModel();
+
+            vm.Id = education.Id;
+            vm.Position = education.Position;
+            vm.Description = education.Description;
+            vm.BeginYear = education.BeginYear;
+            vm.EndYear = education.EndYear;
+
+            return View(vm);
         }
 
-        // POST: Admin/Educations/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Edit(int id, EducationEditCommand request)
         {
-            var education = await _context.Educations.FindAsync(id);
-            _context.Educations.Remove(education);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int identifier = await mediator.Send(request);
+
+            if (identifier > 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(request);
         }
 
-        private bool EducationExists(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(EducationRemoveCommand request)
         {
-            return _context.Educations.Any(e => e.Id == id);
+            JsonCommandResponse response = await mediator.Send(request);
+
+            return Json(response);
         }
     }
 }

@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.KnowledgesModule;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
@@ -14,29 +17,26 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class KnowledgesController : Controller
     {
-        private readonly RyanDbContext _context;
+        readonly IMediator mediator;
 
-        public KnowledgesController(RyanDbContext context)
+        public KnowledgesController(IMediator mediator)
         {
-            _context = context;
+            this.mediator = mediator;
         }
 
-        // GET: Admin/Knowledges
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Knowledges.ToListAsync());
+            KnowledgesQuery query = new KnowledgesQuery();
+
+            IEnumerable<Knowledge> data = await mediator.Send(query);
+
+            return View(data);
         }
 
-        // GET: Admin/Knowledges/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(KnowledgeSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Knowledge knowledge = await mediator.Send(query);
 
-            var knowledge = await _context.Knowledges
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (knowledge == null)
             {
                 return NotFound();
@@ -45,111 +45,62 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(knowledge);
         }
 
-        // GET: Admin/Knowledges/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Knowledges/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Id,CreatedDate")] Knowledge knowledge)
+        public async Task<IActionResult> Create(KnowledgeCreateCommand request)
         {
-            if (ModelState.IsValid)
+            int id = await mediator.Send(request);
+
+            if (id > 0)
             {
-                _context.Add(knowledge);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(knowledge);
+
+            return View(request);
         }
 
-        // GET: Admin/Knowledges/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(KnowledgeSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Knowledge knowledge = await mediator.Send(query);
 
-            var knowledge = await _context.Knowledges.FindAsync(id);
-            if (knowledge == null)
-            {
-                return NotFound();
-            }
-            return View(knowledge);
-        }
-
-        // POST: Admin/Knowledges/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Id,CreatedDate")] Knowledge knowledge)
-        {
-            if (id != knowledge.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(knowledge);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!KnowledgeExists(knowledge.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(knowledge);
-        }
-
-        // GET: Admin/Knowledges/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var knowledge = await _context.Knowledges
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (knowledge == null)
             {
                 return NotFound();
             }
 
-            return View(knowledge);
+            var vm = new KnowledgeViewModel();
+
+            vm.Id = knowledge.Id;
+            vm.Name = knowledge.Name;
+
+            return View(vm);
         }
 
-        // POST: Admin/Knowledges/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Edit(int id, KnowledgeEditCommand request)
         {
-            var knowledge = await _context.Knowledges.FindAsync(id);
-            _context.Knowledges.Remove(knowledge);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int identifier = await mediator.Send(request);
+
+            if (identifier > 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(request);
         }
 
-        private bool KnowledgeExists(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(KnowledgeRemoveCommand request)
         {
-            return _context.Knowledges.Any(e => e.Id == id);
+            JsonCommandResponse response = await mediator.Send(request);
+
+            return Json(response);
         }
     }
 }

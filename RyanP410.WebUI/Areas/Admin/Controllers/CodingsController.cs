@@ -1,12 +1,8 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using RyanP410.WebUI.Models.DataContexts;
+using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.CodingsModule;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.Areas.Admin.Controllers
@@ -14,29 +10,26 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class CodingsController : Controller
     {
-        private readonly RyanDbContext _context;
+        readonly IMediator mediator;
 
-        public CodingsController(RyanDbContext context)
+        public CodingsController(IMediator mediator)
         {
-            _context = context;
+            this.mediator = mediator;
         }
 
-        // GET: Admin/Codings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Codings.ToListAsync());
+            CodingsQuery query = new CodingsQuery();
+
+            IEnumerable<Coding> data = await mediator.Send(query);
+
+            return View(data);
         }
 
-        // GET: Admin/Codings/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(CodingSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Coding coding = await mediator.Send(query);
 
-            var coding = await _context.Codings
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (coding == null)
             {
                 return NotFound();
@@ -45,111 +38,63 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(coding);
         }
 
-        // GET: Admin/Codings/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Codings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Percent,Id,CreatedDate")] Coding coding)
+        public async Task<IActionResult> Create(CodingCreateCommand request)
         {
-            if (ModelState.IsValid)
+            int id = await mediator.Send(request);
+
+            if (id > 0)
             {
-                _context.Add(coding);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(coding);
+
+            return View(request);
         }
 
-        // GET: Admin/Codings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(CodingSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Coding coding = await mediator.Send(query);
 
-            var coding = await _context.Codings.FindAsync(id);
-            if (coding == null)
-            {
-                return NotFound();
-            }
-            return View(coding);
-        }
-
-        // POST: Admin/Codings/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Percent,Id,CreatedDate")] Coding coding)
-        {
-            if (id != coding.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(coding);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CodingExists(coding.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(coding);
-        }
-
-        // GET: Admin/Codings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var coding = await _context.Codings
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (coding == null)
             {
                 return NotFound();
             }
 
-            return View(coding);
+            var vm = new CodingViewModel();
+
+            vm.Id = coding.Id;
+            vm.Name = coding.Name;
+            vm.Percent = coding.Percent;
+
+            return View(vm);
         }
 
-        // POST: Admin/Codings/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Edit(int id, CodingEditCommand request)
         {
-            var coding = await _context.Codings.FindAsync(id);
-            _context.Codings.Remove(coding);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int identifier = await mediator.Send(request);
+
+            if (identifier > 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(request);
         }
 
-        private bool CodingExists(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(CodingRemoveCommand request)
         {
-            return _context.Codings.Any(e => e.Id == id);
+            JsonCommandResponse response = await mediator.Send(request);
+
+            return Json(response);
         }
     }
 }

@@ -5,9 +5,9 @@ using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Modules.KnowledgesModule
 {
-    public class KnowledgeModule : IRequest<IEnumerable<Knowledge>>
+    public class KnowledgesQuery : IRequest<IEnumerable<Knowledge>>
     {
-        public class KnowledgeModuleHandler : IRequestHandler<KnowledgeModule, IEnumerable<Knowledge>>
+        public class KnowledgeModuleHandler : IRequestHandler<KnowledgesQuery, IEnumerable<Knowledge>>
         {
             readonly RyanDbContext db;
 
@@ -16,7 +16,7 @@ namespace RyanP410.WebUI.AppCode.Modules.KnowledgesModule
                 this.db = db;
             }
 
-            public async Task<IEnumerable<Knowledge>> Handle(KnowledgeModule request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Knowledge>> Handle(KnowledgesQuery request, CancellationToken cancellationToken)
             {
                 return await db.Knowledges.ToListAsync(cancellationToken);
             }

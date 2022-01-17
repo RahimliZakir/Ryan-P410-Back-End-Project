@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.ExperienceModule;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
@@ -14,29 +17,26 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class ExperiencesController : Controller
     {
-        private readonly RyanDbContext _context;
+        readonly IMediator mediator;
 
-        public ExperiencesController(RyanDbContext context)
+        public ExperiencesController(IMediator mediator)
         {
-            _context = context;
+            this.mediator = mediator;
         }
 
-        // GET: Admin/Experiences
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Experiences.ToListAsync());
+            ExperiencesQuery query = new ExperiencesQuery();
+
+            IEnumerable<Experience> data = await mediator.Send(query);
+
+            return View(data);
         }
 
-        // GET: Admin/Experiences/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(ExperienceSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Experience experience = await mediator.Send(query);
 
-            var experience = await _context.Experiences
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (experience == null)
             {
                 return NotFound();
@@ -45,111 +45,65 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(experience);
         }
 
-        // GET: Admin/Experiences/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Experiences/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Position,Place,Description,BeginYear,EndYear,Id,CreatedDate")] Experience experience)
+        public async Task<IActionResult> Create(ExperienceCreateCommand request)
         {
-            if (ModelState.IsValid)
+            int id = await mediator.Send(request);
+
+            if (id > 0)
             {
-                _context.Add(experience);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(experience);
+
+            return View(request);
         }
 
-        // GET: Admin/Experiences/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(ExperienceSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Experience experience = await mediator.Send(query);
 
-            var experience = await _context.Experiences.FindAsync(id);
-            if (experience == null)
-            {
-                return NotFound();
-            }
-            return View(experience);
-        }
-
-        // POST: Admin/Experiences/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Position,Place,Description,BeginYear,EndYear,Id,CreatedDate")] Experience experience)
-        {
-            if (id != experience.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(experience);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExperienceExists(experience.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(experience);
-        }
-
-        // GET: Admin/Experiences/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var experience = await _context.Experiences
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (experience == null)
             {
                 return NotFound();
             }
 
-            return View(experience);
+            var vm = new ExperienceViewModel();
+
+            vm.Id = experience.Id;
+            vm.Position = experience.Position;
+            vm.Description = experience.Description;
+            vm.BeginYear = experience.BeginYear;
+            vm.EndYear = experience.EndYear;
+
+            return View(vm);
         }
 
-        // POST: Admin/Experiences/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Edit(int id, ExperienceEditCommand request)
         {
-            var experience = await _context.Experiences.FindAsync(id);
-            _context.Experiences.Remove(experience);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int identifier = await mediator.Send(request);
+
+            if (identifier > 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(request);
         }
 
-        private bool ExperienceExists(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(ExperienceRemoveCommand request)
         {
-            return _context.Experiences.Any(e => e.Id == id);
+            JsonCommandResponse response = await mediator.Send(request);
+
+            return Json(response);
         }
     }
 }

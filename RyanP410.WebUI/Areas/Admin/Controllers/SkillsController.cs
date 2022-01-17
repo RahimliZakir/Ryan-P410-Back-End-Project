@@ -28,14 +28,14 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
         {
             SkillsQuery query = new SkillsQuery();
 
-            IEnumerable<Skill> data = await mediator.Send(query);
+            IEnumerable<Coding> data = await mediator.Send(query);
 
             return View(data);
         }
 
         public async Task<IActionResult> Details(SkillSingleQuery query)
         {
-            Skill skill = await mediator.Send(query);
+            Coding skill = await mediator.Send(query);
 
             if (skill == null)
             {
