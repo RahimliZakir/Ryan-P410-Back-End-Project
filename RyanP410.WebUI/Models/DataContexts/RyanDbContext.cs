@@ -23,8 +23,19 @@ namespace RyanP410.WebUI.Models.DataContexts
         public DbSet<Quote> Quotes { get; set; }
         //---ABOUT---
 
+        //---RESUME---
+        public DbSet<Testimonial> Testimonials { get; set; }
+        public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Design> Designs { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Coding> Codings { get; set; }
+        public DbSet<Knowledge> Knowledges { get; set; }
+        //---RESUME---
+
+        //---CONTACT---
         public DbSet<AppInfo> AppInfos { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<Testimonial> Testimonials { get; set; }
+        //---CONTACT---
     }
 }

@@ -4,23 +4,23 @@ using RyanP410.WebUI.AppCode.Infrastructure;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
-namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
+namespace RyanP410.WebUI.AppCode.Modules.CodingsModule
 {
-    public class SkillRemoveCommand : IRequest<JsonCommandResponse>
+    public class CodingRemoveCommand : IRequest<JsonCommandResponse>
     {
         public int? Id { get; set; }
 
-        public class SkillRemoveCommandHandler : IRequestHandler<SkillRemoveCommand, JsonCommandResponse>
+        public class CodingRemoveCommandHandler : IRequestHandler<CodingRemoveCommand, JsonCommandResponse>
         {
             readonly RyanDbContext db;
 
-            public SkillRemoveCommandHandler(RyanDbContext db)
+            public CodingRemoveCommandHandler(RyanDbContext db)
             {
                 this.db = db;
             }
 
 
-            async public Task<JsonCommandResponse> Handle(SkillRemoveCommand request, CancellationToken cancellationToken)
+            async public Task<JsonCommandResponse> Handle(CodingRemoveCommand request, CancellationToken cancellationToken)
             {
                 JsonCommandResponse response = new JsonCommandResponse();
 
@@ -31,7 +31,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                     goto end;
                 }
 
-                Skill? entity = await db.Skills.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
+                Coding? entity = await db.Codings.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
 
                 if (entity == null)
                 {
@@ -43,7 +43,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                 response.Error = false;
                 response.Message = "Seçdiyiniz məlumat uğurla silindi!";
 
-                db.Skills.Remove(entity);
+                db.Codings.Remove(entity);
                 await db.SaveChangesAsync(cancellationToken);
 
             end:

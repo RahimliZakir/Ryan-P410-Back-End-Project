@@ -4,23 +4,23 @@ using RyanP410.WebUI.AppCode.Infrastructure;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
-namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
+namespace RyanP410.WebUI.AppCode.Modules.LanguagesModule
 {
-    public class SkillRemoveCommand : IRequest<JsonCommandResponse>
+    public class LanguageRemoveCommand : IRequest<JsonCommandResponse>
     {
         public int? Id { get; set; }
 
-        public class SkillRemoveCommandHandler : IRequestHandler<SkillRemoveCommand, JsonCommandResponse>
+        public class LanguageRemoveCommandHandler : IRequestHandler<LanguageRemoveCommand, JsonCommandResponse>
         {
             readonly RyanDbContext db;
 
-            public SkillRemoveCommandHandler(RyanDbContext db)
+            public LanguageRemoveCommandHandler(RyanDbContext db)
             {
                 this.db = db;
             }
 
 
-            async public Task<JsonCommandResponse> Handle(SkillRemoveCommand request, CancellationToken cancellationToken)
+            async public Task<JsonCommandResponse> Handle(LanguageRemoveCommand request, CancellationToken cancellationToken)
             {
                 JsonCommandResponse response = new JsonCommandResponse();
 
@@ -31,7 +31,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                     goto end;
                 }
 
-                Skill? entity = await db.Skills.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
+                Language? entity = await db.Languages.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
 
                 if (entity == null)
                 {
@@ -43,7 +43,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                 response.Error = false;
                 response.Message = "Seçdiyiniz məlumat uğurla silindi!";
 
-                db.Skills.Remove(entity);
+                db.Languages.Remove(entity);
                 await db.SaveChangesAsync(cancellationToken);
 
             end:

@@ -60,6 +60,39 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(request);
         }
 
+        async public Task<IActionResult> Edit(PricingsPricingDetailsSingleQuery query)
+        {
+            var collection = await mediator.Send(query);
+
+            var viewModel = new PricingsPricingDetailsViewModel
+            {
+                Id = collection.Id,
+                PricingDetailId = collection.PricingDetailId,
+                PricingId = collection.PricingId,
+                Exists = collection.Exists,
+                New = collection.New
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        async public Task<IActionResult> Edit(PricingsPricingDetailsEditCommand request)
+        {
+            //var collection = await mediator.Send(query);
+
+            //var viewModel = new PricingsPricingDetailsViewModel
+            //{
+            //    Id = collection.Id,
+            //    PricingDetailId = collection.PricingDetailId,
+            //    PricingId = collection.PricingId,
+            //    Exists = collection.Exists,
+            //    New = collection.New
+            //};
+
+            return View(/*viewModel*/);
+        }
+
         [HttpPost]
         async public Task<IActionResult> Delete(PricingsPricingDetailsRemoveCommand request)
         {

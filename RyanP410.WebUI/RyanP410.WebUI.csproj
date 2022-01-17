@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="AppCode\AutoMapper\Converters\" />
+    <Folder Include="AppCode\AutoMapper\Profiles\" />
     <Folder Include="Models\Entities\Membership\" />
     <Folder Include="wwwroot\admin-assets\" />
     <Folder Include="wwwroot\uploads\clients\" />
+    <Folder Include="wwwroot\uploads\blogs\" />
     <Folder Include="wwwroot\uploads\persons\img\" />
     <Folder Include="wwwroot\uploads\testimonials\" />
     <Folder Include="wwwroot\uploads\quotes\" />

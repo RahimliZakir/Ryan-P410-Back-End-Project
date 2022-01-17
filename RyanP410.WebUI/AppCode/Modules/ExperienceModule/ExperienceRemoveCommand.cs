@@ -4,23 +4,23 @@ using RyanP410.WebUI.AppCode.Infrastructure;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
-namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
+namespace RyanP410.WebUI.AppCode.Modules.ExperienceModule
 {
-    public class SkillRemoveCommand : IRequest<JsonCommandResponse>
+    public class ExperienceRemoveCommand : IRequest<JsonCommandResponse>
     {
         public int? Id { get; set; }
 
-        public class SkillRemoveCommandHandler : IRequestHandler<SkillRemoveCommand, JsonCommandResponse>
+        public class ExperienceRemoveCommandHandler : IRequestHandler<ExperienceRemoveCommand, JsonCommandResponse>
         {
             readonly RyanDbContext db;
 
-            public SkillRemoveCommandHandler(RyanDbContext db)
+            public ExperienceRemoveCommandHandler(RyanDbContext db)
             {
                 this.db = db;
             }
 
 
-            async public Task<JsonCommandResponse> Handle(SkillRemoveCommand request, CancellationToken cancellationToken)
+            async public Task<JsonCommandResponse> Handle(ExperienceRemoveCommand request, CancellationToken cancellationToken)
             {
                 JsonCommandResponse response = new JsonCommandResponse();
 
@@ -31,7 +31,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                     goto end;
                 }
 
-                Skill? entity = await db.Skills.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
+                Experience? entity = await db.Experiences.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
 
                 if (entity == null)
                 {
@@ -43,7 +43,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                 response.Error = false;
                 response.Message = "Seçdiyiniz məlumat uğurla silindi!";
 
-                db.Skills.Remove(entity);
+                db.Experiences.Remove(entity);
                 await db.SaveChangesAsync(cancellationToken);
 
             end:
