@@ -1,0 +1,43 @@
+﻿@model PricingsPricingDetailsCollection
+@inject RyanDbContext db
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="PricingId" class="label-required">Başlıq (Qiymətləndirmə): </label>
+        <select asp-for="PricingId" class="form-control" asp-items="@ViewBag.Pricings"></select>
+        <span asp-validation-for="PricingId" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Items[0].Id" class="label-required">Adı (Qiymətləndirmə Detalları): </label>
+        <select asp-for="Items[0].Id" class="form-control" asp-items="@ViewBag.PricingDetails"></select>
+        <span asp-validation-for="Items[0].Id" style="color: red;"></span>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-success plus-btn" style="border-radius: 50%; cursor: pointer; margin: 10px 0;">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+    <button class="btn btn-info" type="submit">Əlavə et</button>
+</form>
+
+@section js{
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+            let plusBtn = $('.plus-btn');
+            let i = 1;
+            $(plusBtn).on('click', function () {
+                let content = @Html.Raw(JsonConvert.ToString(@Html.DropDownList("AttendeeRoleIds[*]", (SelectList)ViewBag.EventAttendeeRoleId, htmlAttributes: new { @class = "form-control", })));
+
+                $(this).parent().before(content);
+                i++;
+            });
+        });
+</script>
+}

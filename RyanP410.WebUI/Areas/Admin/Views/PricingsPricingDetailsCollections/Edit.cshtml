@@ -1,0 +1,37 @@
+﻿@model PricingViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form method="post" asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="Title" class="label-required">Başlıq: </label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Icon" class="label-required">İkon: </label>
+        <input asp-for="Icon" class="form-control" />
+        <span asp-validation-for="Icon" style="color: red;"></span>
+    </div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Price" class="label-required">Qiymət: </label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" style="color: red;"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Per" class="label-required">Hər: </label>
+        <input asp-for="Per" class="form-control" />
+        <span asp-validation-for="Per" style="color: red;"></span>
+    </div>
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+    <button class="btn btn-info" type="submit">Yenilə</button>
+</form>
+
+@section js{
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

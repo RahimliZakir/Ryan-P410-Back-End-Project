@@ -18,7 +18,10 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
             public async Task<IEnumerable<PricingsPricingDetailsCollection>> Handle(PricingsPricingDetailsQuery request, CancellationToken cancellationToken)
             {
-                return await db.PricingsPricingDetailsCollections.ToListAsync(cancellationToken);
+                return await db.PricingsPricingDetailsCollections
+                             .Include(pcp => pcp.Pricing)
+                             .Include(pcp => pcp.PricingDetail)
+                             .ToListAsync(cancellationToken);
             }
         }
     }

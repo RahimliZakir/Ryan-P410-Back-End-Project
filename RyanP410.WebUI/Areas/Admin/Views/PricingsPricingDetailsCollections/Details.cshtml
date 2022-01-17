@@ -1,0 +1,58 @@
+﻿@model PricingsPricingDetailsCollection
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section css{
+<style>
+    .form-paragraph {
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+</style>
+}
+
+<div class="form-group">
+    <label asp-for="Id"></label>
+    <p class="form-paragraph">@Model.Id</p>
+</div>
+
+<p>Qiymətləndirmə</p>
+<div class="form-group">
+    <label asp-for="Pricing.Title">Başlıq: </label>
+    <p class="form-paragraph">@Model.Pricing.Title</p>
+</div>
+<div class="form-group">
+    <label asp-for="Pricing.Icon">İkon: </label>
+    <p class="form-paragraph">@Model.Pricing.Icon</p>
+</div>
+<div class="form-group">
+    <label asp-for="Pricing.Price">Qiymət: </label>
+    <p class="form-paragraph">@Model.Pricing.Price</p>
+</div>
+<div class="form-group">
+    <label asp-for="Pricing.Per">Hər: </label>
+    <p class="form-paragraph">@Model.Pricing.Per</p>
+</div>
+
+<p>Qiymətləndirmə Detalları</p>
+<div class="form-group">
+    <label asp-for="PricingDetail.Name">Hər: </label>
+    <p class="form-paragraph">@Model.PricingDetail.Name</p>
+</div>
+
+<div class="form-group">
+    <label asp-for="CreatedDate">Əlavə olunma zamanı:</label>
+    <p class="form-paragraph">@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</p>
+</div>
+<a asp-action="Index" class="btn btn-danger">Geriyə</a>
