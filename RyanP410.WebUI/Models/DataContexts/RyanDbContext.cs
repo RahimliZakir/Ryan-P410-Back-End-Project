@@ -33,6 +33,11 @@ namespace RyanP410.WebUI.Models.DataContexts
         public DbSet<Knowledge> Knowledges { get; set; }
         //---RESUME---
 
+        //---WORKS---
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Work> Works { get; set; }
+        //---WORKS---
+
         //---CONTACT---
         public DbSet<AppInfo> AppInfos { get; set; }
         public DbSet<Contact> Contacts { get; set; }
