@@ -47,6 +47,40 @@
                 </a>
             </li>
             <li class="">
+                <a style="cursor: pointer;" class="dropdown-pricing-side">
+                    <span class="pcoded-micon">
+                        <i class="feather icon-menu"></i>
+                    </span>
+                    <span class="pcoded-mtext">Qiymətləndirmə Bölməsi <i class="fas dropdown-icon fa-angle-down"></i></span>
+                </a>
+                <ul class="dropdown-pricing-ul">
+                    <li class="">
+                        <a asp-action="Index" asp-controller="Pricings">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-menu"></i>
+                            </span>
+                            <span class="pcoded-mtext">Qiymətləndirmə</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a asp-action="Index" asp-controller="PricingDetails">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-menu"></i>
+                            </span>
+                            <span class="pcoded-mtext">Qiymətləndirmə Detalları</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a asp-action="Index" asp-controller="PricingsPricingDetailsCollections">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-menu"></i>
+                            </span>
+                            <span class="pcoded-mtext">Kolleksiya</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
                 <a asp-action="Index" asp-controller="Quotes">
                     <span class="pcoded-micon">
                         <i class="feather icon-menu"></i>

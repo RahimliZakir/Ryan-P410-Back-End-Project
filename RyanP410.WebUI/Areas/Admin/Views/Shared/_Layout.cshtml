@@ -48,6 +48,31 @@
         i {
             margin-right: 0 !important;
         }
+
+        .dropdown-pricing-ul {
+            display: none;
+            padding: 0 11%;
+        }
+
+            .dropdown-pricing-ul > li {
+                margin: 3.5% 0;
+            }
+
+            .dropdown-pricing-ul a {
+                display: inline-block;
+                text-decoration: none;
+                font-size: 0.9rem;
+                background-color: transparent !important;
+                color: white !important;
+            }
+
+        .dropdown-icon {
+            transition: 0.5s;
+        }
+
+            .dropdown-icon.rotate {
+                transform: rotate(-180deg);
+            }
     </style>
     @await RenderSectionAsync("css", required: false)
 </head>
@@ -461,6 +486,24 @@
     <script type="text/javascript"
             src="admin-assets/assets/pages/dashboard/custom-dashboard.js"></script>
     <script type="text/javascript" src="admin-assets/assets/js/script.min.js"></script>
+    <script>
+        $(document).ready(function(){
+         let dropdownPricingSide = $('.dropdown-pricing-side');
+
+         $(dropdownPricingSide).click(() => {
+             if($('.dropdown-pricing-ul').hasClass('dropped')){
+                 $('.dropdown-pricing-ul').slideUp();
+                 $('.dropdown-pricing-ul').removeClass('dropped');
+                 $(dropdownPricingSide).find('i.dropdown-icon').removeClass('rotate');
+             }
+             else{
+                 $('.dropdown-pricing-ul').slideDown();
+                 $('.dropdown-pricing-ul').addClass('dropped');
+                 $(dropdownPricingSide).find('i.dropdown-icon').addClass('rotate');
+             }
+         });
+        });
+    </script>
     @await RenderSectionAsync("js", required: false)
 </body>
 

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RyanP410.WebUI.Areas.Admin.Models.FormModels;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RyanP410.WebUI.Models.Entities
 {
@@ -19,5 +21,8 @@ namespace RyanP410.WebUI.Models.Entities
         public bool New { get; set; }
 
         public virtual PricingDetail PricingDetail { get; set; }
+
+        [NotMapped]
+        public PricingCollectionFormModel Items { get; set; }
     }
 }
