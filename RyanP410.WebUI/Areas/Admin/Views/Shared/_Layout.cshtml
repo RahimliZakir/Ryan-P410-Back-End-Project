@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@inject RyanDbContext db
+
+@{
+    Person person = db.Persons.FirstOrDefault();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -47,6 +53,10 @@
 
         i {
             margin-right: 0 !important;
+        }
+
+        .profile-notification a {
+            text-decoration: none;
         }
 
         .dropdown-pricing-ul {
@@ -173,10 +183,10 @@
                                         <li>
                                             <div class="media">
                                                 <img class="d-flex align-self-center img-radius"
-                                                     src="admin-assets/assets/images/avatar-4.jpg"
+                                                     src="uploads/persons/img/@person.ImagePath"
                                                      alt="Generic placeholder image" />
                                                 <div class="media-body">
-                                                    <h5 class="notification-user">John Doe</h5>
+                                                    <h5 class="notification-user">@person.Name @person.Surname</h5>
                                                     <p class="notification-msg">
                                                         Lorem ipsum dolor sit amet, consectetuer elit.
                                                     </p>
@@ -227,10 +237,10 @@
                             <li class="user-profile header-notification">
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src="admin-assets/assets/images/avatar-4.jpg"
+                                        <img style="width: 50px;" src="uploads/persons/img/@person.ImagePath"
                                              class="img-radius"
                                              alt="User-Profile-Image" />
-                                        <span>John Doe</span>
+                                        <span>@person.Name @person.Surname</span>
                                         <i class="feather icon-chevron-down"></i>
                                     </div>
                                     <ul class="
@@ -241,23 +251,8 @@
                                         data-dropdown-in="fadeIn"
                                         data-dropdown-out="fadeOut">
                                         <li>
-                                            <a href="#!">
-                                                <i class="feather icon-settings"></i> Settings
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="default/user-profile.html">
+                                            <a asp-action="Index" asp-controller="Persons">
                                                 <i class="feather icon-user"></i> Profile
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="default/email-inbox.html">
-                                                <i class="feather icon-mail"></i> My Messages
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="default/auth-lock-screen.html">
-                                                <i class="feather icon-lock"></i> Lock Screen
                                             </a>
                                         </li>
                                         <li>

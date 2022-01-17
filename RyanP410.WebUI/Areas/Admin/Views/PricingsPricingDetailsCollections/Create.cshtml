@@ -3,6 +3,11 @@
 
 @{
     ViewData["Title"] = "Create";
+    var details = db.PricingDetails.ToList();
+}
+
+@section css{
+<link rel="stylesheet" href="libs/toastr.js/toastr.css" />
 }
 
 <form method="post" asp-action="Create">
@@ -11,16 +16,25 @@
         <select asp-for="PricingId" class="form-control" asp-items="@ViewBag.Pricings"></select>
         <span asp-validation-for="PricingId" style="color: red;"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="Items[0].Id" class="label-required">Adı (Qiymətləndirmə Detalları): </label>
         <select asp-for="Items[0].Id" class="form-control" asp-items="@ViewBag.PricingDetails"></select>
         <span asp-validation-for="Items[0].Id" style="color: red;"></span>
+
+        <label asp-for="Items[0].Exists">Mövcudluq: </label>
+        <input style="cursor: pointer;" asp-for="Items[0].Exists" class="form-check-input" />
+
+        <label asp-for="Items[0].New">Yeni: </label>
+        <input style="cursor: pointer;" asp-for="Items[0].New" class="form-check-input" />
     </div>
-    <div class="text-center">
+
+    <div class="text-center mt-3">
         <a class="btn btn-success plus-btn" style="border-radius: 50%; cursor: pointer; margin: 10px 0;">
             <i class="fas fa-plus"></i>
         </a>
     </div>
+
     <a asp-action="Index" class="btn btn-danger">Geriyə</a>
     <button class="btn btn-info" type="submit">Əlavə et</button>
 </form>
@@ -28,15 +42,62 @@
 @section js{
 <script src="libs/jquery-validate/jquery.validate.min.js"></script>
 <script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="libs/toastr.js/toastr.min.js"></script>
+<script src="libs/toastr.js/toastr.customize.min.js"></script>
 <script>
     $(document).ready(function () {
             let plusBtn = $('.plus-btn');
             let i = 1;
             $(plusBtn).on('click', function () {
-                let content = @Html.Raw(JsonConvert.ToString(@Html.DropDownList("AttendeeRoleIds[*]", (SelectList)ViewBag.EventAttendeeRoleId, htmlAttributes: new { @class = "form-control", })));
+                let nameDynamic = `Items[${i}].Id`;
+
+                let selectContent = `<select name="Items[${i}].Id" class="form-control mb-2">
+                                     @foreach(var item in details){
+                                         <option value="@item.Id">@item.Name</option>
+                                     }
+                                     </select>`;
+
+                let existsContent = `<label for="Items[${i}].Exists">Mövcudluq: </label>
+                                    <input style="cursor: pointer;" id="Items[${i}].Exists" type="checkbox" name="Items[${i}].Exists" class="form-check-input" />`;
+
+                let newContent = `<label for="Items[${i}].New">Yeni: </label>
+                                  <input style="cursor: pointer;" id="Items[${i}].New" type="checkbox" name="Items[${i}].New" class="form-check-input" />`;
+
+                let content = `<div class="form-group">
+                                 ${selectContent}
+                                 ${existsContent}
+                                 ${newContent}
+                               </div>`;
 
                 $(this).parent().before(content);
                 i++;
+            });
+
+            $('form').on('submit', (e) => {
+               e.preventDefault();
+
+               let formData = new FormData(e.currentTarget);
+
+               $.ajax({
+                 url: '@Url.Action("Create")',
+                 type: "POST",
+                 data: formData,
+                 contentType: false,
+                 processData: false,
+                 success: function(response){
+                     if(response.error == false){
+                         toastr.success(response.message, 'Uğurlu!');
+                         setTimeout(()=>{
+                         window.location.href = '@Url.Action("Index")';
+                         }, 1500);
+                     }
+
+                     toastr.error(response.message, 'Xəta!');
+                 },
+                 error: function(response){
+                     console.log(response);
+                 }
+               });
             });
         });
 </script>

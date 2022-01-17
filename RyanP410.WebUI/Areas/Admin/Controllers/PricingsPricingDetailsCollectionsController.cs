@@ -52,7 +52,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
         {
             JsonCommandResponse response = await mediator.Send(request);
 
-            if (response.Error)
+            if (!response.Error)
             {
                 return Json(response);
             }
@@ -61,7 +61,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        async public Task<IActionResult> Remove(PricingsPricingDetailsRemoveCommand request)
+        async public Task<IActionResult> Delete(PricingsPricingDetailsRemoveCommand request)
         {
             JsonCommandResponse response = await mediator.Send(request);
 

@@ -47,6 +47,8 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                         PricingsPricingDetailsCollection collection = new();
                         collection.PricingId = request.PricingId;
                         collection.PricingDetailId = item.Id;
+                        collection.Exists = item.Exists;
+                        collection.New = item.New;
                         await db.PricingsPricingDetailsCollections.AddAsync(collection, cancellationToken);
                     }
 
