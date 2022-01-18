@@ -15,5 +15,6 @@ namespace RyanP410.WebUI.Models.ViewModels
         public IEnumerable<Coding> Codings { get; set; }
 
         public IEnumerable<Knowledge> Knowledges { get; set; }
+        public IEnumerable<Testimonial> Testimonials { get; set; }
     }
 }

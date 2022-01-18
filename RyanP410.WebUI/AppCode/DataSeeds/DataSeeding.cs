@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
+using RyanP410.WebUI.Models.Entities.Membership;
+using RyanP410.WebUI.Models.Entities.Membership.Credentials;
 
 namespace RyanP410.WebUI.AppCode.DataSeeds
 {
@@ -11,8 +14,72 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
             using (IServiceScope scope = app.ApplicationServices.CreateScope())
             {
                 RyanDbContext db = scope.ServiceProvider.GetRequiredService<RyanDbContext>();
+                RoleManager<RyanRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RyanRole>>();
+                UserManager<RyanUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<RyanUser>>();
 
                 db.Database.Migrate();
+
+                RyanRole roleResult = roleManager.FindByNameAsync("Admin").Result;
+
+                if (roleResult == null)
+                {
+                    roleResult = new RyanRole
+                    {
+                        Name = "Admin"
+                    };
+
+                    IdentityResult roleResponse = roleManager.CreateAsync(roleResult).Result;
+
+                    if (roleResponse.Succeeded)
+                    {
+                        RyanUser userResult = userManager.FindByNameAsync("rahimlizakir").Result;
+
+                        if (userResult == null)
+                        {
+                            userResult = new RyanUser
+                            {
+                                UserName = "rahimlizakir",
+                                Email = "zakirer@code.edu.az"
+                            };
+
+                            IdentityResult userResponse = userManager.CreateAsync(userResult, AdminCredential.Pick()).Result;
+
+                            if (userResponse.Succeeded)
+                            {
+                                var roleUserResult = userManager.AddToRoleAsync(userResult, roleResult.Name).Result;
+                            }
+                        }
+                        else
+                        {
+                            var roleUserResult = userManager.AddToRoleAsync(userResult, roleResult.Name).Result;
+                        }
+                    }
+                }
+                else
+                {
+                    RyanUser userResult = userManager.FindByNameAsync("rahimlizakir").Result;
+
+                    if (userResult == null)
+                    {
+                        userResult = new RyanUser
+                        {
+                            UserName = "rahimlizakir",
+                            Email = "zakirer@code.edu.az"
+                        };
+
+                        IdentityResult userResponse = userManager.CreateAsync(userResult, AdminCredential.Pick()).Result;
+
+                        if (userResponse.Succeeded)
+                        {
+                            var roleUserResult = userManager.AddToRoleAsync(userResult, roleResult.Name).Result;
+                        }
+                    }
+                    else
+                    {
+                        var roleUserResult = userManager.AddToRoleAsync(userResult, roleResult.Name).Result;
+                    }
+                }
+
 
                 if (!db.AppInfos.Any())
                 {

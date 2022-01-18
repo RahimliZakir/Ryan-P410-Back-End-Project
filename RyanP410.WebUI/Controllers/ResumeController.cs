@@ -7,6 +7,7 @@ using RyanP410.WebUI.AppCode.Modules.EducationsModule;
 using RyanP410.WebUI.AppCode.Modules.ExperienceModule;
 using RyanP410.WebUI.AppCode.Modules.KnowledgesModule;
 using RyanP410.WebUI.AppCode.Modules.LanguagesModule;
+using RyanP410.WebUI.AppCode.Modules.TestimonialsModule;
 using RyanP410.WebUI.Models.Entities;
 using RyanP410.WebUI.Models.ViewModels;
 
@@ -49,6 +50,10 @@ namespace RyanP410.WebUI.Controllers
             KnowledgesQuery knowledgesQuery = new();
             IEnumerable<Knowledge> knowledges = await mediator.Send(knowledgesQuery);
             viewModel.Knowledges = knowledges;
+
+            TestimonialsQuery testimonialsQuery = new();
+            IEnumerable<Testimonial> testimonials = await mediator.Send(testimonialsQuery);
+            viewModel.Testimonials = testimonials;
 
             return View(viewModel);
         }
