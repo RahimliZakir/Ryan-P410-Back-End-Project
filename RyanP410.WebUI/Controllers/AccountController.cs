@@ -59,7 +59,7 @@ namespace RyanP410.WebUI.Controllers
                     }
                     else
                     {
-                        return RedirectToAction(nameof(Index), "PersonalSide", new
+                        return RedirectToAction(nameof(Index), "Persons", new
                         {
                             area = "Admin"
                         });
