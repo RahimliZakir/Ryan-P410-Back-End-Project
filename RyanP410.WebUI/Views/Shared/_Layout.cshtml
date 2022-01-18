@@ -1,4 +1,8 @@
-﻿
+﻿@inject RyanDbContext db
+
+@{
+    var person = db.Persons.FirstOrDefault();
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,10 +126,10 @@
 
                     <!-- profile buttons -->
                     <div class="lnks">
-                        <a href="#" class="lnk">
+                        <a href="~/uploads/persons/cv/@person.CvResumePath" download class="lnk">
                             <span class="text">Download CV</span>
                         </a>
-                        <a href="#" class="lnk discover">
+                        <a asp-action="Contact" asp-controller="Home" class="lnk discover">
                             <span class="text">Contact Me</span>
                         </a>
                     </div>

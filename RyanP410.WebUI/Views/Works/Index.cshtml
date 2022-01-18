@@ -23,7 +23,7 @@
                 @foreach (var item in Model.Categories)
                 {
                     <div class="f_btn">
-                        <label><input type="radio" name="fl_radio" value="@item.Name.ToLower()" />@item.Name</label>
+                        <label><input type="radio" name="fl_radio" value="@item.Name.Replace(" ", "").ToLower()" />@item.Name</label>
                     </div>
                 }
             </div>
@@ -34,18 +34,18 @@
                 <!-- work item photo -->
                 @foreach (var item in Model.Works)
                 {
-                    <div class="col col-d-6 col-t-6 col-m-12 grid-item @item.Category.Name border-line-h">
+                    <div class="col col-d-6 col-t-6 col-m-12 grid-item @item.Category.Name.Replace(" ", "").ToLower() border-line-h">
                         <div class="box-item">
-                            <div class="@item.Category.Name">
+                            <div class="@item.Category.Name.Replace(" ", "").ToLower()">
                                 <a href="~/uploads/works/@item.ImagePath" class="has-popup-image">
-                                    <img src="~/uploads/works/@item.ImagePath" alt="" />
+                                    <img style="width: 100%;" src="~/uploads/works/@item.ImagePath" alt="" />
                                     <span class="info">
                                         <span class="ion ion-image"></span>
                                     </span>
                                 </a>
                             </div>
                             <div class="desc">
-                                <a href="images/works/work1.jpg" class="name has-popup-image">@item.Title</a>
+                                <a href="~/uploads/works/@item.ImagePath" class="name has-popup-image">@item.Title</a>
                                 <div class="category">@item.Category.Name</div>
                             </div>
                         </div>
