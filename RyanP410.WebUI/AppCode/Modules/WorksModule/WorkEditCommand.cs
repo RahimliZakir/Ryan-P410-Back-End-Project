@@ -45,13 +45,13 @@ namespace RyanP410.WebUI.AppCode.Modules.WorksModule
                 }
                 else if (request.File == null)
                 {
-                    currentpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "blogs", entity.ImagePath);
+                    currentpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "works", entity.ImagePath);
                 }
                 else if (request.File != null)
                 {
                     string ext = Path.GetExtension(request.File.FileName);
-                    string filename = $"Work-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
-                    fullpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "blogs", filename);
+                    string filename = $"work-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
+                    fullpath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "works", filename);
 
                     using (FileStream fs = new(fullpath, FileMode.Create, FileAccess.Write))
                     {
@@ -73,6 +73,7 @@ namespace RyanP410.WebUI.AppCode.Modules.WorksModule
                         }
 
                         entity.Title = request.Title;
+                        entity.CategoryId = request.CategoryId;
 
                         await db.SaveChangesAsync(cancellationToken);
 

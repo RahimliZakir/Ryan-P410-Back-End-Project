@@ -8,6 +8,11 @@ namespace RyanP410.WebUI.Models.Entities
         [Required(ErrorMessage = "Bu xana boş qoyula bilməz!")]
         public string Title { get; set; } = null!;
 
+        [Required(ErrorMessage = "Bu xana boş qoyula bilməz!")]
+        public int CategoryId { get; set; }
+
+        public virtual Category Category { get; set; }
+
         public string? ImagePath { get; set; }
 
         [NotMapped]

@@ -6,5 +6,7 @@ namespace RyanP410.WebUI.Models.Entities
     {
         [Required(ErrorMessage = "Bu xana boş qoyula bilməz!")]
         public string Name { get; set; } = null!;
+
+        public virtual ICollection<Work> Works { get; set; }
     }
 }

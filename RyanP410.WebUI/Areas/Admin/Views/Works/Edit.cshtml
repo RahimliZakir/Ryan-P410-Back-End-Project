@@ -1,41 +1,42 @@
-﻿@model RyanP410.WebUI.Models.Entities.Work
+﻿@model WorkViewModel
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+@section css{
+<link rel="stylesheet" href="libs/jquery-image-input/jquery.image-input.css" />
+}
 
-<h4>Work</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImagePath" class="control-label"></label>
-                <input asp-for="ImagePath" class="form-control" />
-                <span asp-validation-for="ImagePath" class="text-danger"></span>
-            </div>
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="row">
+        <div class="col-6">
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                <label asp-for="Title" class="label-required">Başlıq: </label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" style="color: red;"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="CategoryId" class="label-required">Kateqoriya: </label>
+                <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.Categories"></select>
+                <span asp-validation-for="CategoryId" style="color: red;"></span>
             </div>
-        </form>
+            <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+            <button class="btn btn-info" type="submit">Yenilə</button>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <image asp-for="file" asp-caption="Şəkil: " asp-path="/uploads/works/@Model?.ImagePath"></image>
+            </div>
+        </div>
     </div>
-</div>
+</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section js{
+<script src="libs/jquery-image-input/jquery.image-input.js"></script>
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
 

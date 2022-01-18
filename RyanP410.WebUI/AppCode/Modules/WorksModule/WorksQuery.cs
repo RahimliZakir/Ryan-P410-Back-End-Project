@@ -18,7 +18,7 @@ namespace RyanP410.WebUI.AppCode.Modules.WorksModule
 
             public async Task<IEnumerable<Work>> Handle(WorksQuery request, CancellationToken cancellationToken)
             {
-                return await db.Works.ToListAsync(cancellationToken);
+                return await db.Works.Include(c => c.Category).ToListAsync(cancellationToken);
             }
         }
     }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.CategoriesModule;
 using RyanP410.WebUI.AppCode.Modules.WorksModule;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
@@ -45,14 +46,19 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             return View(work);
         }
 
-        public IActionResult Create()
+        async public Task<IActionResult> Create()
         {
+            CategoriesQuery query = new();
+            var categories = await mediator.Send(query);
+
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(WorkCreateCommand request)
+        public async Task<IActionResult> Create([Bind("Title,CategoryId,File")] WorkCreateCommand request)
         {
             int id = await mediator.Send(request);
 
@@ -77,14 +83,20 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
             vm.Id = work.Id;
             vm.Title = work.Title;
+            vm.CategoryId = work.CategoryId;
             vm.ImagePath = work.ImagePath;
+
+            CategoriesQuery categoriesQuery = new();
+            var categories = await mediator.Send(categoriesQuery);
+
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", work.CategoryId);
 
             return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, WorkEditCommand request)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,CategoryId,File,FileTemp,Id")] WorkEditCommand request)
         {
             int identifier = await mediator.Send(request);
 

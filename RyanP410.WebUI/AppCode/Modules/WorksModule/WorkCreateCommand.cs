@@ -12,6 +12,9 @@ namespace RyanP410.WebUI.AppCode.Modules.WorksModule
         [Required(ErrorMessage = "Bu xana boş qoyula bilməz!")]
         public string Title { get; set; } = null!;
 
+        [Required(ErrorMessage = "Bu xana boş qoyula bilməz!")]
+        public int CategoryId { get; set; }
+
         public IFormFile? File { get; set; }
 
         public class WorkCreateCommandHandler : IRequestHandler<WorkCreateCommand, int>
@@ -36,8 +39,8 @@ namespace RyanP410.WebUI.AppCode.Modules.WorksModule
                 else
                 {
                     string ext = Path.GetExtension(request.File.FileName);
-                    string filename = $"Work-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
-                    string fullname = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "blogs", filename);
+                    string filename = $"work-{Guid.NewGuid().ToString().Replace("-", "")}{ext}";
+                    string fullname = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "works", filename);
 
                     using (FileStream fs = new(fullname, FileMode.Create, FileAccess.Write))
                     {
@@ -62,6 +65,7 @@ namespace RyanP410.WebUI.AppCode.Modules.WorksModule
                         }
 
                         work.Title = request.Title;
+                        work.CategoryId = request.CategoryId;
 
                         await db.Works.AddAsync(work, cancellationToken);
                         await db.SaveChangesAsync(cancellationToken);

@@ -25,7 +25,7 @@ namespace RyanP410.WebUI.AppCode.Modules.WorksModule
                     return null;
                 }
 
-                return await db.Works.FirstOrDefaultAsync(s => s.Id.Equals(request.Id), cancellationToken);
+                return await db.Works.Include(c => c.Category).FirstOrDefaultAsync(s => s.Id.Equals(request.Id), cancellationToken);
             }
         }
     }
