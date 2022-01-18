@@ -31,7 +31,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                     goto end;
                 }
 
-                Coding? entity = await db.Skills.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
+                Skill? entity = await db.Skills.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
 
                 if (entity == null)
                 {

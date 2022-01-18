@@ -2,6 +2,8 @@
 
 @{
     var person = db.Persons.FirstOrDefault();
+
+    var skills = db.Skills.ToList();
 }
 
 <!DOCTYPE html>
@@ -102,16 +104,17 @@
                 <div class="profile no-photo">
 
                     <!-- profile image -->
-                    <div class="slide" style="background-image: url(/assets/images/man5_big.jpg);"></div>
+                    <div class="slide" style="background-image: url(/uploads/persons/img/@person?.ImagePath);"></div>
 
                     <!-- profile titles -->
-                    <div class="title">Ryan Adlard</div>
+                    <div class="title">@person.Name @person.Surname</div>
                     <!--<div class="subtitle">Web Designer</div>-->
                     <div class="subtitle subtitle-typed">
                         <div class="typing-title">
-                            <p>Web Designer</p>
-                            <p>Developer</p>
-                            <p>Freelancer</p>
+                            @foreach (var item in skills)
+                            {
+                                <p>@item.Name</p>
+                            }
                         </div>
                     </div>
 

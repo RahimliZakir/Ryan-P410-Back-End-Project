@@ -5,11 +5,11 @@ using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
 {
-    public class SkillSingleQuery : IRequest<Coding>
+    public class SkillSingleQuery : IRequest<Skill>
     {
         public int? Id { get; set; }
 
-        public class SkillSingleQueryHandler : IRequestHandler<SkillSingleQuery, Coding>
+        public class SkillSingleQueryHandler : IRequestHandler<SkillSingleQuery, Skill>
         {
             readonly RyanDbContext db;
 
@@ -18,7 +18,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
                 this.db = db;
             }
 
-            async public Task<Coding> Handle(SkillSingleQuery request, CancellationToken cancellationToken)
+            async public Task<Skill> Handle(SkillSingleQuery request, CancellationToken cancellationToken)
             {
                 if (request.Id == null)
                 {

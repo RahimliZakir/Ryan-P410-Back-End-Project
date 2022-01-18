@@ -27,7 +27,7 @@ namespace RyanP410.WebUI.AppCode.Modules.SkillsModule
             {
                 if (ctx.IsValid())
                 {
-                    var skill = new Coding();
+                    var skill = new Skill();
                     skill.Name = request.Name;
 
                     await db.Skills.AddAsync(skill, cancellationToken);
