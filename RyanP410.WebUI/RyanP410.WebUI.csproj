@@ -12,6 +12,7 @@
     <Folder Include="wwwroot\admin-assets\" />
     <Folder Include="wwwroot\uploads\clients\" />
     <Folder Include="wwwroot\uploads\blogs\" />
+    <Folder Include="wwwroot\uploads\users\" />
     <Folder Include="wwwroot\uploads\works\" />
     <Folder Include="wwwroot\uploads\persons\img\" />
     <Folder Include="wwwroot\uploads\testimonials\" />

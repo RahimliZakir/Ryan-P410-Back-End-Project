@@ -1,184 +1,198 @@
-﻿@{
+﻿@inject SignInManager<RyanUser> signInManager
+
+@{
     ViewData["Title"] = "_Navbar";
 }
 
 <nav class="pcoded-navbar">
     <div class="pcoded-inner-navbar main-menu">
-        <div class="pcoded-navigatio-lavel">About</div>
         <ul class="pcoded-item pcoded-left-item">
-            <li class="">
-                <a asp-action="Index" asp-controller="Persons">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-menu"></i>
-                    </span>
-                    <span class="pcoded-mtext">Şəxsi Məlumatlar</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Skills">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-menu"></i>
-                    </span>
-                    <span class="pcoded-mtext">Bacarıqlar</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Services">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-menu"></i>
-                    </span>
-                    <span class="pcoded-mtext">Servislər</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="FunFacts">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-menu"></i>
-                    </span>
-                    <span class="pcoded-mtext">Maraqlı Faktlar</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Clients">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-menu"></i>
-                    </span>
-                    <span class="pcoded-mtext">Müştərilər</span>
-                </a>
-            </li>
-            <li class="">
-                <a style="cursor: pointer;" class="dropdown-pricing-side">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-menu"></i>
-                    </span>
-                    <span class="pcoded-mtext">Qiymətləndirmə Bölməsi <i class="fas dropdown-icon fa-angle-down"></i></span>
-                </a>
-                <ul class="dropdown-pricing-ul">
-                    <li class="">
-                        <a asp-action="Index" asp-controller="Pricings">
-                            <span class="pcoded-micon">
-                                <i class="feather icon-menu"></i>
-                            </span>
-                            <span class="pcoded-mtext">Qiymətləndirmə</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a asp-action="Index" asp-controller="PricingDetails">
-                            <span class="pcoded-micon">
-                                <i class="feather icon-menu"></i>
-                            </span>
-                            <span class="pcoded-mtext">Qiymətləndirmə Detalları</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a asp-action="Index" asp-controller="PricingsPricingDetailsCollections">
-                            <span class="pcoded-micon">
-                                <i class="feather icon-menu"></i>
-                            </span>
-                            <span class="pcoded-mtext">Kolleksiya</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Quotes">
-                    <span class="pcoded-micon">
-                        <i class="feather icon-menu"></i>
-                    </span>
-                    <span class="pcoded-mtext">Sitatlar</span>
-                </a>
-            </li>
-            <div class="pcoded-navigatio-lavel">Resume</div>
-            <li class="">
-                <a asp-action="Index" asp-controller="Experiences">
-                    <span class="pcoded-micon">
-                        <i class="far fa-file"></i>
-                    </span>
-                    <span class="pcoded-mtext">Təcrübə</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Educations">
-                    <span class="pcoded-micon">
-                        <i class="far fa-file"></i>
-                    </span>
-                    <span class="pcoded-mtext">Təhsil</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Designs">
-                    <span class="pcoded-micon">
-                        <i class="far fa-file"></i>
-                    </span>
-                    <span class="pcoded-mtext">Dizayn</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Languages">
-                    <span class="pcoded-micon">
-                        <i class="far fa-file"></i>
-                    </span>
-                    <span class="pcoded-mtext">Dillər</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Codings">
-                    <span class="pcoded-micon">
-                        <i class="far fa-file"></i>
-                    </span>
-                    <span class="pcoded-mtext">Kodlaşdırma</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Knowledges">
-                    <span class="pcoded-micon">
-                        <i class="far fa-file"></i>
-                    </span>
-                    <span class="pcoded-mtext">Bilik</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Testimonials">
-                    <span class="pcoded-micon">
-                        <i class="far fa-file"></i>
-                    </span>
-                    <span class="pcoded-mtext">Təqdirlər</span>
-                </a>
-            </li>
-            <div class="pcoded-navigatio-lavel">Works</div>
-            <li class="">
-                <a asp-action="Index" asp-controller="Categories">
-                    <span class="pcoded-micon">
-                        <i class="fas fa-laptop-code"></i>
-                    </span>
-                    <span class="pcoded-mtext">Kateqoriyalar</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Works">
-                    <span class="pcoded-micon">
-                        <i class="fas fa-laptop-code"></i>
-                    </span>
-                    <span class="pcoded-mtext">İşlər</span>
-                </a>
-            </li>
-            <div class="pcoded-navigatio-lavel">Contact</div>
-            <li class="">
-                <a asp-action="Index" asp-controller="AppInfos">
-                    <span class="pcoded-micon">
-                        <i class="fas fa-phone-alt"></i>
-                    </span>
-                    <span class="pcoded-mtext">Əlaqə Məlumatları</span>
-                </a>
-            </li>
-            <li class="">
-                <a asp-action="Index" asp-controller="Contacts">
-                    <span class="pcoded-micon">
-                        <i class="fas fa-phone-alt"></i>
-                    </span>
-                    <span class="pcoded-mtext">Müraciətlər</span>
-                </a>
-            </li>
+            <div class="pcoded-navigatio-lavel">Personal Side</div>
+                <li class="">
+                    <a asp-action="Index" asp-controller="PersonalSide">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Şəxsi Kabinet</span>
+                    </a>
+                </li>
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+                <div class="pcoded-navigatio-lavel">About</div>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Persons">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Mənim Məlumatlarım</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Skills">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Bacarıqlar</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Services">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Servislər</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="FunFacts">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Maraqlı Faktlar</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Clients">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Müştərilər</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a style="cursor: pointer;" class="dropdown-pricing-side">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Qiymətləndirmə Bölməsi <i class="fas dropdown-icon fa-angle-down"></i></span>
+                    </a>
+                    <ul class="dropdown-pricing-ul">
+                        <li class="">
+                            <a asp-action="Index" asp-controller="Pricings">
+                                <span class="pcoded-micon">
+                                    <i class="feather icon-menu"></i>
+                                </span>
+                                <span class="pcoded-mtext">Qiymətləndirmə</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a asp-action="Index" asp-controller="PricingDetails">
+                                <span class="pcoded-micon">
+                                    <i class="feather icon-menu"></i>
+                                </span>
+                                <span class="pcoded-mtext">Qiymətləndirmə Detalları</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a asp-action="Index" asp-controller="PricingsPricingDetailsCollections">
+                                <span class="pcoded-micon">
+                                    <i class="feather icon-menu"></i>
+                                </span>
+                                <span class="pcoded-mtext">Kolleksiya</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Quotes">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Sitatlar</span>
+                    </a>
+                </li>
+                <div class="pcoded-navigatio-lavel">Resume</div>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Experiences">
+                        <span class="pcoded-micon">
+                            <i class="far fa-file"></i>
+                        </span>
+                        <span class="pcoded-mtext">Təcrübə</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Educations">
+                        <span class="pcoded-micon">
+                            <i class="far fa-file"></i>
+                        </span>
+                        <span class="pcoded-mtext">Təhsil</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Designs">
+                        <span class="pcoded-micon">
+                            <i class="far fa-file"></i>
+                        </span>
+                        <span class="pcoded-mtext">Dizayn</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Languages">
+                        <span class="pcoded-micon">
+                            <i class="far fa-file"></i>
+                        </span>
+                        <span class="pcoded-mtext">Dillər</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Codings">
+                        <span class="pcoded-micon">
+                            <i class="far fa-file"></i>
+                        </span>
+                        <span class="pcoded-mtext">Kodlaşdırma</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Knowledges">
+                        <span class="pcoded-micon">
+                            <i class="far fa-file"></i>
+                        </span>
+                        <span class="pcoded-mtext">Bilik</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Testimonials">
+                        <span class="pcoded-micon">
+                            <i class="far fa-file"></i>
+                        </span>
+                        <span class="pcoded-mtext">Təqdirlər</span>
+                    </a>
+                </li>
+                <div class="pcoded-navigatio-lavel">Works</div>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Categories">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-laptop-code"></i>
+                        </span>
+                        <span class="pcoded-mtext">Kateqoriyalar</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Works">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-laptop-code"></i>
+                        </span>
+                        <span class="pcoded-mtext">İşlər</span>
+                    </a>
+                </li>
+                <div class="pcoded-navigatio-lavel">Contact</div>
+                <li class="">
+                    <a asp-action="Index" asp-controller="AppInfos">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-phone-alt"></i>
+                        </span>
+                        <span class="pcoded-mtext">Əlaqə Məlumatları</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a asp-action="Index" asp-controller="Contacts">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-phone-alt"></i>
+                        </span>
+                        <span class="pcoded-mtext">Müraciətlər</span>
+                    </a>
+                </li>
+            }
         </ul>
     </div>
 </nav>

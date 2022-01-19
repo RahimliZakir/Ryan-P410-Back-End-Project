@@ -1,0 +1,48 @@
+﻿@model RyanUser
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section css{
+<style>
+    li {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+</style>
+}
+
+<div class="root">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 d-flex flex-column align-items-center">
+                @if (Model.ImagePath == null)
+                {
+                    <div class="img-div" style="width: 25%;">
+                        <img src="uploads/users/default-non-user-no-photo-1.jpg" style="width: 100%;" />
+                    </div>
+                }
+                else
+                {
+                    <div class="img-div" style="width: 25%;">
+                        <img src="uploads/users/@Model.ImagePath" style="width: 100%;" />
+                    </div>
+                }
+                <div class="name-surname d-flex">
+                    <h4> @(Model.Name == null ? "" : Model.Name)</h4>
+                    <h4 style="margin-left: 7.5px;"> @(Model.Surname == null ? "" : Model.Surname)</h4>
+                </div>
+                <ul class="text-center">
+                    <li>Id: @Model.Id</li>
+                    <li>Username: @(Model.UserName == null ? "" : Model.UserName)</li>
+                    <li>Email: @(Model.Email == null ? "" : Model.Email)</li>
+                </ul>
+                <div class="tools-group my-5">
+                    <a asp-action="Edit" class="btn btn-warning">Məlumatları yenilə</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
