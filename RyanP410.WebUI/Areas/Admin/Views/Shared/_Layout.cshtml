@@ -183,8 +183,8 @@
                                         <li>
                                             <div class="media">
                                                 <img class="d-flex align-self-center img-radius"
-                                                     src="uploads/persons/img/@user.ImagePath"
-                                                     alt="Generic placeholder image" />
+                                                     src="uploads/users/@(!string.IsNullOrWhiteSpace(user.ImagePath) ? user.ImagePath : "default-non-user-no-photo-1.jpg")"
+                                                     alt="Profile Image" />
                                                 <div class="media-body">
                                                     <h5 class="notification-user">@user.Name @user.Surname</h5>
                                                     <p class="notification-msg">
@@ -237,9 +237,10 @@
                             <li class="user-profile header-notification">
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
-                                        <img style="width: 50px;" src="uploads/persons/img/@user.ImagePath"
+                                        <img style="width: 50px;"
+                                             src="uploads/users/@(!string.IsNullOrWhiteSpace(user.ImagePath) ? user.ImagePath : "default-non-user-no-photo-1.jpg")"
                                              class="img-radius"
-                                             alt="User-Profile-Image" />
+                                             alt="Profile Image" />
                                         <span>@user.Name @user.Surname</span>
                                         <i class="feather icon-chevron-down"></i>
                                     </div>
