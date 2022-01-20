@@ -30,13 +30,13 @@
                     </div>
                 }
                 <div class="name-surname d-flex">
-                    <h4> @(Model.Name == null ? "" : Model.Name)</h4>
-                    <h4 style="margin-left: 7.5px;"> @(Model.Surname == null ? "" : Model.Surname)</h4>
+                    <h4> @(string.IsNullOrWhiteSpace(Model.Name) ? "" : Model.Name)</h4>
+                    <h4 style="margin-left: 7.5px;"> @(string.IsNullOrWhiteSpace(Model.Surname) ? "" : Model.Surname)</h4>
                 </div>
                 <ul class="text-center">
                     <li>Id: @Model.Id</li>
-                    <li>Username: @(Model.UserName == null ? "" : Model.UserName)</li>
-                    <li>Email: @(Model.Email == null ? "" : Model.Email)</li>
+                    <li>Username: @(string.IsNullOrWhiteSpace(Model.UserName) ? "" : Model.UserName)</li>
+                    <li>Email: @(string.IsNullOrWhiteSpace(Model.Email) ? "" : Model.Email)</li>
                 </ul>
                 <div class="tools-group my-5">
                     <a asp-action="Edit" class="btn btn-warning">Məlumatları yenilə</a>

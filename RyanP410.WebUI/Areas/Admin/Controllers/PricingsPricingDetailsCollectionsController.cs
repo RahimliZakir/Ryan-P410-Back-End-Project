@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RyanP410.WebUI.AppCode.Infrastructure;
@@ -10,6 +11,7 @@ using RyanP410.WebUI.Models.Entities;
 namespace RyanP410.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class PricingsPricingDetailsCollectionsController : Controller
     {
         readonly IMediator mediator;

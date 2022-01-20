@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.AppCode.Extensions;
@@ -11,6 +12,7 @@ using RyanP410.WebUI.Models.Entities;
 namespace RyanP410.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ContactsController : Controller
     {
         readonly RyanDbContext db;

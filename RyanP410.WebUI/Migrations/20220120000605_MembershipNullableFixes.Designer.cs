@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RyanP410.WebUI.Models.DataContexts;
 
@@ -11,9 +12,10 @@ using RyanP410.WebUI.Models.DataContexts;
 namespace RyanP410.WebUI.Migrations
 {
     [DbContext(typeof(RyanDbContext))]
-    partial class RyanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220120000605_MembershipNullableFixes")]
+    partial class MembershipNullableFixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

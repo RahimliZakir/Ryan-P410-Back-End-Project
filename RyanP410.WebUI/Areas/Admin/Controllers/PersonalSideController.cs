@@ -34,9 +34,8 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        async public Task<IActionResult> Edit(PersonalSideConfigureQuery request)
+        async public Task<IActionResult> Edit([Bind("Name,Surname,Id,File,FileTemp,UserName,NormalizedUserName,Email,PhoneNumber,LockoutEnd,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnabled,AccessFailedCount")] PersonalSideConfigureQuery request)
         {
-
             int id = await mediator.Send(request);
 
             if (id > 0)

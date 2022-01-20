@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="libs/jquery-image-input/jquery.image-input.css" />
 }
 
-<h1 class="text-center">Edit Personal Info</h1>
+<h1 class="text-center">Şəxsi Məlumatların Yenilənməsi Pəncərəsi</h1>
 
 <hr />
 <div class="row justify-content-center">
@@ -29,7 +29,7 @@
                 @*<label asp-for="ImagePath" class="control-label"></label>
                     <input asp-for="ImagePath" class="form-control" />
                     <span asp-validation-for="ImagePath" class="text-danger"></span>*@
-                <image asp-caption="Profile Picture" asp-for="image" asp-path="/admin-assets/img/users/@Model.ImagePath"></image>
+                <image asp-caption="Profile Picture" asp-for="file" asp-path="/uploads/users/@Model.ImagePath"></image>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -58,6 +58,7 @@
             <input asp-for="SecurityStamp" type="hidden" class="form-control" />
             <input asp-for="ConcurrencyStamp" type="hidden" class="form-control" />
             <input asp-for="PhoneNumber" type="hidden" class="form-control" />
+            <input asp-for="LockoutEnd" type="hidden" class="form-control" />
 
             <div class="form-group form-check" style="visibility: hidden; position: fixed; right: -25%;">
                 <label class="form-check-label">
@@ -69,7 +70,6 @@
                     <input class="form-check-input" asp-for="TwoFactorEnabled" /> @Html.DisplayNameFor(model => model.TwoFactorEnabled)
                 </label>
             </div>
-            <input asp-for="LockoutEnd" type="hidden" class="form-control" />
             <div class="form-group form-check" style="visibility: hidden; position: fixed; right: -25%;">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="LockoutEnabled" /> @Html.DisplayNameFor(model => model.LockoutEnabled)
@@ -77,8 +77,8 @@
             </div>
             <input asp-for="AccessFailedCount" type="hidden" class="form-control" />
             <div class="form-group mb-5">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index" asp-controller="PersonalSide" class="btn btn-danger">Return Back</a>
+                <input type="submit" value="Yadda Saxla" class="btn btn-primary" />
+                <a asp-action="Index" asp-controller="PersonalSide" class="btn btn-danger">Geriyə Qayıt</a>
             </div>
         </form>
     </div>
