@@ -51,6 +51,13 @@ namespace RyanP410.WebUI.Models.DataContexts
         public DbSet<Work> Works { get; set; }
         //---WORKS---
 
+        //---BLOG---
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogTagCategoryCollection> BlogTagCategoryCollections { get; set; }
+        //---BLOG---
+
         //---CONTACT---
         public DbSet<AppInfo> AppInfos { get; set; }
         public DbSet<Contact> Contacts { get; set; }
