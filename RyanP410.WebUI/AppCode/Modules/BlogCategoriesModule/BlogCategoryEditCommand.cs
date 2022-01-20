@@ -5,7 +5,7 @@ using RyanP410.WebUI.AppCode.Extensions;
 using RyanP410.WebUI.AppCode.Modules.BlogCategoriesModule;
 using RyanP410.WebUI.Models.DataContexts;
 
-namespace RyanP410.WebUI.AppCode.Modules.CategoriesModule
+namespace RyanP410.WebUI.AppCode.Modules.BlogCategoriesModule
 {
     public class BlogCategoryEditCommand : BlogCategoryViewModel, IRequest<int>
     {
