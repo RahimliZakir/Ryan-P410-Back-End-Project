@@ -7,6 +7,8 @@ namespace RyanP410.WebUI.Areas.Admin.Models.FormModels
     {
         public int Id { get; set; }
 
+        public int PricingId { get; set; }
+
         public int PricingDetailsId { get; set; }
 
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
@@ -15,8 +17,6 @@ namespace RyanP410.WebUI.Areas.Admin.Models.FormModels
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public bool New { get; set; }
 
-        public Pricing Pricing { get; set; }
-
-        public List<PricingDetailsExistsNewsFormModel> PricingDetailsExistsNews { get; set; }
+        public List<PricingsPricingDetailsCollection> Collections { get; set; }
     }
 }

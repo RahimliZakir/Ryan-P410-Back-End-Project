@@ -64,21 +64,19 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
         async public Task<IActionResult> Edit(PricingsPricingDetailsSingleQuery query)
         {
-            var collection = await mediator.Send(query);
+            var formModel = await mediator.Send(query);
 
             var viewModel = new PricingsPricingDetailsViewModel
             {
-                Id = collection.Id,
-                Pricing = collection.Pricing,
-                PricingDetailsExistsNews = collection.PricingDetailsExistsNews
+                Collections = formModel.Collections
             };
 
             PricingsQuery pricingsQuery = new();
             IEnumerable<Pricing> pricings = await mediator.Send(pricingsQuery);
-            ViewBag.Pricings = new SelectList(pricings, "Id", "Title", viewModel.Pricing.Id);
+            ViewBag.Pricings = new SelectList(pricings, "Id", "Title", viewModel.Collections.FirstOrDefault()?.PricingId);
 
-            PricingDetailsQuery pricingDetaisQuery = new();
-            IEnumerable<PricingDetail> pricingDetails = await mediator.Send(pricingDetaisQuery);
+            PricingDetailsQuery pricingDetailsQuery = new();
+            IEnumerable<PricingDetail> pricingDetails = await mediator.Send(pricingDetailsQuery);
             ViewBag.PricingDetails = new SelectList(pricingDetails, "Id", "Name");
 
             return View(viewModel);

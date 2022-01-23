@@ -8,11 +8,9 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
     {
         public int? Id { get; set; }
 
-        [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public int PricingId { get; set; }
 
-        [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
-        public int PricingDetailId { get; set; }
+        public int PricingDetailsId { get; set; }
 
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public bool Exists { get; set; }
@@ -20,12 +18,6 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public bool New { get; set; }
 
-        public Pricing Pricing { get; set; }
-
-        public List<PricingDetailsExistsNewsFormModel> PricingDetailsExistsNews { get; set; }
-
-        public List<PricingsPricingDetailsCollection> Collection { get; set; }
-
-        public PricingCollectionFormModel[] Items { get; set; }
+        public List<PricingsPricingDetailsCollection> Collections { get; set; }
     }
 }

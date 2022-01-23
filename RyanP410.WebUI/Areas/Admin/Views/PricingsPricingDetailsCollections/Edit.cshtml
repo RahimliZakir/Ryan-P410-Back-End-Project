@@ -1,7 +1,9 @@
-﻿@model PricingsPricingDetailsViewModel
+﻿@inject RyanDbContext db
+@model PricingsPricingDetailsViewModel
 
 @{
     ViewData["Title"] = "Edit";
+    var pricingDetails = db.PricingDetails.ToList();
 }
 
 <form method="post" asp-action="Edit">
@@ -11,25 +13,23 @@
         </select>
         <span asp-validation-for="PricingId" style="color: red;"></span>
     </div>
-    @{
-        int i = 0;
-    }
-    @foreach (var item in Model.PricingDetailsExistsNews)
+
+    @for (int i = 0; i < Model.Collections.ToArray().Length; i++)
     {
-        <div class="form-group">
+        <div class="form-group selects">
             <!label asp-for="Items[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
-            @Html.DropDownList("PricingDetailId",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
+            @Html.DropDownList($"Items[{i}].PricingDetailsId",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
         @class = "form-control detail-select",
-        data_selected_id = item.PricingDetailsId,
-        data_count = @i
+        data_selected_id = $"{Model.Collections[i].PricingDetail.Id}",
+        data_count = $"{i}"
         })
-            <!span asp-validation-for="Items[@i].PricingDetailsId" style="color: red;"></!span>
+            <span asp-validation-for="Items[@i].PricingDetailsId" style="color: red;"></span>
 
-            <!label asp-for="Items[@i].Exists">Mövcudluq: </!label>
-            <!input style="cursor: pointer;" type="checkbox" asp-for="Items[@i].Exists" class="form-check-input"  @(item.Exists ? "checked" : "")/>
+            <!label for="Items[@i].Exists">Mövcudluq: </!label>
+            <!input style="cursor: pointer;" type="checkbox" name="Items[@i].Exists" class="form-check-input"  @(Model.Collections[i].Exists ? "checked" : "")/>
 
-            <!label asp-for="Items[@i].New">Yeni: </!label>
-            <!input style="cursor: pointer;" type="checkbox" asp-for="Items[@i].New" class="form-check-input" @(item.New ? "checked" : "")/>
+            <!label for="Items[@i].New">Yeni: </!label>
+            <!input style="cursor: pointer;" type="checkbox" name="Items[@i].New" class="form-check-input" @(Model.Collections[i].New ? "checked" : "")/>
         </div>
     }
     <div class="text-center mt-3">
@@ -54,14 +54,17 @@
         });
 
         let plusBtn = $('.plus-btn');
-        let counter = $(plusBtn).parent().prev('.form-elements').find('input').data('count');
+        let counter = $(plusBtn).parent().prev('.selects').find('select').data('count');
         let i = counter + 1;
 
         $(plusBtn).on('click', function () {
-            let _detailSelect = `@Html.DropDownList("PricingDetailId",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
-              @class = "form-control detail-select",
-              name = "Items[${i}]"
-              })`;
+            let setName = `Items[${i}]`;
+
+            let _detailSelect = `<select name="Items[${i}].Id" class="form-control mb-2">
+                                     @foreach(var item in pricingDetails){
+                                         <option value="@item.Id">@item.Name</option>
+                                     }
+                                     </select>`;
 
             let existsContent = `<label for="Items[${i}].Exists">Mövcudluq: </label>
                                     <input style="cursor: pointer;" id="Items[${i}].Exists" type="checkbox" name="Items[${i}].Exists" class="form-check-input" />`;

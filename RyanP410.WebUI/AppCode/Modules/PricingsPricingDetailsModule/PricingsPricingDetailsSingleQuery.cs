@@ -31,19 +31,18 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                                                                        .FirstOrDefaultAsync(m => m.PricingId == request.Id, cancellationToken);
 
                 PricingCollectionFormModel fm = new PricingCollectionFormModel();
-                fm.Id = collection.Id;
 
-                fm.Pricing = collection.Pricing;
-
-                fm.PricingDetailsExistsNews = await (from d in db.PricingDetails
+                fm.Collections = await (from d in db.PricingDetails
                                                      join pcc in db.PricingsPricingDetailsCollections.Where(pcc => pcc.PricingId == request.Id)
                                                      on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
                                                      from joinedDetails_item in joinedDetails.DefaultIfEmpty()
-                                                     select new PricingDetailsExistsNewsFormModel
+                                                     select new PricingsPricingDetailsCollection
                                                      {
-                                                         PricingDetailsId = d.Id,
+                                                         Id = collection.Id,
+                                                         PricingDetail = d,
                                                          Exists = joinedDetails_item.Exists,
-                                                         New = joinedDetails_item.New
+                                                         New = joinedDetails_item.New,
+                                                         Pricing = collection.Pricing
                                                      }).ToListAsync(cancellationToken);
 
                 return fm;
