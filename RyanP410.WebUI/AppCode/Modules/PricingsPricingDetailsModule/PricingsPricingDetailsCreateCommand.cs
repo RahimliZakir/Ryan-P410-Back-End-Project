@@ -40,13 +40,13 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
             {
                 JsonCommandResponse response = new();
 
-                if (ctx.IsValid())
+                if (!ctx.IsValid())
                 {
                     foreach (var item in request.Items)
                     {
                         PricingsPricingDetailsCollection collection = new();
                         collection.PricingId = request.PricingId;
-                        collection.PricingDetailId = item.Id;
+                        collection.PricingDetailId = item.PricingDetailsId;
                         collection.Exists = item.Exists;
                         collection.New = item.New;
                         await db.PricingsPricingDetailsCollections.AddAsync(collection, cancellationToken);

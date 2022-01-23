@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PricingsPricingDetailsCollection>
+﻿@model IEnumerable<Pricing>
 
 @{
     ViewData["Title"] = "Index";
@@ -35,9 +35,7 @@
                         <tr>
                             <th>Id: </th>
                             <th>Başlıq (Qiymətləndirmə): </th>
-                            <th>Adı (Qiymətləndirmə Detalları): </th>
-                            <th>Mövcudluq: </th>
-                            <th>Yeni: </th>
+                            <th>İkon: </th>
                             <th>Əlavə olunma zamanı: </th>
                             <th></th>
                         </tr>
@@ -47,10 +45,8 @@
                         {
                             <tr>
                                 <th scope="row">@item.Id</th>
-                                <td>@item.Pricing.Title</td>
-                                <td>@item.PricingDetail.Name</td>
-                                <td>@(item.Exists?"Mövcuddur":"Mövcud Deyil")</td>
-                                <td>@(item.New?"Yenidir":"Yeni Deyil")</td>
+                                <td>@item.Title</td>
+                                <td>@Html.Raw(item.Icon)</td>
                                 <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
                                 <td style="float: right;">
                                     <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i></a>

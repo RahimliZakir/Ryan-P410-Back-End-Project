@@ -1,15 +1,16 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.Areas.Admin.Models.FormModels;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 {
-    public class PricingsPricingDetailsSingleQuery : IRequest<PricingsPricingDetailsCollection>
+    public class PricingsPricingDetailsSingleQuery : IRequest<PricingCollectionFormModel>
     {
         public int? Id { get; set; }
 
-        public class PricingsPricingDetailsSingleQueryHandler : IRequestHandler<PricingsPricingDetailsSingleQuery, PricingsPricingDetailsCollection>
+        public class PricingsPricingDetailsSingleQueryHandler : IRequestHandler<PricingsPricingDetailsSingleQuery, PricingCollectionFormModel>
         {
             readonly RyanDbContext db;
 
@@ -18,7 +19,7 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                 this.db = db;
             }
 
-            async public Task<PricingsPricingDetailsCollection> Handle(PricingsPricingDetailsSingleQuery request, CancellationToken cancellationToken)
+            async public Task<PricingCollectionFormModel> Handle(PricingsPricingDetailsSingleQuery request, CancellationToken cancellationToken)
             {
                 if (request.Id == null)
                 {
@@ -26,11 +27,23 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                 }
 
                 PricingsPricingDetailsCollection? collection = await db.PricingsPricingDetailsCollections
-                                                                     .Include(pcp => pcp.Pricing)
-                                                                     .Include(pcp => pcp.PricingDetail)
-                                                                     .FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken);
+                                                                       .Include(pcp => pcp.Pricing)
+                                                                       .FirstOrDefaultAsync(m => m.PricingId == request.Id, cancellationToken);
 
-                return collection;
+                PricingCollectionFormModel fm = new PricingCollectionFormModel();
+                fm.Id = collection.Id;
+
+                fm.Pricing = collection.Pricing;
+
+                fm.PricingDetails = await (from d in db.PricingDetails
+                                           join pcc in db.PricingsPricingDetailsCollections.Where(pcc => pcc.Id == request.Id)
+                                           on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
+                                           from joinedDetails_item in joinedDetails.DefaultIfEmpty()
+                                           select Tuple.Create(d, joinedDetails_item != null)).ToListAsync(cancellationToken);
+
+                fm.Collection = await db.PricingsPricingDetailsCollections.Where(pcc => pcc.PricingId.Equals(collection.PricingId)).ToListAsync(cancellationToken);
+
+                return fm;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿@model PricingViewModel
+﻿@model PricingsPricingDetailsViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,26 +6,25 @@
 
 <form method="post" asp-action="Edit">
     <div class="form-group">
-        <label asp-for="Title" class="label-required">Başlıq: </label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" style="color: red;"></span>
+        <label asp-for="PricingId" class="label-required">Başlıq: </label>
+        <select asp-for="PricingId" class="form-control" asp-items="@ViewBag.Pricings">
+        </select>
+        <span asp-validation-for="PricingId" style="color: red;"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Icon" class="label-required">İkon: </label>
-        <input asp-for="Icon" class="form-control" />
-        <span asp-validation-for="Icon" style="color: red;"></span>
-    </div>
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label asp-for="Price" class="label-required">Qiymət: </label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" style="color: red;"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Per" class="label-required">Hər: </label>
-        <input asp-for="Per" class="form-control" />
-        <span asp-validation-for="Per" style="color: red;"></span>
-    </div>
+    @for (int i = 0; i < Model.PricingDetails.ToArray().Length; i++)
+    {
+        <div class="form-group">
+            <label asp-for="Items[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </label>
+            <select asp-for="Items[@i].PricingDetailsId" class="form-control" asp-items="@ViewBag.PricingDetails"></select>
+            <span asp-validation-for="Items[@i].PricingDetailsId" style="color: red;"></span>
+
+            <label asp-for="Items[@i].Exists">Mövcudluq: </label>
+            <input style="cursor: pointer;" asp-for="Items[@i].Exists" class="form-check-input" />
+
+            <label asp-for="Items[@i].New">Yeni: </label>
+            <input style="cursor: pointer;" asp-for="Items[@i].New" class="form-check-input" />
+        </div>
+    }
     <a asp-action="Index" class="btn btn-danger">Geriyə</a>
     <button class="btn btn-info" type="submit">Yenilə</button>
 </form>
@@ -33,5 +32,20 @@
 @section js{
 <script src="libs/jquery-validate/jquery.validate.min.js"></script>
 <script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let plusBtn = $('.plus-btn');
+        let counter = $(plusBtn).parent().prev('.form-elements').find('input').data('count');
+        let i = counter + 1;
+        $(plusBtn).on('click', function () {
+            let content = `<div class="form-group form-elements d-flex align-items-center mt-2">
+                                    <input name="Elements[${i}].Title" data-count="${i}" style="margin-right: 10px;" class="form-control" placeholder="Car Title: " />
+                                    <input name="Elements[${i}].Description" data-count="${i}" class="form-control" placeholder="Car Description: " />
+                                </div>`;
+            $(this).parent().before(content);
+            i++;
+        });
+    });
+</script>
 }
 

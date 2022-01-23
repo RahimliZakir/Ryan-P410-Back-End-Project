@@ -69,11 +69,15 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             var viewModel = new PricingsPricingDetailsViewModel
             {
                 Id = collection.Id,
-                PricingDetailId = collection.PricingDetailId,
-                PricingId = collection.PricingId,
-                Exists = collection.Exists,
-                New = collection.New
+                Pricing = collection.Pricing,
+                PricingDetails = collection.PricingDetails,
+                Collection = collection.Collection
             };
+
+
+            PricingsQuery pricingsQuery = new();
+            IEnumerable<Pricing> pricings = await mediator.Send(pricingsQuery);
+            ViewBag.Pricings = new SelectList(pricings, "Id", "Title", viewModel.Pricing.Id);
 
             return View(viewModel);
         }
@@ -81,18 +85,9 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
         [HttpPost]
         async public Task<IActionResult> Edit(PricingsPricingDetailsEditCommand request)
         {
-            //var collection = await mediator.Send(query);
 
-            //var viewModel = new PricingsPricingDetailsViewModel
-            //{
-            //    Id = collection.Id,
-            //    PricingDetailId = collection.PricingDetailId,
-            //    PricingId = collection.PricingId,
-            //    Exists = collection.Exists,
-            //    New = collection.New
-            //};
 
-            return View(/*viewModel*/);
+            return View();
         }
 
         [HttpPost]

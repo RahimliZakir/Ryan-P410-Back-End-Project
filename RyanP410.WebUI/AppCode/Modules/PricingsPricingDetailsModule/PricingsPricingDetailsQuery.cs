@@ -5,9 +5,9 @@ using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 {
-    public class PricingsPricingDetailsQuery : IRequest<IEnumerable<PricingsPricingDetailsCollection>>
+    public class PricingsPricingDetailsQuery : IRequest<IEnumerable<Pricing>>
     {
-        public class PricingsPricingDetailsQueryHandler : IRequestHandler<PricingsPricingDetailsQuery, IEnumerable<PricingsPricingDetailsCollection>>
+        public class PricingsPricingDetailsQueryHandler : IRequestHandler<PricingsPricingDetailsQuery, IEnumerable<Pricing>>
         {
             readonly RyanDbContext db;
 
@@ -16,12 +16,22 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                 this.db = db;
             }
 
-            public async Task<IEnumerable<PricingsPricingDetailsCollection>> Handle(PricingsPricingDetailsQuery request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Pricing>> Handle(PricingsPricingDetailsQuery request, CancellationToken cancellationToken)
             {
-                return await db.PricingsPricingDetailsCollections
-                             .Include(pcp => pcp.Pricing)
-                             .Include(pcp => pcp.PricingDetail)
-                             .ToListAsync(cancellationToken);
+
+                var pricings = await (from p in db.Pricings
+                                      join pcc in db.PricingsPricingDetailsCollections
+                                      on p.Id equals pcc.PricingId
+                                      select new Pricing
+                                      {
+                                          Id = p.Id,
+                                          Icon = p.Icon,
+                                          Title = p.Title
+                                      })
+                                      .Distinct()
+                                      .ToListAsync(cancellationToken);
+
+                return pricings;
             }
         }
     }

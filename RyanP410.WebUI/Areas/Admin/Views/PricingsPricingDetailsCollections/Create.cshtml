@@ -18,9 +18,9 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Items[0].Id" class="label-required">Adı (Qiymətləndirmə Detalları): </label>
-        <select asp-for="Items[0].Id" class="form-control" asp-items="@ViewBag.PricingDetails"></select>
-        <span asp-validation-for="Items[0].Id" style="color: red;"></span>
+        <label asp-for="Items[0].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </label>
+        <select asp-for="Items[0].PricingDetailsId" class="form-control" asp-items="@ViewBag.PricingDetails"></select>
+        <span asp-validation-for="Items[0].PricingDetailsId" style="color: red;"></span>
 
         <label asp-for="Items[0].Exists">Mövcudluq: </label>
         <input style="cursor: pointer;" asp-for="Items[0].Exists" class="form-check-input" />

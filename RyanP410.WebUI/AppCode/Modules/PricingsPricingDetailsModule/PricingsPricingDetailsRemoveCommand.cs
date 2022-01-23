@@ -31,7 +31,9 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                     goto end;
                 }
 
-                PricingsPricingDetailsCollection? entity = await db.PricingsPricingDetailsCollections.FirstOrDefaultAsync(a => a.Id.Equals(request.Id), cancellationToken);
+                var entity = await db.PricingsPricingDetailsCollections
+                                   .Where(pcc => pcc.PricingId.Equals(request.Id))
+                                   .ToListAsync(cancellationToken);
 
                 if (entity == null)
                 {
@@ -43,7 +45,11 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                 response.Error = false;
                 response.Message = "Seçdiyiniz məlumat uğurla silindi!";
 
-                db.PricingsPricingDetailsCollections.Remove(entity);
+                foreach (PricingsPricingDetailsCollection item in entity)
+                {
+                    db.PricingsPricingDetailsCollections.Remove(item);
+                }
+
                 await db.SaveChangesAsync(cancellationToken);
 
             end:

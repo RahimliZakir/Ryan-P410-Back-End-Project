@@ -1,4 +1,5 @@
 ﻿using RyanP410.WebUI.Areas.Admin.Models.FormModels;
+using RyanP410.WebUI.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
@@ -18,6 +19,12 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public bool New { get; set; }
+
+        public Pricing Pricing { get; set; }
+
+        public List<Tuple<PricingDetail, bool>> PricingDetails { get; set; }
+
+        public List<PricingsPricingDetailsCollection> Collection { get; set; }
 
         public PricingCollectionFormModel[] Items { get; set; }
     }
