@@ -22,7 +22,7 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
         public Pricing Pricing { get; set; }
 
-        public List<Tuple<PricingDetail, bool>> PricingDetails { get; set; }
+        public List<PricingDetailsExistsNewsFormModel> PricingDetailsExistsNews { get; set; }
 
         public List<PricingsPricingDetailsCollection> Collection { get; set; }
 

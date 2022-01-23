@@ -49,8 +49,6 @@
             let plusBtn = $('.plus-btn');
             let i = 1;
             $(plusBtn).on('click', function () {
-                let nameDynamic = `Items[${i}].Id`;
-
                 let selectContent = `<select name="Items[${i}].Id" class="form-control mb-2">
                                      @foreach(var item in details){
                                          <option value="@item.Id">@item.Name</option>

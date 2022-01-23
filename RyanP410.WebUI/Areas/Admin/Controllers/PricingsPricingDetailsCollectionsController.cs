@@ -70,14 +70,16 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
             {
                 Id = collection.Id,
                 Pricing = collection.Pricing,
-                PricingDetails = collection.PricingDetails,
-                Collection = collection.Collection
+                PricingDetailsExistsNews = collection.PricingDetailsExistsNews
             };
-
 
             PricingsQuery pricingsQuery = new();
             IEnumerable<Pricing> pricings = await mediator.Send(pricingsQuery);
             ViewBag.Pricings = new SelectList(pricings, "Id", "Title", viewModel.Pricing.Id);
+
+            PricingDetailsQuery pricingDetaisQuery = new();
+            IEnumerable<PricingDetail> pricingDetails = await mediator.Send(pricingDetaisQuery);
+            ViewBag.PricingDetails = new SelectList(pricingDetails, "Id", "Name");
 
             return View(viewModel);
         }

@@ -19,7 +19,7 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
             public async Task<IEnumerable<Pricing>> Handle(PricingsPricingDetailsQuery request, CancellationToken cancellationToken)
             {
 
-                var pricings = await (from p in db.Pricings
+                IEnumerable<Pricing> pricings = await (from p in db.Pricings
                                       join pcc in db.PricingsPricingDetailsCollections
                                       on p.Id equals pcc.PricingId
                                       select new Pricing

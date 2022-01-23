@@ -11,20 +11,33 @@
         </select>
         <span asp-validation-for="PricingId" style="color: red;"></span>
     </div>
-    @for (int i = 0; i < Model.PricingDetails.ToArray().Length; i++)
+    @{
+        int i = 0;
+    }
+    @foreach (var item in Model.PricingDetailsExistsNews)
     {
         <div class="form-group">
-            <label asp-for="Items[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </label>
-            <select asp-for="Items[@i].PricingDetailsId" class="form-control" asp-items="@ViewBag.PricingDetails"></select>
-            <span asp-validation-for="Items[@i].PricingDetailsId" style="color: red;"></span>
+            <!label asp-for="Items[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
+            @Html.DropDownList("PricingDetailId",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
+        @class = "form-control detail-select",
+        data_selected_id = item.PricingDetailsId,
+        data_count = @i
+        })
+            <!span asp-validation-for="Items[@i].PricingDetailsId" style="color: red;"></!span>
 
-            <label asp-for="Items[@i].Exists">Mövcudluq: </label>
-            <input style="cursor: pointer;" asp-for="Items[@i].Exists" class="form-check-input" />
+            <!label asp-for="Items[@i].Exists">Mövcudluq: </!label>
+            <!input style="cursor: pointer;" type="checkbox" asp-for="Items[@i].Exists" class="form-check-input"  @(item.Exists ? "checked" : "")/>
 
-            <label asp-for="Items[@i].New">Yeni: </label>
-            <input style="cursor: pointer;" asp-for="Items[@i].New" class="form-check-input" />
+            <!label asp-for="Items[@i].New">Yeni: </!label>
+            <!input style="cursor: pointer;" type="checkbox" asp-for="Items[@i].New" class="form-check-input" @(item.New ? "checked" : "")/>
         </div>
     }
+    <div class="text-center mt-3">
+        <a class="btn btn-success plus-btn" style="border-radius: 50%; cursor: pointer; margin: 10px 0;">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+
     <a asp-action="Index" class="btn btn-danger">Geriyə</a>
     <button class="btn btn-info" type="submit">Yenilə</button>
 </form>
@@ -34,14 +47,34 @@
 <script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('select[data-selected-id]').each((index, item) => {
+          let selectedId = $(item).data('selected-id');
+          $(item).val(selectedId);
+          $(item).trigger('changer');
+        });
+
         let plusBtn = $('.plus-btn');
         let counter = $(plusBtn).parent().prev('.form-elements').find('input').data('count');
         let i = counter + 1;
+
         $(plusBtn).on('click', function () {
-            let content = `<div class="form-group form-elements d-flex align-items-center mt-2">
-                                    <input name="Elements[${i}].Title" data-count="${i}" style="margin-right: 10px;" class="form-control" placeholder="Car Title: " />
-                                    <input name="Elements[${i}].Description" data-count="${i}" class="form-control" placeholder="Car Description: " />
-                                </div>`;
+            let _detailSelect = `@Html.DropDownList("PricingDetailId",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
+              @class = "form-control detail-select",
+              name = "Items[${i}]"
+              })`;
+
+            let existsContent = `<label for="Items[${i}].Exists">Mövcudluq: </label>
+                                    <input style="cursor: pointer;" id="Items[${i}].Exists" type="checkbox" name="Items[${i}].Exists" class="form-check-input" />`;
+
+            let newContent = `<label for="Items[${i}].New">Yeni: </label>
+                                  <input style="cursor: pointer;" id="Items[${i}].New" type="checkbox" name="Items[${i}].New" class="form-check-input" />`;
+
+            let content = `<div class="form-group">
+                                 ${_detailSelect}
+                                 ${existsContent}
+                                 ${newContent}
+                               </div>`;
+
             $(this).parent().before(content);
             i++;
         });

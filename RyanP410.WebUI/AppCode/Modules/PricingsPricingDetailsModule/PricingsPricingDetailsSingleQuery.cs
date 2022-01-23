@@ -35,13 +35,16 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
                 fm.Pricing = collection.Pricing;
 
-                fm.PricingDetails = await (from d in db.PricingDetails
-                                           join pcc in db.PricingsPricingDetailsCollections.Where(pcc => pcc.Id == request.Id)
-                                           on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
-                                           from joinedDetails_item in joinedDetails.DefaultIfEmpty()
-                                           select Tuple.Create(d, joinedDetails_item != null)).ToListAsync(cancellationToken);
-
-                fm.Collection = await db.PricingsPricingDetailsCollections.Where(pcc => pcc.PricingId.Equals(collection.PricingId)).ToListAsync(cancellationToken);
+                fm.PricingDetailsExistsNews = await (from d in db.PricingDetails
+                                                     join pcc in db.PricingsPricingDetailsCollections.Where(pcc => pcc.PricingId == request.Id)
+                                                     on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
+                                                     from joinedDetails_item in joinedDetails.DefaultIfEmpty()
+                                                     select new PricingDetailsExistsNewsFormModel
+                                                     {
+                                                         PricingDetailsId = d.Id,
+                                                         Exists = joinedDetails_item.Exists,
+                                                         New = joinedDetails_item.New
+                                                     }).ToListAsync(cancellationToken);
 
                 return fm;
             }

@@ -40,7 +40,7 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
             {
                 JsonCommandResponse response = new();
 
-                if (!ctx.IsValid())
+                if (ctx.IsValid())
                 {
                     foreach (var item in request.Items)
                     {
