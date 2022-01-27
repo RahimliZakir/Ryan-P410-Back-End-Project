@@ -19,4 +19,11 @@ namespace RyanP410.WebUI.Areas.Admin.Models.FormModels
 
         public List<PricingsPricingDetailsCollection>? Collections { get; set; }
     }
+
+    public class PricingDetails
+    {
+        public Pricing Pricing { get; set; }
+
+        public PricingDetail[] Detailss { get; set; }
+    }
 }

@@ -6,11 +6,11 @@ using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 {
-    public class PricingsPricingDetailsSingleQuery : IRequest<PricingCollectionFormModel>
+    public class PricingsPricingDetailsSingleQuery : IRequest<PricingDetails>
     {
         public int? Id { get; set; }
 
-        public class PricingsPricingDetailsSingleQueryHandler : IRequestHandler<PricingsPricingDetailsSingleQuery, PricingCollectionFormModel>
+        public class PricingsPricingDetailsSingleQueryHandler : IRequestHandler<PricingsPricingDetailsSingleQuery, PricingDetails>
         {
             readonly RyanDbContext db;
 
@@ -19,7 +19,7 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                 this.db = db;
             }
 
-            async public Task<PricingCollectionFormModel> Handle(PricingsPricingDetailsSingleQuery request, CancellationToken cancellationToken)
+            async public Task<PricingDetails> Handle(PricingsPricingDetailsSingleQuery request, CancellationToken cancellationToken)
             {
                 if (request.Id == null)
                 {
@@ -39,26 +39,39 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
                 try
                 {
-                    PricingCollectionFormModel fm = new PricingCollectionFormModel();
+                    PricingDetails d = new PricingDetails();
+                    d.Pricing = await db.Pricings.FirstOrDefaultAsync(p=>p.Id==request.Id,cancellationToken);
 
-                    var left = db.PricingDetails.AsQueryable();
-                    var right = db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing).Where(pcc => pcc.PricingId == request.Id);
+                    d.Detailss = await (from pd in db.PricingDetails
+                                  join ppdc in db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing) on pd.Id equals ppdc.PricingDetailId
+                                  where ppdc.PricingId == request.Id
+                                  select pd)
+                                .ToArrayAsync(cancellationToken);
 
-                    fm.Collections = await (from d in left
-                                            join pcc in right
-                                            on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
-                                            from joinedDetails_item in joinedDetails.DefaultIfEmpty()
-                                            select new PricingsPricingDetailsCollection
-                                            {
-                                                Id = joinedDetails_item.PricingId,
-                                                PricingDetail = d,
-                                                Exists = joinedDetails_item.Exists,
-                                                New = joinedDetails_item.New,
-                                                Pricing = joinedDetails_item.Pricing
-                                            })
-                                            .ToListAsync(cancellationToken);
+                    //var left = db.PricingDetails.AsQueryable();
+                    //var right = db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing).Where(pcc => pcc.PricingId == request.Id);
 
-                    return fm;
+                    //fm.Collections = await (from d in left
+                    //                        join pcc in right
+                    //                        on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
+                    //                        from joinedDetails_item in joinedDetails.DefaultIfEmpty()
+                    //                        select new PricingsPricingDetailsCollection
+                    //                        {
+                    //                            Id = joinedDetails_item.PricingId,
+                    //                            PricingDetail = d,
+                    //                            Exists = joinedDetails_item.Exists,
+                    //                            New = joinedDetails_item.New,
+                    //                            Pricing = joinedDetails_item.Pricing
+                    //                        })
+                    //                        .ToListAsync(cancellationToken);
+
+                    //var data = await (from pd in db.PricingDetails
+                    //           join ppdc in db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing) on pd.Id equals ppdc.PricingDetailId
+                    //           where ppdc.PricingId==request.Id
+                    //           group g by g)
+                    //                        .ToListAsync(cancellationToken);
+
+                    return d;
                 }
                 catch (Exception ex)
                 {

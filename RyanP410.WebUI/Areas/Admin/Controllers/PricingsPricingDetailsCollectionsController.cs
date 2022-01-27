@@ -35,7 +35,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
             PricingsQuery pricingsQuery = new();
             IEnumerable<Pricing> pricings = await mediator.Send(pricingsQuery);
-            ViewBag.Pricings = new SelectList(pricings, "Id", "Title", collection.Collections.FirstOrDefault()?.PricingId);
+            //ViewBag.Pricings = new SelectList(pricings, "Id", "Title", collection.Collections.FirstOrDefault()?.PricingId);
 
             PricingDetailsQuery pricingDetailsQuery = new();
             IEnumerable<PricingDetail> pricingDetails = await mediator.Send(pricingDetailsQuery);
@@ -76,7 +76,7 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
             var viewModel = new PricingsPricingDetailsViewModel
             {
-                Collections = formModel.Collections
+                //Collections = formModel.Collections
             };
 
             PricingsQuery pricingsQuery = new();
