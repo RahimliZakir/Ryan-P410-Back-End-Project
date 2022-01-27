@@ -62,7 +62,7 @@
 
             let _detailSelect = `<select name="Items[${i}].Id" class="form-control mb-2">
                                      @foreach(var item in pricingDetails){
-                                         <option value="@item.Id">@item.Name</option>
+                                        <option value="@item.Id">@item.Name</option>
                                      }
                                      </select>`;
 
@@ -76,7 +76,7 @@
                                  ${_detailSelect}
                                  ${existsContent}
                                  ${newContent}
-                               </div>`;
+                           </div>`;
 
             $(this).parent().before(content);
             i++;

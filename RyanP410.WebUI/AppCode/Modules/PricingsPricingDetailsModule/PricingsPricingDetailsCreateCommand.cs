@@ -14,15 +14,6 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
         [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
         public int PricingId { get; set; }
 
-        [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
-        public int PricingDetailId { get; set; }
-
-        [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
-        public bool Exists { get; set; }
-
-        [Required(ErrorMessage = "Bu xana doldurulmalıdır!")]
-        public bool New { get; set; }
-
         public PricingCollectionFormModel[] Items { get; set; }
 
         public class PricingsPricingDetailsCreateCommandHandler : IRequestHandler<PricingsPricingDetailsCreateCommand, JsonCommandResponse>
@@ -42,21 +33,29 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
                 if (ctx.IsValid())
                 {
-                    foreach (var item in request.Items)
+                    try
                     {
-                        PricingsPricingDetailsCollection collection = new();
-                        collection.PricingId = request.PricingId;
-                        collection.PricingDetailId = item.PricingDetailsId;
-                        collection.Exists = item.Exists;
-                        collection.New = item.New;
-                        await db.PricingsPricingDetailsCollections.AddAsync(collection, cancellationToken);
+                        foreach (var item in request.Items)
+                        {
+                            PricingsPricingDetailsCollection collection = new();
+                            collection.PricingId = request.PricingId;
+                            collection.PricingDetailId = item.PricingDetailsId;
+                            collection.Exists = item.Exists;
+                            collection.New = item.New;
+                            await db.PricingsPricingDetailsCollections.AddAsync(collection, cancellationToken);
+                        }
+
+                        await db.SaveChangesAsync(cancellationToken);
+
+                        response.Error = false;
+                        response.Message = "Uğurla əlavə olundu!";
+                        goto end;
                     }
+                    catch (Exception ex)
+                    {
 
-                    await db.SaveChangesAsync(cancellationToken);
-
-                    response.Error = false;
-                    response.Message = "Uğurla əlavə olundu!";
-                    goto end;
+                        throw;
+                    }
                 }
 
                 response.Error = true;

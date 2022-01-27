@@ -486,16 +486,18 @@
         $(document).ready(function(){
          let dropdownPricingSide = $('.dropdown-pricing-side');
 
-         $(dropdownPricingSide).click(() => {
-             if($('.dropdown-pricing-ul').hasClass('dropped')){
-                 $('.dropdown-pricing-ul').slideUp();
-                 $('.dropdown-pricing-ul').removeClass('dropped');
-                 $(dropdownPricingSide).find('i.dropdown-icon').removeClass('rotate');
+         $(dropdownPricingSide).click((e) => {
+             let dropdownPricingUl = $(e.currentTarget).next('.dropdown-pricing-ul');
+
+             if($(dropdownPricingUl).hasClass('dropped')){
+                 $(dropdownPricingUl).slideUp();
+                 $(dropdownPricingUl).removeClass('dropped');
+                 $(e.currentTarget).find('i.dropdown-icon').removeClass('rotate');
              }
              else{
-                 $('.dropdown-pricing-ul').slideDown();
-                 $('.dropdown-pricing-ul').addClass('dropped');
-                 $(dropdownPricingSide).find('i.dropdown-icon').addClass('rotate');
+                 $(dropdownPricingUl).slideDown();
+                 $(dropdownPricingUl).addClass('dropped');
+                 $(e.currentTarget).find('i.dropdown-icon').addClass('rotate');
              }
          });
         });

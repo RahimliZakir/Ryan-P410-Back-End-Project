@@ -34,7 +34,7 @@ services.AddControllersWithViews(cfg =>
 
     cfg.Filters.Add(new AuthorizeFilter(builder));
 })
-.AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore); ; ;
+.AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 services.AddDbContext<RyanDbContext>(options =>
 {

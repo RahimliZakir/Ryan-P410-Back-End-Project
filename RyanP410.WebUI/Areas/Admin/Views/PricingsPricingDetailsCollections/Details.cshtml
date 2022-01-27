@@ -1,4 +1,4 @@
-﻿@model PricingsPricingDetailsCollection
+﻿@model PricingCollectionFormModel
 
 @{
     ViewData["Title"] = "Details";
@@ -22,37 +22,45 @@
 </style>
 }
 
-<div class="form-group">
-    <label asp-for="Id"></label>
-    <p class="form-paragraph">@Model.Id</p>
-</div>
+<form>
+    <div class="form-group">
+        <label asp-for="PricingId" class="label-required">Başlıq: </label>
+        <select asp-for="PricingId" class="form-control" asp-items="@ViewBag.Pricings" disabled>
+        </select>
+        <span asp-validation-for="PricingId" style="color: red;"></span>
+    </div>
 
-<p>Qiymətləndirmə</p>
-<div class="form-group">
-    <label asp-for="Pricing.Title">Başlıq: </label>
-    <p class="form-paragraph">@Model.Pricing.Title</p>
-</div>
-<div class="form-group">
-    <label asp-for="Pricing.Icon">İkon: </label>
-    <p class="form-paragraph">@Model.Pricing.Icon</p>
-</div>
-<div class="form-group">
-    <label asp-for="Pricing.Price">Qiymət: </label>
-    <p class="form-paragraph">@Model.Pricing.Price</p>
-</div>
-<div class="form-group">
-    <label asp-for="Pricing.Per">Hər: </label>
-    <p class="form-paragraph">@Model.Pricing.Per</p>
-</div>
+    @for (int i = 0; i < Model.Collections.ToArray().Length; i++)
+    {
+        <div class="form-group selects">
+            <!label asp-for="Items[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
+            @Html.DropDownList($"Items[{i}].PricingDetailsId",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
+        @class = "form-control detail-select",
+        data_selected_id = $"{Model.Collections[i].PricingDetail.Id}",
+        data_count = $"{i}",
+        @disabled="disabled"
+        })
+            <span asp-validation-for="Items[@i].PricingDetailsId" style="color: red;"></span>
 
-<p>Qiymətləndirmə Detalları</p>
-<div class="form-group">
-    <label asp-for="PricingDetail.Name">Hər: </label>
-    <p class="form-paragraph">@Model.PricingDetail.Name</p>
-</div>
+            <!label for="Items[@i].Exists">Mövcudluq: </!label>
+            <!input style="cursor: pointer;" type="checkbox" disabled name="Items[@i].Exists" class="form-check-input"  @(Model.Collections[i].Exists ? "checked" : "")/>
 
-<div class="form-group">
-    <label asp-for="CreatedDate">Əlavə olunma zamanı:</label>
-    <p class="form-paragraph">@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</p>
-</div>
-<a asp-action="Index" class="btn btn-danger">Geriyə</a>
+            <!label for="Items[@i].New">Yeni: </!label>
+            <!input style="cursor: pointer;" type="checkbox" disabled name="Items[@i].New" class="form-check-input" @(Model.Collections[i].New ? "checked" : "")/>
+        </div>
+    }
+
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+</form>
+
+@section js{
+<script>
+    $(function(){
+    $('select[data-selected-id]').each((index, item) => {
+      let selectedId = $(item).data('selected-id');
+      $(item).val(selectedId);
+      $(item).trigger('changer');
+    });
+    });
+</script>
+}

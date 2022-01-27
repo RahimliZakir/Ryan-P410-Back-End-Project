@@ -26,26 +26,46 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                     return null;
                 }
 
-                PricingsPricingDetailsCollection? collection = await db.PricingsPricingDetailsCollections
-                                                                       .Include(pcp => pcp.Pricing)
-                                                                       .FirstOrDefaultAsync(m => m.PricingId == request.Id, cancellationToken);
+                //Other Way
+                //var x = await db.Pricings.Include(p => p.Collections)
+                //              .ThenInclude(p => p.PricingDetail)
+                //              .Where(m => m.Id == request.Id)
+                //              .ToListAsync(cancellationToken);
 
-                PricingCollectionFormModel fm = new PricingCollectionFormModel();
 
-                fm.Collections = await (from d in db.PricingDetails
-                                                     join pcc in db.PricingsPricingDetailsCollections.Where(pcc => pcc.PricingId == request.Id)
-                                                     on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
-                                                     from joinedDetails_item in joinedDetails.DefaultIfEmpty()
-                                                     select new PricingsPricingDetailsCollection
-                                                     {
-                                                         Id = collection.Id,
-                                                         PricingDetail = d,
-                                                         Exists = joinedDetails_item.Exists,
-                                                         New = joinedDetails_item.New,
-                                                         Pricing = collection.Pricing
-                                                     }).ToListAsync(cancellationToken);
+                //PricingsPricingDetailsCollection? collection = await db.PricingsPricingDetailsCollections
+                //                                                       .Include(pcp => pcp.Pricing)
+                //                                                       .FirstOrDefaultAsync(m => m.PricingId == request.Id, cancellationToken);
 
-                return fm;
+                try
+                {
+                    PricingCollectionFormModel fm = new PricingCollectionFormModel();
+
+                    var left = db.PricingDetails.AsQueryable();
+                    var right = db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing).Where(pcc => pcc.PricingId == request.Id);
+
+                    fm.Collections = await (from d in left
+                                            join pcc in right
+                                            on new { PricingDetailId = d.Id } equals new { pcc.PricingDetailId } into joinedDetails
+                                            from joinedDetails_item in joinedDetails.DefaultIfEmpty()
+                                            select new PricingsPricingDetailsCollection
+                                            {
+                                                Id = joinedDetails_item.PricingId,
+                                                PricingDetail = d,
+                                                Exists = joinedDetails_item.Exists,
+                                                New = joinedDetails_item.New,
+                                                Pricing = joinedDetails_item.Pricing
+                                            })
+                                            .ToListAsync(cancellationToken);
+
+                    return fm;
+                }
+                catch (Exception ex)
+                {
+                    var inner = ex.InnerException;
+
+                    throw;
+                }
             }
         }
     }

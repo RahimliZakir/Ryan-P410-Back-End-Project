@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Create";
+
     var details = db.PricingDetails.ToList();
 }
 
@@ -49,7 +50,7 @@
             let plusBtn = $('.plus-btn');
             let i = 1;
             $(plusBtn).on('click', function () {
-                let selectContent = `<select name="Items[${i}].Id" class="form-control mb-2">
+                let selectContent = `<select name="Items[${i}].PricingDetailsId" id="Items[${i}].PricingDetailsId" class="form-control mb-2">
                                      @foreach(var item in details){
                                          <option value="@item.Id">@item.Name</option>
                                      }

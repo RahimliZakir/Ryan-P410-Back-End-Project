@@ -33,6 +33,14 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
         {
             var collection = await mediator.Send(query);
 
+            PricingsQuery pricingsQuery = new();
+            IEnumerable<Pricing> pricings = await mediator.Send(pricingsQuery);
+            ViewBag.Pricings = new SelectList(pricings, "Id", "Title", collection.Collections.FirstOrDefault()?.PricingId);
+
+            PricingDetailsQuery pricingDetailsQuery = new();
+            IEnumerable<PricingDetail> pricingDetails = await mediator.Send(pricingDetailsQuery);
+            ViewBag.PricingDetails = new SelectList(pricingDetails, "Id", "Name");
+
             return View(collection);
         }
 
