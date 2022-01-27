@@ -6,6 +6,7 @@ using RyanP410.WebUI.AppCode.Infrastructure;
 using RyanP410.WebUI.AppCode.Modules.PricingDetailsModule;
 using RyanP410.WebUI.AppCode.Modules.PricingsModule;
 using RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule;
+using RyanP410.WebUI.Areas.Admin.Models.ViewModels;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.Areas.Admin.Controllers
@@ -72,16 +73,15 @@ namespace RyanP410.WebUI.Areas.Admin.Controllers
 
         async public Task<IActionResult> Edit(PricingsPricingDetailsSingleQuery query)
         {
-            var formModel = await mediator.Send(query);
+            PricingsPricingDetailsViewModel viewModel = new PricingsPricingDetailsViewModel();
 
-            var viewModel = new PricingsPricingDetailsViewModel
-            {
-                //Collections = formModel.Collections
-            };
+            PricingCollectionViewModel data = await mediator.Send(query);
+
+            viewModel.PricingCollectionViewModel = data;
 
             PricingsQuery pricingsQuery = new();
             IEnumerable<Pricing> pricings = await mediator.Send(pricingsQuery);
-            ViewBag.Pricings = new SelectList(pricings, "Id", "Title", viewModel.Collections.FirstOrDefault()?.PricingId);
+            ViewBag.Pricings = new SelectList(pricings, "Id", "Title", data.Pricing.Id);
 
             PricingDetailsQuery pricingDetailsQuery = new();
             IEnumerable<PricingDetail> pricingDetails = await mediator.Send(pricingDetailsQuery);

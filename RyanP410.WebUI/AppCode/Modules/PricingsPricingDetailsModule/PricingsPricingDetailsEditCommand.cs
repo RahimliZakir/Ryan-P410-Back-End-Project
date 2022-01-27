@@ -23,11 +23,11 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
             {
                 JsonCommandResponse response = new JsonCommandResponse();
 
-                if (request.Id == null || request.Id <= 0)
-                    response.Error = true;
-                response.Message = "Məlumatın tamlığı qorunmayıb!";
+                //if (request.Id == null || request.Id <= 0)
+                //    response.Error = true;
+                //response.Message = "Məlumatın tamlığı qorunmayıb!";
 
-                var entity = await db.PricingsPricingDetailsCollections.ToListAsync(cancellationToken);
+                //var entity = await db.PricingsPricingDetailsCollections.ToListAsync(cancellationToken);
 
                 return response;
             }
