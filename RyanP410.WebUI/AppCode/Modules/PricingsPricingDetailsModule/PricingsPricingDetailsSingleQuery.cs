@@ -1,16 +1,17 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.Areas.Admin.Models.FormModels;
+using RyanP410.WebUI.Areas.Admin.Models.ViewModels;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 {
-    public class PricingsPricingDetailsSingleQuery : IRequest<PricingDetails>
+    public class PricingsPricingDetailsSingleQuery : IRequest<PricingCollectionViewModel>
     {
         public int? Id { get; set; }
 
-        public class PricingsPricingDetailsSingleQueryHandler : IRequestHandler<PricingsPricingDetailsSingleQuery, PricingDetails>
+        public class PricingsPricingDetailsSingleQueryHandler : IRequestHandler<PricingsPricingDetailsSingleQuery, PricingCollectionViewModel>
         {
             readonly RyanDbContext db;
 
@@ -19,7 +20,7 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                 this.db = db;
             }
 
-            async public Task<PricingDetails> Handle(PricingsPricingDetailsSingleQuery request, CancellationToken cancellationToken)
+            async public Task<PricingCollectionViewModel> Handle(PricingsPricingDetailsSingleQuery request, CancellationToken cancellationToken)
             {
                 if (request.Id == null)
                 {
@@ -39,15 +40,23 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
                 try
                 {
-                    PricingDetails d = new PricingDetails();
-                    d.Pricing = await db.Pricings.FirstOrDefaultAsync(p=>p.Id==request.Id,cancellationToken);
+                    PricingCollectionViewModel viewModel = new PricingCollectionViewModel();
+                    viewModel.Pricing = await db.Pricings.FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
-                    d.Detailss = await (from pd in db.PricingDetails
-                                  join ppdc in db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing) on pd.Id equals ppdc.PricingDetailId
-                                  where ppdc.PricingId == request.Id
-                                  select pd)
-                                .ToArrayAsync(cancellationToken);
+                    viewModel.PricingDetailInfos = await (from pd in db.PricingDetails
+                                                          join ppdc in db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing) on pd.Id equals ppdc.PricingDetailId
+                                                          where ppdc.PricingId == request.Id
+                                                          select new PricingDetailInfoViewModel
+                                                          {
+                                                              PricingDetail = pd,
+                                                              Exists = ppdc.Exists,
+                                                              New = ppdc.New
+                                                          })
+                                                          .ToArrayAsync(cancellationToken);
 
+                    return viewModel;
+
+                    // Left Join - Blackboard
                     //var left = db.PricingDetails.AsQueryable();
                     //var right = db.PricingsPricingDetailsCollections.Include(pcc => pcc.Pricing).Where(pcc => pcc.PricingId == request.Id);
 
@@ -70,8 +79,6 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
                     //           where ppdc.PricingId==request.Id
                     //           group g by g)
                     //                        .ToListAsync(cancellationToken);
-
-                    return d;
                 }
                 catch (Exception ex)
                 {

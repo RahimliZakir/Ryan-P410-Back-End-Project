@@ -1,4 +1,4 @@
-﻿@model PricingDetails
+﻿@model PricingCollectionViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -25,27 +25,27 @@
 <form>
     <div class="form-group">
         <label asp-for="Pricing.Id" class="label-required">Başlıq: </label>
-        <input asp-for="Pricing.Title" class="form-control"/>
+        <input asp-for="Pricing.Title" class="form-control" />
         <span asp-validation-for="Pricing.Id" style="color: red;"></span>
     </div>
 
-    @for (int i = 0; i < Model.Detailss.Length; i++)
+    @for (int i = 0; i < Model.PricingDetailInfos.Length; i++)
     {
         <div class="form-group selects">
             <!label asp-for="Items[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
             @Html.DropDownList($"Items[{i}].PricingDetailsId",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
         @class = "form-control detail-select",
-        data_selected_id = $"{Model.Detailss[i].Id}",
+        data_selected_id = $"{Model.PricingDetailInfos[i].PricingDetail.Id}",
         data_count = $"{i}",
         @disabled="disabled"
         })
             <span asp-validation-for="Items[@i].PricingDetailsId" style="color: red;"></span>
 
             <!label for="Items[@i].Exists">Mövcudluq: </!label>
-            <!input style="cursor: pointer;" type="checkbox" disabled name="Items[@i].Exists" class="form-check-input"  @(/*Model.Detailss[i].Exists*/true ? "checked" : "")/>
+            <!input style="cursor: pointer;" type="checkbox" disabled name="Items[@i].Exists" class="form-check-input"  @(Model.PricingDetailInfos[i].Exists ? "checked" : "")/>
 
             <!label for="Items[@i].New">Yeni: </!label>
-            <!input style="cursor: pointer;" type="checkbox" disabled name="Items[@i].New" class="form-check-input" @(/*Model.Detailss[i].New*/true ? "checked" : "")/>
+            <!input style="cursor: pointer;" type="checkbox" disabled name="Items[@i].New" class="form-check-input" @(Model.PricingDetailInfos[i].New ? "checked" : "")/>
         </div>
     }
 
