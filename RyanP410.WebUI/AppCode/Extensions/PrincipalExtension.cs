@@ -20,5 +20,10 @@ namespace RyanP410.WebUI.AppCode.Extensions
 
             return id;
         }
+
+        public static bool? IsAuthenticated(this IActionContextAccessor ctx)
+        {
+            return ctx.ActionContext?.HttpContext?.User?.Identity?.IsAuthenticated;
+        }
     }
 }

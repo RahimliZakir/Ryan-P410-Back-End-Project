@@ -63,6 +63,10 @@ namespace RyanP410.WebUI.Models.DataContexts
         public DbSet<Contact> Contacts { get; set; }
         //---CONTACT---
 
+        //---AUDIT---
+        public DbSet<AuditLog> AuditLogs { get; set; }
+        //---AUDIT---
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RyanP410.WebUI.AppCode.DataSeeds;
 using RyanP410.WebUI.AppCode.Extensions;
+using RyanP410.WebUI.AppCode.Middlewares;
 using RyanP410.WebUI.AppCode.ModelBinders;
 using RyanP410.WebUI.AppCode.Providers;
 using RyanP410.WebUI.Models.DataContexts;
@@ -59,6 +60,8 @@ if (env.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseAuditMiddleware();
+
 app.UseStaticFiles();
 
 app.SeedData().Wait();
@@ -98,13 +101,14 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
-var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+IConfigurationRoot config = new ConfigurationBuilder()
+                                .AddJsonFile("appsettings.json")
+                                .Build();
 
 Log.Logger = new LoggerConfiguration()
                  .ReadFrom.Configuration(config)
                  .CreateLogger();
+
 try
 {
     Log.Information("Proqram işə düşür...");
