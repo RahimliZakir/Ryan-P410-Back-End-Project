@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,8 +12,12 @@ using RyanP410.WebUI.AppCode.ModelBinders;
 using RyanP410.WebUI.AppCode.Providers;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities.Membership;
+using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+ConfigureHostBuilder host = builder.Host;
+host.UseSerilog();
 
 IConfiguration conf = builder.Configuration;
 
@@ -94,4 +98,23 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
-app.Run();
+var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+Log.Logger = new LoggerConfiguration()
+                 .ReadFrom.Configuration(config)
+                 .CreateLogger();
+try
+{
+    Log.Information("Proqram işə düşür...");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Proqram işə düşən zaman xəta baş verdi!");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
