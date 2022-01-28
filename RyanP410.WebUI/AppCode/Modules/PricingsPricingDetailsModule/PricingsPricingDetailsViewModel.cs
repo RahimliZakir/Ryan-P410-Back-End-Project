@@ -4,14 +4,6 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 {
     public class PricingsPricingDetailsViewModel
     {
-        public int PricingId { get; set; }
-
-        public int PricingDetailsId { get; set; }
-
-        public bool Exists { get; set; }
-
-        public bool New { get; set; }
-
         public PricingCollectionViewModel PricingCollectionViewModel { get; set; }
     }
 }

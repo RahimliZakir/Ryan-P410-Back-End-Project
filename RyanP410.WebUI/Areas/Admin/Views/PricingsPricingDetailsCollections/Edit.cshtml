@@ -6,7 +6,11 @@
     var pricingDetails = db.PricingDetails.ToList();
 }
 
-<form method="post" asp-action="Edit">
+@section css{
+<link rel="stylesheet" href="libs/toastr.js/toastr.css" />
+}
+
+<form>
     <div class="form-group">
         <label asp-for="PricingCollectionViewModel.Pricing.Id" class="label-required">Başlıq: </label>
         <select asp-for="PricingCollectionViewModel.Pricing.Id" class="form-control" asp-items="@ViewBag.Pricings">
@@ -17,7 +21,7 @@
     @for (int i = 0; i < Model.PricingCollectionViewModel.PricingDetailInfos.Length; i++)
     {
         <div class="form-group selects">
-            <!label for="Items[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
+            <!label for="Model.PricingCollectionViewModel.PricingDetailInfos[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
             @Html.DropDownList($"PricingCollectionViewModel.PricingDetailInfos[{i}].PricingDetail.Id",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
         @class = "form-control detail-select",
         data_selected_id = $"{Model.PricingCollectionViewModel.PricingDetailInfos[i].PricingDetail.Id}",
@@ -25,10 +29,10 @@
         })
             <span asp-validation-for="PricingCollectionViewModel.PricingDetailInfos[@i].PricingDetailsId" style="color: red;"></span>
 
-            <!label for="Items[@i].Exists">Mövcudluq: </!label>
+            <!label for="PricingCollectionViewModel.PricingDetailInfos[@i].Exists">Mövcudluq: </!label>
             <!input style="cursor: pointer;" type="checkbox" name="PricingCollectionViewModel.PricingDetailInfos[@i].Exists" class="form-check-input"  @(Model.PricingCollectionViewModel.PricingDetailInfos[i].Exists ? "checked" : "")/>
 
-            <!label for="Items[@i].New">Yeni: </!label>
+            <!label for="PricingCollectionViewModel.PricingDetailInfos[@i].New">Yeni: </!label>
             <!input style="cursor: pointer;" type="checkbox" name="PricingCollectionViewModel.PricingDetailInfos[@i].New" class="form-check-input" @(Model.PricingCollectionViewModel.PricingDetailInfos[i].New ? "checked" : "")/>
         </div>
     }
@@ -45,12 +49,14 @@
 @section js{
 <script src="libs/jquery-validate/jquery.validate.min.js"></script>
 <script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="libs/toastr.js/toastr.min.js"></script>
+<script src="libs/toastr.js/toastr.customize.min.js"></script>
 <script>
     $(document).ready(function () {
         $('select[data-selected-id]').each((index, item) => {
           let selectedId = $(item).data('selected-id');
           $(item).val(selectedId);
-          $(item).trigger('changer');
+          $(item).trigger('change');
         });
 
         let plusBtn = $('.plus-btn');
@@ -80,6 +86,35 @@
 
             $(this).parent().before(content);
             i++;
+        });
+
+        let form = $('form');
+
+        $(form).submit((e) => {
+          e.preventDefault();
+
+          let formData = new FormData(e.currentTarget);
+
+               $.ajax({
+                 url: '@Url.Action("Edit")',
+                 type: "POST",
+                 data: formData,
+                 contentType: false,
+                 processData: false,
+                 success: function(response){
+                     if(response.error == false){
+                         toastr.success(response.message, 'Uğurlu!');
+                         setTimeout(()=>{
+                         window.location.href = '@Url.Action("Index")';
+                         }, 1500);
+                     }
+
+                     toastr.error(response.message, 'Xəta!');
+                 },
+                 error: function(response){
+                     console.log(response);
+                 }
+               });
         });
     });
 </script>
