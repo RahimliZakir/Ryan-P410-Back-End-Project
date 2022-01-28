@@ -56,6 +56,8 @@ namespace RyanP410.WebUI.Models.DataContexts
         public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogTagCategoryCollection> BlogTagCategoryCollections { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Reply> Replies { get; set; }
         //---BLOG---
 
         //---CONTACT---

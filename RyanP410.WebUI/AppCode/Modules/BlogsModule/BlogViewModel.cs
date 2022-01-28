@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RyanP410.WebUI.Models.Entities
+namespace RyanP410.WebUI.AppCode.Modules.BlogsModule
 {
-    public class Blog : BaseEntity
+    public class BlogViewModel
     {
+        public int? Id { get; set; }
+
         [Required(ErrorMessage = "Bu hissə boş qoyula bilməz!")]
         public string Title { get; set; } = null!;
 
@@ -13,11 +14,8 @@ namespace RyanP410.WebUI.Models.Entities
 
         public string? ImagePath { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Reply> Replies { get; set; }
-        public virtual ICollection<BlogTagCategoryCollection> BlogTagCategoryCollections { get; set; }
+        public IFormFile? File { get; set; }
 
-        [NotMapped]
         public string? FileTemp { get; set; }
     }
 }
