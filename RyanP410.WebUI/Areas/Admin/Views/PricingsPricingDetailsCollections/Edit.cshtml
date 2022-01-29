@@ -21,13 +21,19 @@
     @for (int i = 0; i < Model.PricingCollectionViewModel.PricingDetailInfos.Length; i++)
     {
         <div class="form-group selects">
-            <!label for="Model.PricingCollectionViewModel.PricingDetailInfos[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
-            @Html.DropDownList($"PricingCollectionViewModel.PricingDetailInfos[{i}].PricingDetail.Id",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
-        @class = "form-control detail-select",
-        data_selected_id = $"{Model.PricingCollectionViewModel.PricingDetailInfos[i].PricingDetail.Id}",
-        data_count = $"{i}"
-        })
-            <span asp-validation-for="PricingCollectionViewModel.PricingDetailInfos[@i].PricingDetailsId" style="color: red;"></span>
+            <div>
+                <div>
+                    <!label for="Model.PricingCollectionViewModel.PricingDetailInfos[@i].PricingDetailsId" class="label-required">Adı (Qiymətləndirmə Detalları): </!label>
+                    @Html.DropDownList($"PricingCollectionViewModel.PricingDetailInfos[{i}].PricingDetail.Id",ViewBag.PricingDetails,"Seçin", htmlAttributes: new {
+                @class = "form-control detail-select",
+                data_selected_id = $"{Model.PricingCollectionViewModel.PricingDetailInfos[i].PricingDetail.Id}",
+                data_count = $"{i}"
+                })
+                    <span asp-validation-for="PricingCollectionViewModel.PricingDetailInfos[@i].PricingDetailsId" style="color: red;"></span>
+                </div>
+
+                <button style="float: right;" class="btn btn-danger selects-btn"><i class="far fa-trash-alt"></i></button>
+            </div>
 
             <!label for="PricingCollectionViewModel.PricingDetailInfos[@i].Exists">Mövcudluq: </!label>
             <!input style="cursor: pointer;" type="checkbox" name="PricingCollectionViewModel.PricingDetailInfos[@i].Exists" class="form-check-input"  @(Model.PricingCollectionViewModel.PricingDetailInfos[i].Exists ? "checked" : "")/>
@@ -61,11 +67,10 @@
 
         let plusBtn = $('.plus-btn');
         let counter = $(plusBtn).parent().prev('.selects').find('select').data('count');
+        console.log(counter);
         let i = counter + 1;
 
         $(plusBtn).on('click', function () {
-            let setName = `Items[${i}]`;
-
             let _detailSelect = `<select name="PricingCollectionViewModel.PricingDetailInfos[${i}].PricingDetail.Id" class="form-control mb-2">
                                      @foreach(var item in pricingDetails){
                                         <option value="@item.Id">@item.Name</option>
@@ -79,7 +84,12 @@
                                   <input style="cursor: pointer;" id="PricingCollectionViewModel.PricingDetailInfos[${i}].New" type="checkbox" name="PricingCollectionViewModel.PricingDetailInfos[${i}].New" class="form-check-input" />`;
 
             let content = `<div class="form-group">
+                                 <div>
+                                 <div>
                                  ${_detailSelect}
+                                 </div>
+                                 <button style="float: right;" class="btn btn-danger selects-btn"><i class="far fa-trash-alt"></i></button>
+                                 </div>
                                  ${existsContent}
                                  ${newContent}
                            </div>`;
@@ -87,6 +97,12 @@
             $(this).parent().before(content);
             i++;
         });
+
+        $('.selects-btn').click((e) => {
+          e.preventDefault();
+
+          $(e.currentTarget).closest('.selects').remove();
+        });;
 
         let form = $('form');
 
