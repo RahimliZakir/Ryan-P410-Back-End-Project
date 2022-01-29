@@ -44,22 +44,30 @@ namespace RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule
 
                 foreach (var item in entity)
                 {
-                    var coming = request.PricingCollectionViewModel.PricingDetailInfos.FirstOrDefault(p => p.PricingDetail.Id == item.PricingDetailId);
+                    var coming = request.PricingCollectionViewModel.PricingDetailInfos.FirstOrDefault(p => p.PricingDetail.Id == item.PricingDetailId && p.Exists == item.Exists && p.New == item.New);
 
-                    item.PricingId = request.PricingCollectionViewModel.Pricing.Id;
-                    item.PricingDetailId = coming.PricingDetail.Id;
-                    item.New = coming.New;
-                    item.Exists = coming.Exists;
+                    if (coming == null)
+                    {
+                        var deleted = await db.PricingsPricingDetailsCollections
+                                              .FirstOrDefaultAsync(p =>
+                                              p.PricingId == item.PricingId
+                                              && p.PricingDetailId == item.PricingDetailId
+                                              && p.Exists == item.Exists
+                                              && p.New == item.New,
+                                              cancellationToken);
 
-                    /* if (comingPriceItem == null)
-                     {
-                         priceItem.DeletedByUserId = 1;
-                         priceItem.DeletedDate = DateTime.Now;
-                     }
-                     else */
+                        db.PricingsPricingDetailsCollections.Remove(deleted);
+                    }
+                    else
+                    {
+                        item.PricingId = request.PricingCollectionViewModel.Pricing.Id;
+                        item.PricingDetailId = coming.PricingDetail.Id;
+                        item.New = coming.New;
+                        item.Exists = coming.Exists;
+                    }
                 }
 
-                foreach (var item in request.PricingCollectionViewModel.PricingDetailInfos.Where(pc => entity.Any(e => e.PricingId == pc.PricingDetail.Id)))
+                foreach (var item in request.PricingCollectionViewModel.PricingDetailInfos.Where(pc => !entity.Any(e => e.PricingDetailId == pc.PricingDetail.Id && e.Exists == pc.Exists && e.New == pc.New)))
                 {
                     PricingsPricingDetailsCollection collection = new()
                     {
