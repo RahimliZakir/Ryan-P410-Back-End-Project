@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.Extensions;
 using RyanP410.WebUI.AppCode.Infrastructure;
 using RyanP410.WebUI.Areas.Admin.Models.FormModels;
 using RyanP410.WebUI.Models.DataContexts;
@@ -12,10 +14,12 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule
         public class BlogTagCategoryEditCommandHandler : IRequestHandler<BlogTagCategoryEditCommand, JsonCommandResponse>
         {
             readonly RyanDbContext db;
+            readonly IActionContextAccessor ctx;
 
-            public BlogTagCategoryEditCommandHandler(RyanDbContext db)
+            public BlogTagCategoryEditCommandHandler(RyanDbContext db, IActionContextAccessor ctx)
             {
                 this.db = db;
+                this.ctx = ctx;
             }
 
             async public Task<JsonCommandResponse> Handle(BlogTagCategoryEditCommand request, CancellationToken cancellationToken)
@@ -42,7 +46,7 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule
 
                 foreach (var item in entity)
                 {
-                    var coming = request.BlogTagCategoryCollections.FirstOrDefault(b => b.TagId == item.Tag.Id && b.BlogCategoryId == item.BlogCategory.Id);
+                    var coming = request.BlogTagCategoryCollections.FirstOrDefault(b => b.Tag.Id == item.TagId && b.BlogCategory.Id == item.BlogCategoryId);
 
                     if (coming == null)
                     {
@@ -67,7 +71,8 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule
                     {
                         BlogId = request.Blog.Id,
                         TagId = item.Tag.Id,
-                        BlogCategoryId = item.BlogCategory.Id
+                        BlogCategoryId = item.BlogCategory.Id,
+                        CreatedByUserId = (int)ctx.GetUserId()
                     };
 
                     await db.BlogTagCategoryCollections.AddAsync(collection, cancellationToken);

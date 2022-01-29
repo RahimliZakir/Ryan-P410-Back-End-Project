@@ -24,21 +24,21 @@
 
 <form>
     <div class="form-group">
-        <label asp-for="Blog.Id" class="label-required">Bloq: </label>
-        <input asp-for="Blog.Id" class="form-control" readonly />
-        <span asp-validation-for="Blog.Id" style="color: red;"></span>
+        <label asp-for="Blog.Title" class="label-required">Bloq: </label>
+        <input asp-for="Blog.Title" class="form-control" readonly />
+        <span asp-validation-for="Blog.Title" style="color: red;"></span>
     </div>
 
     @for (int i = 0; i < Model.BlogTagCategoryCollections.ToArray().Length; i++)
     {
         <div class="form-group selects">
-            <label asp-for="BlogTagCategoryCollections[i].Tag.Id" class="label-required">Teq: </label>
-            <input asp-for="BlogTagCategoryCollections[i].Tag.Id" class="form-control" readonly />
-            <span asp-validation-for="BlogTagCategoryCollections[i].Tag.Id" style="color: red;"></span>
+            <label asp-for="BlogTagCategoryCollections[i].Tag.Name" class="label-required">Teq: </label>
+            <input asp-for="BlogTagCategoryCollections[i].Tag.Name" class="form-control" readonly />
+            <span asp-validation-for="BlogTagCategoryCollections[i].Tag.Name" style="color: red;"></span>
 
-            <label asp-for="BlogTagCategoryCollections[i].BlogCategory.Id" class="label-required">Bloq Kateqoriyası: </label>
-            <input asp-for="BlogTagCategoryCollections[i].BlogCategory.Id" class="form-control" readonly />
-            <span asp-validation-for="BlogTagCategoryCollections[i].BlogCategory.Id" style="color: red;"></span>
+            <label asp-for="BlogTagCategoryCollections[i].BlogCategory.Name" class="label-required">Bloq Kateqoriyası: </label>
+            <input asp-for="BlogTagCategoryCollections[i].BlogCategory.Name" class="form-control" readonly />
+            <span asp-validation-for="BlogTagCategoryCollections[i].BlogCategory.Name" style="color: red;"></span>
         </div>
     }
 

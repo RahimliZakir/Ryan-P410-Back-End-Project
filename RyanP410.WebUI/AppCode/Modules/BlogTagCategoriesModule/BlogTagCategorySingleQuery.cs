@@ -29,7 +29,7 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule
                 var collection = await (from t in db.Tags
                                         join bc in db.BlogTagCategoryCollections on t.Id equals bc.TagId
                                         join c in db.BlogCategories on bc.BlogCategoryId equals c.Id
-                                        where bc.Id == blog.Id
+                                        where bc.BlogId == blog.Id
                                         select new BlogTagCategoryCollection
                                         {
                                             Tag = t,

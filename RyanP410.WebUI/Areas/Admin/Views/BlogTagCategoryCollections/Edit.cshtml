@@ -1,51 +1,142 @@
-﻿@model BlogTagCategoryCollection
+﻿@model BlogCollectionFormModel
+@inject RyanDbContext db
 
 @{
     ViewData["Title"] = "Edit";
+
+    var tags = db.Tags.ToList();
+    var blogCategories = db.BlogCategories.ToList();
 }
 
-<h1>Edit</h1>
+@section css{
+<link rel="stylesheet" href="libs/toastr.js/toastr.css" />
+}
 
-<h4>BlogTagCategoryCollection</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="BlogId" class="control-label"></label>
-                <select asp-for="BlogId" class="form-control" asp-items="ViewBag.BlogId"></select>
-                <span asp-validation-for="BlogId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TagId" class="control-label"></label>
-                <select asp-for="TagId" class="form-control" asp-items="ViewBag.TagId"></select>
-                <span asp-validation-for="TagId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BlogCategoryId" class="control-label"></label>
-                <select asp-for="BlogCategoryId" class="form-control" asp-items="ViewBag.BlogCategoryId"></select>
-                <span asp-validation-for="BlogCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedByUserId" class="control-label"></label>
-                <select asp-for="CreatedByUserId" class="form-control" asp-items="ViewBag.CreatedByUserId"></select>
-                <span asp-validation-for="CreatedByUserId" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<form>
+    <div class="form-group">
+        <label asp-for="Blog.Id" class="label-required">Bloq: </label>
+        <select asp-for="Blog.Id" class="form-control" asp-items="@ViewBag.Blogs">
+        </select>
+        <span asp-validation-for="Blog.Id" style="color: red;"></span>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    @for (int i = 0; i < Model.BlogTagCategoryCollections.ToArray().Length; i++)
+    {
+        <div class="form-group selects">
+            <div>
+                <div>
+                    <label asp-for="BlogTagCategoryCollections[i].Tag.Id" class="label-required">Teq: </label>
+                    @Html.DropDownList($"BlogTagCategoryCollections[{i}].Tag.Id",ViewBag.Tags,"Seçin", htmlAttributes: new {
+                @class = "form-control detail-select",
+                data_selected_id = $"{Model.BlogTagCategoryCollections[i].Tag.Id}",
+                data_count = $"{i}"
+                })
+                    <span asp-validation-for="BlogTagCategoryCollections[i].Tag.Id" style="color: red;"></span>
+                </div>
+                <div class="my-2">
+                    <label asp-for="BlogTagCategoryCollections[i].BlogCategory.Id" class="label-required">Bloq Kateqoriyası: </label>
+                    @Html.DropDownList($"BlogTagCategoryCollections[{i}].BlogCategory.Id",ViewBag.BlogCategories,"Seçin", htmlAttributes: new {
+                @class = "form-control detail-select",
+                data_selected_id = $"{Model.BlogTagCategoryCollections[i].BlogCategory.Id}",
+                data_count = $"{i}"
+                })
+                    <span asp-validation-for="BlogTagCategoryCollections[i].BlogCategory.Id" style="color: red;"></span>
+                </div>
+
+                <button style="float: right;" class="btn btn-danger selects-btn"><i class="far fa-trash-alt"></i></button>
+            </div>
+        </div>
+    }
+    <div class="text-center mt-3">
+        <a class="btn btn-success plus-btn" style="border-radius: 50%; cursor: pointer; margin: 10px 0;">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+    <button class="btn btn-info" type="submit">Yenilə</button>
+</form>
+
+@section js{
+<script src="libs/jquery-validate/jquery.validate.min.js"></script>
+<script src="libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="libs/toastr.js/toastr.min.js"></script>
+<script src="libs/toastr.js/toastr.customize.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('select[data-selected-id]').each((index, item) => {
+          let selectedId = $(item).data('selected-id');
+          $(item).val(selectedId);
+          $(item).trigger('change');
+        });
+
+        let plusBtn = $('.plus-btn');
+        let counter = $(plusBtn).parent().prev('.selects').find('select').data('count');
+        console.log(counter);
+        let i = counter + 1;
+
+        $(plusBtn).on('click', function () {
+            let tagsSelect =  `<select name="BlogTagCategoryCollections[${i}].Tag.Id" id="BlogTagCategoryCollections[${i}].Tag.Id" class="form-control mb-2">
+                                               @foreach(var item in tags){
+                                               <option value="@item.Id">@item.Name</option>
+                                               }
+                                            </select>`;
+
+              let blogCategoriesSelect =  `<select name="BlogTagCategoryCollections[${i}].BlogCategory.Id" id="BlogTagCategoryCollections[${i}].BlogCategory.Id" class="form-control mb-2">
+                                             @foreach(var item in blogCategories){
+                                             <option value="@item.Id">@item.Name</option>
+                                             }
+                                           </select>`;
+
+                let content = `<div class="form-group">
+                                 <div>
+                                 ${tagsSelect}
+                                 </div>
+                                 <div class="my-2">
+                                 ${blogCategoriesSelect}
+                                 </div>
+                                 <button style="float: right;" class="btn btn-danger selects-btn"><i class="far fa-trash-alt"></i></button>
+                               </div>`;
+
+            $(this).parent().before(content);
+            i++;
+        });
+
+        $('.selects-btn').click((e) => {
+          e.preventDefault();
+
+          $(e.currentTarget).closest('.selects').remove();
+        });;
+
+        let form = $('form');
+
+        $(form).submit((e) => {
+          e.preventDefault();
+
+          let formData = new FormData(e.currentTarget);
+
+               $.ajax({
+                 url: '@Url.Action("Edit")',
+                 type: "POST",
+                 data: formData,
+                 contentType: false,
+                 processData: false,
+                 success: function(response){
+                     if(response.error == false){
+                         toastr.success(response.message, 'Uğurlu!');
+                         setTimeout(()=>{
+                         window.location.href = '@Url.Action("Index")';
+                         }, 1500);
+                     }
+
+                     toastr.error(response.message, 'Xəta!');
+                 },
+                 error: function(response){
+                     console.log(response);
+                 }
+               });
+        });
+    });
+</script>
+}
 
