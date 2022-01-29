@@ -3,178 +3,115 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.BlogCategoriesModule;
+using RyanP410.WebUI.AppCode.Modules.BlogsModule;
+using RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule;
+using RyanP410.WebUI.AppCode.Modules.TagsModule;
+using RyanP410.WebUI.Areas.Admin.Models.FormModels;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class BlogTagCategoryCollectionsController : Controller
     {
-        private readonly RyanDbContext _context;
+        readonly IMediator mediator;
 
-        public BlogTagCategoryCollectionsController(RyanDbContext context)
+        public BlogTagCategoryCollectionsController(IMediator mediator)
         {
-            _context = context;
+            this.mediator = mediator;
         }
 
-        // GET: Admin/BlogTagCategoryCollections
-        public async Task<IActionResult> Index()
+        async public Task<IActionResult> Index()
         {
-            var ryanDbContext = _context.BlogTagCategoryCollections.Include(b => b.Blog).Include(b => b.BlogCategory).Include(b => b.CreatedByUser).Include(b => b.Tag);
-            return View(await ryanDbContext.ToListAsync());
+            var query = new BlogTagCategoriesQuery();
+
+            IEnumerable<Blog> data = await mediator.Send(query);
+
+            return View(data);
         }
 
-        // GET: Admin/BlogTagCategoryCollections/Details/5
-        public async Task<IActionResult> Details(int? id)
+        async public Task<IActionResult> Details(BlogTagCategorySingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var collection = await mediator.Send(query);
 
-            var blogTagCategoryCollection = await _context.BlogTagCategoryCollections
-                .Include(b => b.Blog)
-                .Include(b => b.BlogCategory)
-                .Include(b => b.CreatedByUser)
-                .Include(b => b.Tag)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (blogTagCategoryCollection == null)
-            {
-                return NotFound();
-            }
-
-            return View(blogTagCategoryCollection);
+            return View(collection);
         }
 
-        // GET: Admin/BlogTagCategoryCollections/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description");
-            ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name");
-            ViewData["CreatedByUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Name");
+            BlogsQuery blogsQuery = new();
+            IEnumerable<Blog> blogs = await mediator.Send(blogsQuery);
+            ViewBag.Blogs = new SelectList(blogs, "Id", "Title");
+
+            TagsQuery tagsQuery = new();
+            IEnumerable<Tag> tags = await mediator.Send(tagsQuery);
+            ViewBag.Tags = new SelectList(tags, "Id", "Name");
+
+            BlogCategoriesQuery blogCategoriesQuery = new();
+            IEnumerable<BlogCategory> blogCategories = await mediator.Send(blogCategoriesQuery);
+            ViewBag.BlogCategories = new SelectList(blogCategories, "Id", "Name");
+
             return View();
         }
 
-        // POST: Admin/BlogTagCategoryCollections/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BlogId,TagId,BlogCategoryId,CreatedByUserId,Id,CreatedDate")] BlogTagCategoryCollection blogTagCategoryCollection)
+        public async Task<IActionResult> Create(BlogTagCategoryCreateCommand request)
         {
-            if (ModelState.IsValid)
+            JsonCommandResponse response = await mediator.Send(request);
+
+            if (!response.Error)
             {
-                _context.Add(blogTagCategoryCollection);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Json(response);
             }
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description", blogTagCategoryCollection.BlogId);
-            ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name", blogTagCategoryCollection.BlogCategoryId);
-            ViewData["CreatedByUserId"] = new SelectList(_context.Users, "Id", "Id", blogTagCategoryCollection.CreatedByUserId);
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Name", blogTagCategoryCollection.TagId);
-            return View(blogTagCategoryCollection);
+
+            return View(request);
         }
 
-        // GET: Admin/BlogTagCategoryCollections/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        async public Task<IActionResult> Edit(BlogTagCategorySingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            BlogCollectionFormModel data = await mediator.Send(query);
 
-            var blogTagCategoryCollection = await _context.BlogTagCategoryCollections.FindAsync(id);
-            if (blogTagCategoryCollection == null)
-            {
-                return NotFound();
-            }
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description", blogTagCategoryCollection.BlogId);
-            ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name", blogTagCategoryCollection.BlogCategoryId);
-            ViewData["CreatedByUserId"] = new SelectList(_context.Users, "Id", "Id", blogTagCategoryCollection.CreatedByUserId);
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Name", blogTagCategoryCollection.TagId);
-            return View(blogTagCategoryCollection);
+            BlogsQuery blogsQuery = new();
+            IEnumerable<Blog> blogs = await mediator.Send(blogsQuery);
+            ViewBag.Blogs = new SelectList(blogs, "Id", "Title", data.Blog.Id);
+
+            TagsQuery tagsQuery = new();
+            IEnumerable<Tag> tags = await mediator.Send(tagsQuery);
+            ViewBag.Tags = new SelectList(tags, "Id", "Name");
+
+            BlogCategoriesQuery blogCategoriesQuery = new();
+            IEnumerable<BlogCategory> blogCategories = await mediator.Send(blogCategoriesQuery);
+            ViewBag.BlogCategories = new SelectList(blogCategories, "Id", "Name");
+
+            return View(data);
         }
 
-        // POST: Admin/BlogTagCategoryCollections/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BlogId,TagId,BlogCategoryId,CreatedByUserId,Id,CreatedDate")] BlogTagCategoryCollection blogTagCategoryCollection)
+        async public Task<IActionResult> Edit(BlogTagCategoryEditCommand request)
         {
-            if (id != blogTagCategoryCollection.Id)
-            {
-                return NotFound();
-            }
+            JsonCommandResponse response = await mediator.Send(request);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(blogTagCategoryCollection);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BlogTagCategoryCollectionExists(blogTagCategoryCollection.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description", blogTagCategoryCollection.BlogId);
-            ViewData["BlogCategoryId"] = new SelectList(_context.BlogCategories, "Id", "Name", blogTagCategoryCollection.BlogCategoryId);
-            ViewData["CreatedByUserId"] = new SelectList(_context.Users, "Id", "Id", blogTagCategoryCollection.CreatedByUserId);
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Name", blogTagCategoryCollection.TagId);
-            return View(blogTagCategoryCollection);
+            if (response.Error == false)
+                return Json(response);
+
+            return View(request);
         }
 
-        // GET: Admin/BlogTagCategoryCollections/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        async public Task<IActionResult> Delete(BlogTagCategoryRemoveCommand request)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            JsonCommandResponse response = await mediator.Send(request);
 
-            var blogTagCategoryCollection = await _context.BlogTagCategoryCollections
-                .Include(b => b.Blog)
-                .Include(b => b.BlogCategory)
-                .Include(b => b.CreatedByUser)
-                .Include(b => b.Tag)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (blogTagCategoryCollection == null)
-            {
-                return NotFound();
-            }
-
-            return View(blogTagCategoryCollection);
-        }
-
-        // POST: Admin/BlogTagCategoryCollections/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var blogTagCategoryCollection = await _context.BlogTagCategoryCollections.FindAsync(id);
-            _context.BlogTagCategoryCollections.Remove(blogTagCategoryCollection);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool BlogTagCategoryCollectionExists(int id)
-        {
-            return _context.BlogTagCategoryCollections.Any(e => e.Id == id);
+            return Json(response);
         }
     }
 }

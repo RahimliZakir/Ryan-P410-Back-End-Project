@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AppCode\Modules\BlogTagCategoriesModule\" />
     <Folder Include="Logs\" />
     <Folder Include="wwwroot\admin-assets\" />
     <Folder Include="wwwroot\uploads\clients\" />

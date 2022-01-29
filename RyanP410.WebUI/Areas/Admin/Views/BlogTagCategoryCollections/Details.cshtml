@@ -1,48 +1,46 @@
-﻿@model BlogTagCategoryCollection
+﻿@model BlogCollectionFormModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@section css{
+<style>
+    .form-paragraph {
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+</style>
+}
 
-<div>
-    <h4>BlogTagCategoryCollection</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Blog)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Blog.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tag)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tag.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BlogCategory)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BlogCategory.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedByUser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedByUser.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<form>
+    <div class="form-group">
+        <label asp-for="Blog.Id" class="label-required">Bloq: </label>
+        <input asp-for="Blog.Id" class="form-control" readonly />
+        <span asp-validation-for="Blog.Id" style="color: red;"></span>
+    </div>
+
+    @for (int i = 0; i < Model.BlogTagCategoryCollections.ToArray().Length; i++)
+    {
+        <div class="form-group selects">
+            <label asp-for="BlogTagCategoryCollections[i].Tag.Id" class="label-required">Teq: </label>
+            <input asp-for="BlogTagCategoryCollections[i].Tag.Id" class="form-control" readonly />
+            <span asp-validation-for="BlogTagCategoryCollections[i].Tag.Id" style="color: red;"></span>
+
+            <label asp-for="BlogTagCategoryCollections[i].BlogCategory.Id" class="label-required">Bloq Kateqoriyası: </label>
+            <input asp-for="BlogTagCategoryCollections[i].BlogCategory.Id" class="form-control" readonly />
+            <span asp-validation-for="BlogTagCategoryCollections[i].BlogCategory.Id" style="color: red;"></span>
+        </div>
+    }
+
+    <a asp-action="Index" class="btn btn-danger">Geriyə</a>
+</form>
