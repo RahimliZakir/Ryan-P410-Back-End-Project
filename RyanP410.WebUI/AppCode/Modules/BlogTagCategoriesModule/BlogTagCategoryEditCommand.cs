@@ -33,6 +33,11 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule
                     goto end;
                 }
 
+                if (request.BlogTagCategoryCollections == null)
+                {
+                    request.BlogTagCategoryCollections = new List<BlogTagCategoryCollection>();
+                }
+
                 var entity = await db.BlogTagCategoryCollections
                                    .Where(p => p.BlogId.Equals(request.Blog.Id))
                                    .ToListAsync(cancellationToken);
