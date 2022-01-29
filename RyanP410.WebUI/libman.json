@@ -37,6 +37,10 @@
     {
       "library": "autosize.js@5.0.1",
       "destination": "wwwroot/libs/autosize.js/"
+    },
+    {
+      "library": "select2@4.0.13",
+      "destination": "wwwroot/libs/select2/"
     }
   ]
 }
