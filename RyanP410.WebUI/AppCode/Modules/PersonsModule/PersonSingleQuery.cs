@@ -21,7 +21,7 @@ namespace RyanP410.WebUI.AppCode.Modules.PersonsModule
             public async Task<Person> Handle(PersonSingleQuery request, CancellationToken cancellationToken)
             {
                 if (request.Id == null)
-                    return null;
+                    return await db.Persons.FirstOrDefaultAsync(cancellationToken); ;
 
                 Person? person = await db.Persons.FirstOrDefaultAsync(p => p.Id.Equals(request.Id), cancellationToken);
 

@@ -1202,3 +1202,27 @@ Error Number:547,State:0,Class:16
 01/30/2022 14:19:36 +04:00 Proqram işə düşür...
 01/30/2022 14:19:37 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
 01/30/2022 14:19:37 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:15:25 +04:00 Proqram işə düşür...
+02/01/2022 01:15:32 +04:00 Proqram işə düşür...
+02/01/2022 01:15:33 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:15:33 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:18:50 +04:00 Proqram işə düşür...
+02/01/2022 01:18:51 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:18:51 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:18:51 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:23:48 +04:00 Proqram işə düşür...
+02/01/2022 01:23:49 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:23:49 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:23:49 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:49:42 +04:00 Proqram işə düşür...
+02/01/2022 01:49:43 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:49:43 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:49:43 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:50:22 +04:00 Proqram işə düşür...
+02/01/2022 01:50:24 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:50:25 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:50:25 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:52:40 +04:00 Proqram işə düşür...
+02/01/2022 01:52:41 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:52:42 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+02/01/2022 01:52:42 +04:00 The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.

@@ -1,12 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RyanP410.WebUI.AppCode.Extensions;
 using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.AppCode.Modules.ClientsModule;
 using RyanP410.WebUI.AppCode.Modules.ContactsModule;
-using RyanP410.WebUI.Models.DataContexts;
-using RyanP410.WebUI.Models.Entities;
+using RyanP410.WebUI.AppCode.Modules.FunFactsModule;
+using RyanP410.WebUI.AppCode.Modules.PersonsModule;
+using RyanP410.WebUI.AppCode.Modules.PricingsPricingDetailsModule;
+using RyanP410.WebUI.AppCode.Modules.ServicesModule;
+using RyanP410.WebUI.Models.ViewModels;
 
 namespace RyanP410.WebUI.Controllers
 {
@@ -20,9 +22,32 @@ namespace RyanP410.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        async public Task<IActionResult> Index()
         {
-            return View();
+            AboutViewModel vm = new AboutViewModel();
+
+            var personSingleQuery = new PersonSingleQuery();
+            var person = await mediator.Send(personSingleQuery);
+
+            var servicesQuery = new ServicesQuery();
+            var services = await mediator.Send(servicesQuery);
+
+            var pricingCollectionsQuery = new PricingsPricingDetailsUserSideQuery();
+            var pricingCollections = await mediator.Send(pricingCollectionsQuery);
+
+            var funFactsQuery = new FunFactsQuery();
+            var funFacts = await mediator.Send(funFactsQuery);
+
+            var clientsQuery = new ClientsQuery();
+            var clients = await mediator.Send(clientsQuery);
+
+            vm.Person = person;
+            vm.Services = services;
+            vm.Pricings = pricingCollections;
+            vm.FunFacts = funFacts;
+            vm.Clients = clients;
+
+            return View(vm);
         }
 
         [AllowAnonymous]
