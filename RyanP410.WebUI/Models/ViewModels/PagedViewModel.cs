@@ -121,5 +121,4 @@ namespace RyanP410.WebUI.Models.ViewModels
             return new HtmlString(sb.ToString());
         }
     }
-
 }

@@ -6,63 +6,63 @@ using RyanP410.WebUI.Models.ViewModels;
 
 namespace RyanP410.WebUI.AppCode.Modules.BlogsModule
 {
-    public class BlogsPagedQuery : IRequest<PagedViewModel<Blog>>
+    public class BlogsPagedQuery : PagenateTemplate, IRequest<PagedViewModel<Blog>>
     {
-        int pageIndex, pageSize;
+        //int pageIndex, pageSize;
 
-        public int PageIndex
-        {
-            get
-            {
+        //public int PageIndex
+        //{
+        //    get
+        //    {
 
-                if (pageIndex > 0)
-                {
-                    return pageIndex;
-                }
+        //        if (pageIndex > 0)
+        //        {
+        //            return pageIndex;
+        //        }
 
-                return 1;
-            }
-            set
-            {
-                if (value > 0)
-                {
-                    pageIndex = value;
-                }
+        //        return 1;
+        //    }
+        //    set
+        //    {
+        //        if (value > 0)
+        //        {
+        //            pageIndex = value;
+        //        }
 
-                pageIndex = 1;
-            }
-        }
+        //        pageIndex = 1;
+        //    }
+        //}
 
-        public int PageSize
-        {
-            get
-            {
+        //public int PageSize
+        //{
+        //    get
+        //    {
 
-                if (pageSize > 0)
-                {
-                    return pageSize;
-                }
+        //        if (pageSize > 0)
+        //        {
+        //            return pageSize;
+        //        }
 
-                return 4;
-            }
-            set
-            {
-                if (value > 0)
-                {
-                    pageSize = value;
-                }
+        //        return 4;
+        //    }
+        //    set
+        //    {
+        //        if (value > 0)
+        //        {
+        //            pageSize = value;
+        //        }
 
-                pageSize = 4;
-            }
-        }
+        //        pageSize = 4;
+        //    }
+        //}
 
-        public BlogsPagedQuery() { }
+        //public BlogsPagedQuery() { }
 
-        public BlogsPagedQuery(int pageIndex = 1, int pageSize = 4)
-        {
-            this.PageIndex = pageIndex;
-            this.PageSize = pageSize;
-        }
+        //public BlogsPagedQuery(int pageIndex = 1, int pageSize = 4)
+        //{
+        //    this.PageIndex = pageIndex;
+        //    this.PageSize = pageSize;
+        //}
 
         public class BlogsPagedQueryHandler : IRequestHandler<BlogsPagedQuery, PagedViewModel<Blog>>
         {
@@ -75,6 +75,16 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogsModule
 
             async public Task<PagedViewModel<Blog>> Handle(BlogsPagedQuery request, CancellationToken cancellationToken)
             {
+                if (request.PageIndex == 0)
+                {
+                    request.PageIndex = 1;
+                }
+
+                if (request.PageSize == 0)
+                {
+                    request.PageSize = 4;
+                }
+
                 var query = db.Blogs.OrderBy(b => b.Id);
 
                 var vm = new PagedViewModel<Blog>(query, request.PageIndex, request.PageSize);
