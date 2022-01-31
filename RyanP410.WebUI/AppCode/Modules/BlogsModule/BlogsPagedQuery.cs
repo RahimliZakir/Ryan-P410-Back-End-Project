@@ -6,11 +6,59 @@ using RyanP410.WebUI.Models.ViewModels;
 
 namespace RyanP410.WebUI.AppCode.Modules.BlogsModule
 {
-    public class BlogsPagedQuery : PagenateTemplate, IRequest<PagedViewModel<Blog>>
+    public class BlogsPagedQuery : IRequest<PagedViewModel<Blog>>
     {
+        int pageIndex, pageSize;
+
+        public int PageIndex
+        {
+            get
+            {
+
+                if (pageIndex > 0)
+                {
+                    return pageIndex;
+                }
+
+                return 1;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    pageIndex = value;
+                }
+
+                pageIndex = 1;
+            }
+        }
+
+        public int PageSize
+        {
+            get
+            {
+
+                if (pageSize > 0)
+                {
+                    return pageSize;
+                }
+
+                return 4;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    pageSize = value;
+                }
+
+                pageSize = 4;
+            }
+        }
+
         public BlogsPagedQuery() { }
 
-        public BlogsPagedQuery(int pageIndex = 1, int pageSize = 6)
+        public BlogsPagedQuery(int pageIndex = 1, int pageSize = 4)
         {
             this.PageIndex = pageIndex;
             this.PageSize = pageSize;
