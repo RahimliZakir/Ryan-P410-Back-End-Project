@@ -83,6 +83,24 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
                 //---IDENTITY---
 
                 //---ABOUT---
+                if (!db.Persons.Any())
+                {
+                    await db.Persons.AddAsync(new Person
+                    {
+                        Name = "Ryan",
+                        Surname = "Adlard",
+                        ImagePath = "person-11896eb65e6f4e6c8ea6bea40dd83253.jpg",
+                        CvResumePath = "resume.pdf",
+                        Description = "I am Ryan Adlard, web designer from USA, California. I have rich experience in web site design and building and customization, also I am good at wordpress. I love to talk with you about our unique. ",
+                        Age = 23,
+                        Residence = "USA",
+                        Freelance = true,
+                        Address = "California, USA"
+                    });
+
+                    await db.SaveChangesAsync();
+                }
+
                 if (!db.Skills.Any())
                 {
                     await db.Skills.AddAsync(new Skill
