@@ -54,7 +54,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppInfos");
+                    b.ToTable("AppInfos", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.AuditLog", b =>
@@ -107,7 +107,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.ToTable("AuditLogs");
+                    b.ToTable("AuditLogs", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Blog", b =>
@@ -134,7 +134,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.BlogCategory", b =>
@@ -154,7 +154,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogCategories");
+                    b.ToTable("BlogCategories", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.BlogTagCategoryCollection", b =>
@@ -190,7 +190,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("BlogTagCategoryCollections");
+                    b.ToTable("BlogTagCategoryCollections", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Category", b =>
@@ -210,7 +210,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Client", b =>
@@ -229,7 +229,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Coding", b =>
@@ -252,7 +252,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Codings");
+                    b.ToTable("Codings", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Comment", b =>
@@ -282,7 +282,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Contact", b =>
@@ -316,7 +316,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Design", b =>
@@ -339,7 +339,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Designs");
+                    b.ToTable("Designs", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Education", b =>
@@ -373,7 +373,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Educations");
+                    b.ToTable("Educations", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Experience", b =>
@@ -407,7 +407,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Experiences");
+                    b.ToTable("Experiences", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.FunFact", b =>
@@ -431,7 +431,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FunFacts");
+                    b.ToTable("FunFacts", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Knowledge", b =>
@@ -451,7 +451,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Knowledges");
+                    b.ToTable("Knowledges", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Language", b =>
@@ -474,7 +474,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages");
+                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Membership.RyanRole", b =>
@@ -732,7 +732,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons");
+                    b.ToTable("Persons", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Pricing", b =>
@@ -763,7 +763,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pricings");
+                    b.ToTable("Pricings", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.PricingDetail", b =>
@@ -783,7 +783,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PricingDetails");
+                    b.ToTable("PricingDetails", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.PricingsPricingDetailsCollection", b =>
@@ -815,7 +815,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasIndex("PricingId");
 
-                    b.ToTable("PricingsPricingDetailsCollections");
+                    b.ToTable("PricingsPricingDetailsCollections", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Quote", b =>
@@ -846,7 +846,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quotes");
+                    b.ToTable("Quotes", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Reply", b =>
@@ -881,7 +881,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Replies");
+                    b.ToTable("Replies", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Service", b =>
@@ -909,7 +909,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Skill", b =>
@@ -929,7 +929,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skills");
+                    b.ToTable("Skills", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Tag", b =>
@@ -949,7 +949,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Testimonial", b =>
@@ -980,7 +980,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Testimonials");
+                    b.ToTable("Testimonials", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Work", b =>
@@ -1008,7 +1008,7 @@ namespace RyanP410.WebUI.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Works");
+                    b.ToTable("Works", (string)null);
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.AuditLog", b =>

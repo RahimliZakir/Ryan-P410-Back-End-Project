@@ -9,6 +9,13 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogsModule
     {
         public int? Id { get; set; }
 
+        public BlogSingleQuery() { }
+
+        public BlogSingleQuery(int id)
+        {
+            this.Id = id;
+        }
+
         public class BlogSingleQueryHandler : IRequestHandler<BlogSingleQuery, Blog>
         {
             readonly RyanDbContext db;
