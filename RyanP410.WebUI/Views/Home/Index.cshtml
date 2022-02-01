@@ -9,6 +9,20 @@
     .revs-item > .text p {
         margin: 0 !important;
     }
+
+    .through {
+        color: #999999;
+        text-decoration: line-through;
+    }
+
+    .new {
+        display: inline-block;
+        background-color: #d3ded1;
+        color: #767c76;
+        font-size: 0.8rem;
+        border-radius: 2px;
+        padding: 0.5% 1.5%;
+    }
 </style>
 }
 
@@ -110,7 +124,7 @@
                                 <ul>
                                     @foreach (var details in item.Collections)
                                     {
-                                        <li>@details.PricingDetail.Name</li>
+                                        <li><span class="@(details.Exists ? "" :"through")">@details.PricingDetail.Name</span> <span class="@(details.New ? "new" : "")">@(details.New ? "new" : "")</span></li>
                                     }
                                 </ul>
                             </div>

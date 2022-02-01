@@ -110,7 +110,8 @@
                                 <li class="border-line-h">
                                     <div class="name">@item.Name</div>
                                     <div class="progress">
-                                        <div class="percentage" style="width:@item.Percent%;"></div>
+                                        <div class="percentage" style="width:@item.Percent%;">
+                                        </div>
                                     </div>
                                 </li>
                             }
@@ -165,57 +166,34 @@
         <!--
             Testimonials
         -->
-        @*@await Component.InvokeAsync("Testimonials")*@
-
-        <div class="content testimonials">
-
-            <!-- title -->
-            <div class="title">Testimonials</div>
-
-            <!-- content -->
-            <div class="row testimonials-items">
-
-                <!-- client item -->
-                <div class="col col-d-12 col-t-12 col-m-12 border-line-v">
-                    <div class="revs-carousel default-revs">
-                        <div class="owl-carousel">
-                            @foreach (var item in Model.Testimonials)
-                            {
-                                <div class="item">
-                                    <div class="revs-item">
-                                        <div class="text">
-                                            @Html.Raw(item.Content)
-                                        </div>
-                                        <div class="user">
-                                            <div class="img"><img src="~/uploads/testimonials/@item.ImagePath" alt="" /></div>
-                                            <div class="info">
-                                                <div class="name">@item.FullName</div>
-                                                <div class="company">@item.Profession</div>
-                                            </div>
-                                            <div class="clear"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <div class="clear"></div>
-            </div>
-
-        </div>
+        @await Component.InvokeAsync("Testimonials")
 
     </div>
 </div>
 
 @section js{
 <script>
-    $(document).ready(function(){
-    let lis = $('.top-menu li');
+        $(document).ready(function(){
+        let lis = $('.top-menu li');
 
-      $(lis).removeClass('active');
-      $(lis).eq(1).addClass('active');
+          $(lis).removeClass('active');
+          $(lis).eq(1).addClass('active');
+
+          $('.testimonial-carousel').owlCarousel({
+           loop:true,
+           margin:10,
+           responsive:{
+               0:{
+                   items:1
+               },
+               600:{
+                   items:1
+               },
+               1000:{
+                   items:1
+               }
+        }
     });
+        });
 </script>
 }

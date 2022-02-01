@@ -7,21 +7,19 @@ namespace RyanP410.WebUI.AppCode.Components
 {
     public class QuoteViewComponent : ViewComponent
     {
-        readonly IMediator mediator;
-
-        public QuoteViewComponent(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
         async public Task<IViewComponentResult> InvokeAsync()
         {
-            QuoteSingleQuery query = new();
+            using (IServiceScope scope = HttpContext.RequestServices.CreateScope())
+            {
+                IMediator mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+                QuoteSingleQuery query = new();
 
 
-            Quote quote = await mediator.Send(query);
+                Quote quote = await mediator.Send(query);
 
-            return View(quote);
+                return View(quote);
+            }
         }
     }
 }
