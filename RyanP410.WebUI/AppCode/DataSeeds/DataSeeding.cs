@@ -767,7 +767,23 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
                         BlogId = 2,
-                        TagId = 4,
+                        TagId = 3,
+                        BlogCategoryId = 2,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 3,
+                        TagId = 1,
+                        BlogCategoryId = 1,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 3,
+                        TagId = 2,
                         BlogCategoryId = 2,
                         CreatedByUserId = 1
                     });
@@ -775,7 +791,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
                         BlogId = 4,
-                        TagId = 1,
+                        TagId = 3,
                         BlogCategoryId = 1,
                         CreatedByUserId = 1
                     });
@@ -783,22 +799,6 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
                         BlogId = 4,
-                        TagId = 2,
-                        BlogCategoryId = 2,
-                        CreatedByUserId = 1
-                    });
-
-                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
-                    {
-                        BlogId = 5,
-                        TagId = 3,
-                        BlogCategoryId = 1,
-                        CreatedByUserId = 1
-                    });
-
-                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
-                    {
-                        BlogId = 5,
                         TagId = 4,
                         BlogCategoryId = 2,
                         CreatedByUserId = 1
@@ -806,7 +806,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 6,
+                        BlogId = 5,
                         TagId = 1,
                         BlogCategoryId = 1,
                         CreatedByUserId = 1
@@ -814,7 +814,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 6,
+                        BlogId = 5,
                         TagId = 2,
                         BlogCategoryId = 2,
                         CreatedByUserId = 1
@@ -822,7 +822,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 7,
+                        BlogId = 6,
                         TagId = 3,
                         BlogCategoryId = 1,
                         CreatedByUserId = 1
@@ -830,7 +830,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 7,
+                        BlogId = 6,
                         TagId = 4,
                         BlogCategoryId = 2,
                         CreatedByUserId = 1
@@ -838,7 +838,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 8,
+                        BlogId = 7,
                         TagId = 1,
                         BlogCategoryId = 1,
                         CreatedByUserId = 1
@@ -846,7 +846,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 8,
+                        BlogId = 7,
                         TagId = 2,
                         BlogCategoryId = 2,
                         CreatedByUserId = 1
@@ -854,7 +854,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 9,
+                        BlogId = 8,
                         TagId = 3,
                         BlogCategoryId = 1,
                         CreatedByUserId = 1
@@ -862,7 +862,7 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
 
                     await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
                     {
-                        BlogId = 9,
+                        BlogId = 8,
                         TagId = 4,
                         BlogCategoryId = 2,
                         CreatedByUserId = 1

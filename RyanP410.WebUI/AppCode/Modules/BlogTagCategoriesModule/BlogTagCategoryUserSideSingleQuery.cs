@@ -24,6 +24,10 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule
                     return null;
 
                 var data = await db.Blogs
+                                   .Include(b => b.Comments)
+                                   .ThenInclude(c => c.User)
+                                   .Include(b => b.Comments)
+                                   .ThenInclude(c => c.Children)
                                    .Include(b => b.BlogTagCategoryCollections)
                                    .ThenInclude(btc => btc.CreatedByUser)
                                    .Include(b => b.BlogTagCategoryCollections)

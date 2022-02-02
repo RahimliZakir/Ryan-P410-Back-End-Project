@@ -21,34 +21,34 @@
                     <div class="post-box">
 
                         <!-- blog detail -->
-                        <h1 class="h-title">@Model.Blog.Title</h1>
+                        <h1 class="h-title">@Model.BlogDto.Title</h1>
                         <div class="blog-detail">
-                            <span class="date">@Model.Blog.BlogTagCategoryCollections.FirstOrDefault()?.CreatedDate.ToString("MMMM dd, yyyy")</span>
+                            <span class="date">@Model.BlogDto.Collections.FirstOrDefault()?.CreatedDate.ToString("MMMM dd, yyyy")</span>
                             <span class="cat-links">
-                                @foreach (var item in Model.Blog.BlogTagCategoryCollections)
+                                @foreach (var item in Model.BlogDto.Collections)
                                 {
                                     <a href="#">@item.BlogCategory.Name</a>
                                 }
                             </span>
-                            <span class="byline"> by <span class="author"><a href="#">@Model.Blog.BlogTagCategoryCollections.FirstOrDefault()?.CreatedByUser.Name</a></span></span>
+                            <span class="byline"> by <span class="author"><a href="#">@Model.BlogDto.Author</a></span></span>
                         </div>
 
                         <!-- blog image -->
                         <div class="blog-image">
-                            <img src="~/uploads/blogs/@Model.Blog.ImagePath" alt="">
+                            <img src="@Model.BlogDto.ImagePath" alt="">
                         </div>
 
                         <!-- blog content -->
                         <div class="blog-content">
                             <p>
-                                @Html.Raw(Model.Blog.Description)
+                                @Html.Raw(Model.BlogDto.Description)
                             </p>
                         </div>
 
                         <div class="post-text-bottom">
                             <span class="tags-links">
                                 Tags:
-                                @foreach (var item in Model.Blog.BlogTagCategoryCollections)
+                                @foreach (var item in Model.BlogDto.Collections)
                                 {
                                     <a href="#">@item.Tag.Name</a>
                                 }
@@ -79,68 +79,51 @@
                 <div class="row border-line-v comments-row">
                     <div class="col col-m-12 col-t-12 col-d-12">
                         <ul class="comments">
-                            <li class="comment post-comment">
-                                <div class="comment">
-                                    <div class="comment-image image">
-                                        <img src="images/man1.jpg" class="avatar" height="80" width="80" alt="">
-                                    </div>
-                                    <div class="comment-desc desc">
-                                        <div class="comment-name name">
-                                            <span class="comment-author">John Doe</span>
-                                            <span class="comment-time">8:16 pm</span>
-                                            <span class="comment-date">April 28, 2020</span>
-                                            <span class="comment-reply">
-                                                <a class="comment-reply-link" href="#">Reply</a>
-                                            </span>
-                                        </div>
-                                        <div class="comment-text">
-                                            <p>An has alterum nominavi. Nam at elitr veritus voluptaria. Cu eum regione tacimates vituperatoribus, ut mutat delenit est.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <ul class="children">
+                            @foreach (Comment comment in Model.BlogDto.Comments.Where(c => c.ParentId == null))
+                            {
                                 <li class="comment post-comment">
                                     <div class="comment">
                                         <div class="comment-image image">
-                                            <img src="images/man1.jpg" class="avatar" height="80" width="80" alt="">
+                                            <img src="@(!string.IsNullOrWhiteSpace(comment.User.ImagePath) ? $"/uploads/users/{@comment.User.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
                                         </div>
                                         <div class="comment-desc desc">
                                             <div class="comment-name name">
-                                                <span class="comment-author">John Doe</span>
-                                                <span class="comment-time">8:16 pm</span>
-                                                <span class="comment-date">April 28, 2020</span>
+                                                <span class="comment-author">@comment.User.Name @comment.User.Surname</span>
+                                                <span class="comment-time">@comment.CreatedDate.ToString("H:mm tt", CultureInfo.InvariantCulture)</span>
+                                                <span class="comment-date">@comment.CreatedDate.ToString("MMMM dd, yyyy")</span>
                                                 <span class="comment-reply">
                                                     <a class="comment-reply-link" href="#">Reply</a>
                                                 </span>
                                             </div>
                                             <div class="comment-text">
-                                                <p>An has alterum nominavi. Nam at elitr veritus voluptaria. Cu eum regione tacimates vituperatoribus, ut mutat delenit est.</p>
+                                                <p>@comment.Content</p>
                                             </div>
                                         </div>
                                     </div>
+                                    @foreach (Comment child in comment.GetChildComments())
+                                    {
+                                        <ul class="children">
+                                            <li class="comment post-comment">
+                                                <div class="comment">
+                                                    <div class="comment-image image">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(child.User.ImagePath) ? $"/uploads/users/{@child.User.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
+                                                    </div>
+                                                    <div class="comment-desc desc">
+                                                        <div class="comment-name name">
+                                                            <span class="comment-author">@child.User.Name @child.User.Surname</span>
+                                                            <span class="comment-time">@child.CreatedDate.ToString("H:mm tt", CultureInfo.InvariantCulture)</span>
+                                                            <span class="comment-date">@child.CreatedDate.ToString("MMMM dd, yyyy")</span>
+                                                        </div>
+                                                        <div class="comment-text">
+                                                            <p>@child.Content</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    }
                                 </li>
-                            </ul>
-                            <li class="comment post-comment">
-                                <div class="comment">
-                                    <div class="comment-image image">
-                                        <img src="images/man1.jpg" class="avatar" height="80" width="80" alt="">
-                                    </div>
-                                    <div class="comment-desc desc">
-                                        <div class="comment-name name">
-                                            <span class="comment-author">John Doe</span>
-                                            <span class="comment-time">8:16 pm</span>
-                                            <span class="comment-date">April 28, 2020</span>
-                                            <span class="comment-reply">
-                                                <a class="comment-reply-link" href="#">Reply</a>
-                                            </span>
-                                        </div>
-                                        <div class="comment-text">
-                                            <p>An has alterum nominavi. Nam at elitr veritus voluptaria. Cu eum regione tacimates vituperatoribus, ut mutat delenit est.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -155,17 +138,12 @@
                                 <div class="row">
                                     <div class="col col-d-12 col-t-12 col-m-12">
                                         <div class="group-val">
-                                            <input type="text" name="name" placeholder="Full Name">
-                                        </div>
-                                    </div>
-                                    <div class="col col-d-12 col-t-12 col-m-12">
-                                        <div class="group-val">
                                             <textarea name="message" placeholder="Your Message"></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="align-left">
-                                    <a href="#" class="button" onclick="$('#cform').submit(); return false;">
+                                    <a href="#" class="button">
                                         <span class="text">Add Comment</span>
                                         <span class="arrow"></span>
                                     </a>

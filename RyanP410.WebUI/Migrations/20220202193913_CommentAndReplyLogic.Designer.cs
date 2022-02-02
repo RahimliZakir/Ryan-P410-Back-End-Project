@@ -12,8 +12,8 @@ using RyanP410.WebUI.Models.DataContexts;
 namespace RyanP410.WebUI.Migrations
 {
     [DbContext(typeof(RyanDbContext))]
-    [Migration("20220128221720_CommentAndReply")]
-    partial class CommentAndReply
+    [Migration("20220202193913_CommentAndReplyLogic")]
+    partial class CommentAndReplyLogic
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -275,12 +275,17 @@ namespace RyanP410.WebUI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BlogId");
+
+                    b.HasIndex("ParentId");
 
                     b.HasIndex("UserId");
 
@@ -851,41 +856,6 @@ namespace RyanP410.WebUI.Migrations
                     b.ToTable("Quotes");
                 });
 
-            modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Reply", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Replies");
-                });
-
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -1065,6 +1035,10 @@ namespace RyanP410.WebUI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RyanP410.WebUI.Models.Entities.Comment", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
                     b.HasOne("RyanP410.WebUI.Models.Entities.Membership.RyanUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -1072,6 +1046,8 @@ namespace RyanP410.WebUI.Migrations
                         .IsRequired();
 
                     b.Navigation("Blog");
+
+                    b.Navigation("Parent");
 
                     b.Navigation("User");
                 });
@@ -1146,33 +1122,6 @@ namespace RyanP410.WebUI.Migrations
                     b.Navigation("PricingDetail");
                 });
 
-            modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Reply", b =>
-                {
-                    b.HasOne("RyanP410.WebUI.Models.Entities.Blog", "Blog")
-                        .WithMany("Replies")
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RyanP410.WebUI.Models.Entities.Comment", "Comment")
-                        .WithMany("Replies")
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RyanP410.WebUI.Models.Entities.Membership.RyanUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Blog");
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Work", b =>
                 {
                     b.HasOne("RyanP410.WebUI.Models.Entities.Category", "Category")
@@ -1189,8 +1138,6 @@ namespace RyanP410.WebUI.Migrations
                     b.Navigation("BlogTagCategoryCollections");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.BlogCategory", b =>
@@ -1205,7 +1152,7 @@ namespace RyanP410.WebUI.Migrations
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Comment", b =>
                 {
-                    b.Navigation("Replies");
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("RyanP410.WebUI.Models.Entities.Pricing", b =>

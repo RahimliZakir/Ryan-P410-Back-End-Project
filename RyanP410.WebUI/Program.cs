@@ -48,6 +48,8 @@ services.AddDbContext<RyanDbContext>(options =>
 
 services.AddMediatR(typeof(Program));
 
+services.AddAutoMapper(typeof(Program));
+
 services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 services.AddFluentIdentity();

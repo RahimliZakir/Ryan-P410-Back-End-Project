@@ -1,10 +1,11 @@
-﻿using RyanP410.WebUI.Models.Entities;
+﻿using RyanP410.WebUI.AppCode.Dtos;
+using RyanP410.WebUI.Models.Entities;
 
 namespace RyanP410.WebUI.Models.ViewModels
 {
     public class BlogUserSideViewModel
     {
-        public Blog Blog { get; set; }
+        public BlogDetailsDto BlogDto { get; set; }
 
         public Blog PrevBlog { get; set; }
 

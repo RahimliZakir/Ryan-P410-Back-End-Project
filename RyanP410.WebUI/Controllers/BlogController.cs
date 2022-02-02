@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RyanP410.WebUI.AppCode.Dtos;
 using RyanP410.WebUI.AppCode.Modules.BlogsModule;
 using RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule;
 using RyanP410.WebUI.Models.Entities;
@@ -12,10 +14,12 @@ namespace RyanP410.WebUI.Controllers
     public class BlogController : Controller
     {
         readonly IMediator mediator;
+        readonly IMapper mapper;
 
-        public BlogController(IMediator mediator)
+        public BlogController(IMediator mediator, IMapper mapper)
         {
             this.mediator = mediator;
+            this.mapper = mapper;
         }
 
         async public Task<IActionResult> Index(BlogsPagedQuery pagedBlogsQuery)
@@ -30,6 +34,7 @@ namespace RyanP410.WebUI.Controllers
             BlogUserSideViewModel vm = new();
 
             Blog data = await mediator.Send(request);
+            BlogDetailsDto dto = mapper.Map<BlogDetailsDto>(data);
 
             BlogsQuery blogPrevSingleQuery = new();
             IEnumerable<Blog> prevBlogs = await mediator.Send(blogPrevSingleQuery);
@@ -39,7 +44,7 @@ namespace RyanP410.WebUI.Controllers
             IEnumerable<Blog> nextBlogs = await mediator.Send(blogNextSingleQuery);
             Blog next = nextBlogs.Where(p => p.Id > data.Id).FirstOrDefault();
 
-            vm.Blog = data;
+            vm.BlogDto = dto;
             vm.PrevBlog = prev;
             vm.NextBlog = next;
 
