@@ -1,0 +1,19 @@
+﻿@model Comment
+
+<li class="comment post-comment">
+    <div class="comment">
+        <div class="comment-image image">
+            <img src="@(!string.IsNullOrWhiteSpace(Model.User?.ImagePath) ? $"/uploads/users/{@Model.User?.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
+        </div>
+        <div class="comment-desc desc">
+            <div class="comment-name name">
+                <span class="comment-author">@Model.User?.Name @Model.User?.Surname</span>
+                <span class="comment-time">@Model.CreatedDate.ToString("H:mm tt", CultureInfo.InvariantCulture)</span>
+                <span class="comment-date">@Model.CreatedDate.ToString("MMMM dd, yyyy")</span>
+            </div>
+            <div class="comment-text">
+                <p>@Model.Content</p>
+            </div>
+        </div>
+    </div>
+</li>

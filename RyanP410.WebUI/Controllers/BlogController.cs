@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using RyanP410.WebUI.AppCode.Dtos;
 using RyanP410.WebUI.AppCode.Modules.BlogsModule;
 using RyanP410.WebUI.AppCode.Modules.BlogTagCategoriesModule;
+using RyanP410.WebUI.AppCode.Modules.CommentsModule;
 using RyanP410.WebUI.Models.Entities;
 using RyanP410.WebUI.Models.ViewModels;
 
@@ -49,6 +50,15 @@ namespace RyanP410.WebUI.Controllers
             vm.NextBlog = next;
 
             return View(vm);
+        }
+
+        [HttpPost]
+        [Authorize]
+        async public Task<IActionResult> PostComment(CommentCreateCommand request)
+        {
+            Comment data = await mediator.Send(request);
+
+            return PartialView("_Comment", data);
         }
     }
 }

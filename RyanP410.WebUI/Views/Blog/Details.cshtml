@@ -100,17 +100,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach (Comment child in comment.GetChildComments())
-                                    {
-                                        <ul class="children">
+                                    <ul class="children">
+                                        @foreach (Comment child in comment.GetChildComments())
+                                        {
                                             <li class="comment post-comment">
                                                 <div class="comment">
                                                     <div class="comment-image image">
-                                                        <img src="@(!string.IsNullOrWhiteSpace(child.User.ImagePath) ? $"/uploads/users/{@child.User.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(child.User?.ImagePath) ? $"/uploads/users/{@child.User?.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
                                                     </div>
                                                     <div class="comment-desc desc">
                                                         <div class="comment-name name">
-                                                            <span class="comment-author">@child.User.Name @child.User.Surname</span>
+                                                            <span class="comment-author">@child.User?.Name @child.User?.Surname</span>
                                                             <span class="comment-time">@child.CreatedDate.ToString("H:mm tt", CultureInfo.InvariantCulture)</span>
                                                             <span class="comment-date">@child.CreatedDate.ToString("MMMM dd, yyyy")</span>
                                                         </div>
@@ -120,8 +120,8 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                        </ul>
-                                    }
+                                        }
+                                    </ul>
                                 </li>
                             }
                         </ul>
@@ -134,19 +134,31 @@
                 <div class="row border-line-v">
                     <div class="col col-m-12 col-t-12 col-d-12">
                         <div class="post-box">
-                            <form id="cform" method="post" novalidate="novalidate">
+                            <form id="comment-form" method="post">
+                                <input type="hidden" asp-for="BlogDto.Id" name="BlogId" />
+                                <input type="hidden" name="ParentId" />
                                 <div class="row">
                                     <div class="col col-d-12 col-t-12 col-m-12">
                                         <div class="group-val">
-                                            <textarea name="message" placeholder="Your Message"></textarea>
+                                            <textarea name="Content" placeholder="Your Message"></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="align-left">
-                                    <a href="#" class="button">
-                                        <span class="text">Add Comment</span>
-                                        <span class="arrow"></span>
-                                    </a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <button class="button" type="submit">
+                                            <span class="text">Add Comment</span>
+                                            <span class="arrow"></span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <a class="button" asp-action="SignIn" asp-controller="Account" asp-route-returnUrl="@Context.Request.Path.ToString()">
+                                            <span class="text">Add Comment</span>
+                                            <span class="arrow"></span>
+                                        </a>
+                                    }
                                 </div>
                             </form>
                             <div class="alert-success">
@@ -169,6 +181,33 @@
 
       $(lis).removeClass('active');
       $(lis).eq(3).addClass('active');
+
+      let form = $('#comment-form');
+
+      $(form).on('submit', (e) => {
+         e.preventDefault();
+
+         let formData = new FormData(e.currentTarget);
+
+         $.ajax({
+           url: '@Url.Action("PostComment")',
+           type: "POST",
+           processData: false,
+           contentType: false,
+           data: formData,
+           dataType: 'html',
+           success: function(response){
+               e.currentTarget.reset();
+
+               $('.comments').append(response);
+
+               console.log(response);
+           },
+           error: function(response){
+               console.log(response);
+           }
+         });
+      });
     });
 </script>
 }
