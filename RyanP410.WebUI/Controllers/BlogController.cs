@@ -58,6 +58,11 @@ namespace RyanP410.WebUI.Controllers
         {
             Comment data = await mediator.Send(request);
 
+            if (data.ParentId.HasValue && data.ParentId > 0)
+            {
+                Response.Headers.Add("commentParentId", data.ParentId.Value.ToString());
+            }
+
             return PartialView("_Comment", data);
         }
     }

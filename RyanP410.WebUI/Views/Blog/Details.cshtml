@@ -74,14 +74,14 @@
 
             <div class="post-comments">
                 <div class="title">
-                    <div class="title_inner">3 Comments</div>
+                    <div class="title_inner">@Model.BlogDto.CommentCount Comments</div>
                 </div>
                 <div class="row border-line-v comments-row">
                     <div class="col col-m-12 col-t-12 col-d-12">
                         <ul class="comments">
                             @foreach (Comment comment in Model.BlogDto.Comments.Where(c => c.ParentId == null))
                             {
-                                <li class="comment post-comment">
+                                <li identifier="@comment.Id" class="comment post-comment">
                                     <div class="comment">
                                         <div class="comment-image image">
                                             <img src="@(!string.IsNullOrWhiteSpace(comment.User.ImagePath) ? $"/uploads/users/{@comment.User.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
@@ -103,7 +103,7 @@
                                     <ul class="children">
                                         @foreach (Comment child in comment.GetChildComments())
                                         {
-                                            <li class="comment post-comment">
+                                            <li identifier="@child.Id" class="comment post-comment">
                                                 <div class="comment">
                                                     <div class="comment-image image">
                                                         <img src="@(!string.IsNullOrWhiteSpace(child.User?.ImagePath) ? $"/uploads/users/{@child.User?.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
@@ -136,7 +136,7 @@
                         <div class="post-box">
                             <form id="comment-form" method="post">
                                 <input type="hidden" asp-for="BlogDto.Id" name="BlogId" />
-                                <input type="hidden" name="ParentId" />
+                                <input type="hidden" name="ParentId" value="2" />
                                 <div class="row">
                                     <div class="col col-d-12 col-t-12 col-m-12">
                                         <div class="group-val">
@@ -196,12 +196,17 @@
            contentType: false,
            data: formData,
            dataType: 'html',
-           success: function(response){
+           success: function(response, status, xhr){
                e.currentTarget.reset();
 
-               $('.comments').append(response);
+               let parentId = xhr.getResponseHeader('commentParentId');
 
-               console.log(response);
+               if(parentId != null) {
+                   $(response).after(`[identifier=${parentId}]`);
+               }
+               else {
+                 $('.comments').append(response);
+               }
            },
            error: function(response){
                console.log(response);

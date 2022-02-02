@@ -22,5 +22,18 @@ namespace RyanP410.WebUI.AppCode.Dtos
         public IEnumerable<BlogTagCategoryCollection> Collections { get; set; }
 
         public IEnumerable<Comment> Comments { get; set; }
+
+        public int CommentCount
+        {
+            get
+            {
+                if (Comments == null)
+                {
+                    return 0;
+                }
+
+                return Comments.Count();
+            }
+        }
     }
 }
