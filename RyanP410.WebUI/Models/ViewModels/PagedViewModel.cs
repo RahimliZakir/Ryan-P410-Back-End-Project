@@ -67,8 +67,8 @@ namespace RyanP410.WebUI.Models.ViewModels
             {
                 var link = url.Action(action, values: new
                 {
-                    pageIndex = PageIndex - 1,
-                    PageSize = this.PageSize
+                    pageindex = PageIndex - 1,
+                    pagesize = this.PageSize
                 });
 
                 sb.Append($"<li class='prev'><a href='{link}'>" +
@@ -90,8 +90,8 @@ namespace RyanP410.WebUI.Models.ViewModels
                 {
                     var link = url.Action(action, values: new
                     {
-                        pageIndex = i,
-                        PageSize = this.PageSize
+                        pageindex = i,
+                        pagesize = this.PageSize
                     });
 
                     sb.Append($"<li><a href='{link}'>{i}</a></li>");
@@ -102,8 +102,8 @@ namespace RyanP410.WebUI.Models.ViewModels
             {
                 var link = url.Action(action, values: new
                 {
-                    pageIndex = PageIndex + 1,
-                    PageSize = this.PageSize
+                    pageindex = PageIndex + 1,
+                    pagesize = this.PageSize
                 });
 
                 sb.Append($"<li class='next'><a href='{link}'>" +

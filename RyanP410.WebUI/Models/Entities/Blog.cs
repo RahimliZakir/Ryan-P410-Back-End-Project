@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RyanP410.WebUI.AppCode.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RyanP410.WebUI.Models.Entities
@@ -14,7 +15,6 @@ namespace RyanP410.WebUI.Models.Entities
         public string? ImagePath { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Reply> Replies { get; set; }
         public virtual ICollection<BlogTagCategoryCollection> BlogTagCategoryCollections { get; set; }
 
         [NotMapped]

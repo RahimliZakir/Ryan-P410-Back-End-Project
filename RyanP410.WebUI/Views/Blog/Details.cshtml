@@ -183,3 +183,14 @@
 
     </div>
 </div>
+
+@section js{
+<script>
+    $(function(){
+      let lis = $('.top-menu li');
+
+      $(lis).removeClass('active');
+      $(lis).eq(3).addClass('active');
+    });
+</script>
+}

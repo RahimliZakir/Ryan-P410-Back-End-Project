@@ -1,4 +1,5 @@
-﻿using RyanP410.WebUI.Models.Entities.Membership;
+﻿using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.Models.Entities.Membership;
 
 namespace RyanP410.WebUI.Models.Entities
 {

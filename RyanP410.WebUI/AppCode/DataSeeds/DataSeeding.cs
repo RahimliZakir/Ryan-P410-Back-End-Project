@@ -772,6 +772,102 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
                         CreatedByUserId = 1
                     });
 
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 4,
+                        TagId = 1,
+                        BlogCategoryId = 1,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 4,
+                        TagId = 2,
+                        BlogCategoryId = 2,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 5,
+                        TagId = 3,
+                        BlogCategoryId = 1,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 5,
+                        TagId = 4,
+                        BlogCategoryId = 2,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 6,
+                        TagId = 1,
+                        BlogCategoryId = 1,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 6,
+                        TagId = 2,
+                        BlogCategoryId = 2,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 7,
+                        TagId = 3,
+                        BlogCategoryId = 1,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 7,
+                        TagId = 4,
+                        BlogCategoryId = 2,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 8,
+                        TagId = 1,
+                        BlogCategoryId = 1,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 8,
+                        TagId = 2,
+                        BlogCategoryId = 2,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 9,
+                        TagId = 3,
+                        BlogCategoryId = 1,
+                        CreatedByUserId = 1
+                    });
+
+                    await db.BlogTagCategoryCollections.AddAsync(new BlogTagCategoryCollection
+                    {
+                        BlogId = 9,
+                        TagId = 4,
+                        BlogCategoryId = 2,
+                        CreatedByUserId = 1
+                    });
+
                     await db.SaveChangesAsync();
                 }
                 //---BLOG---

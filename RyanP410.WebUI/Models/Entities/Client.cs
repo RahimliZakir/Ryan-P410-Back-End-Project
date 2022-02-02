@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using RyanP410.WebUI.AppCode.Infrastructure;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RyanP410.WebUI.Models.Entities
 {

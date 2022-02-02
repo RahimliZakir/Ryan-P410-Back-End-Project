@@ -62,7 +62,7 @@
                                 <a asp-action="Index" asp-route-id="@item.Id">
                                     <span class="date">@item.CreatedDate.ToString("MMMM dd, yyyy")</span>
                                 </a>
-                                <a href="blog-post-new.html" class="name">@item.Title</a>
+                                <a asp-action="Index" asp-route-id="@item.Id" class="name">@item.Title</a>
                                 <div class="text">
                                     <p>@item.Description.RemoveHtmlTags().EllipseText(100)</p>
                                 </div>

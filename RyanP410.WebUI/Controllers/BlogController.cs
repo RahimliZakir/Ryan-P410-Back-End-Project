@@ -31,10 +31,13 @@ namespace RyanP410.WebUI.Controllers
 
             Blog data = await mediator.Send(request);
 
-            var blogPrevSingleQuery = new BlogSingleQuery((int)request.Id - 1);
-            Blog prev = await mediator.Send(blogPrevSingleQuery);
-            var blogNextSingleQuery = new BlogSingleQuery((int)request.Id + 1);
-            Blog next = await mediator.Send(blogNextSingleQuery);
+            BlogsQuery blogPrevSingleQuery = new();
+            IEnumerable<Blog> prevBlogs = await mediator.Send(blogPrevSingleQuery);
+            Blog prev = prevBlogs.Where(p => p.Id < data.Id).LastOrDefault();
+
+            BlogsQuery blogNextSingleQuery = new();
+            IEnumerable<Blog> nextBlogs = await mediator.Send(blogNextSingleQuery);
+            Blog next = nextBlogs.Where(p => p.Id > data.Id).FirstOrDefault();
 
             vm.Blog = data;
             vm.PrevBlog = prev;

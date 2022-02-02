@@ -1,4 +1,5 @@
-﻿using RyanP410.WebUI.Areas.Admin.Models.FormModels;
+﻿using RyanP410.WebUI.AppCode.Infrastructure;
+using RyanP410.WebUI.Areas.Admin.Models.FormModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

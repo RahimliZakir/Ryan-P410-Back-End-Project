@@ -1,4 +1,4 @@
-﻿namespace RyanP410.WebUI.Models.Entities
+﻿namespace RyanP410.WebUI.AppCode.Infrastructure
 {
     public class BaseEntity
     {
