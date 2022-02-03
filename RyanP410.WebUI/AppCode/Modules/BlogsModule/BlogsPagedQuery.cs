@@ -16,20 +16,18 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogsModule
             {
 
                 if (pageIndex > 0)
-                {
                     return pageIndex;
-                }
 
                 return 1;
             }
             set
             {
                 if (value > 0)
-                {
                     pageIndex = value;
+                else
+                {
+                    pageIndex = 1;
                 }
-
-                pageIndex = 1;
             }
         }
 
@@ -39,20 +37,18 @@ namespace RyanP410.WebUI.AppCode.Modules.BlogsModule
             {
 
                 if (pageSize > 0)
-                {
                     return pageSize;
-                }
 
                 return 4;
             }
             set
             {
                 if (value > 0)
-                {
                     pageSize = value;
+                else
+                {
+                    pageSize = 4;
                 }
-
-                pageSize = 4;
             }
         }
 
