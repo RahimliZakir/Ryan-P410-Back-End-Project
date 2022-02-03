@@ -92,7 +92,7 @@
                                                 <span class="comment-time">@comment.CreatedDate.ToString("H:mm tt", CultureInfo.InvariantCulture)</span>
                                                 <span class="comment-date">@comment.CreatedDate.ToString("MMMM dd, yyyy")</span>
                                                 <span class="comment-reply">
-                                                    <a class="comment-reply-link" href="#">Reply</a>
+                                                    <a class="comment-reply-link" style="cursor: pointer;" data-comment-id="@comment.Id" onclick="setReply(event)">Reply</a>
                                                 </span>
                                             </div>
                                             <div class="comment-text">
@@ -113,6 +113,9 @@
                                                             <span class="comment-author">@child.User?.Name @child.User?.Surname</span>
                                                             <span class="comment-time">@child.CreatedDate.ToString("H:mm tt", CultureInfo.InvariantCulture)</span>
                                                             <span class="comment-date">@child.CreatedDate.ToString("MMMM dd, yyyy")</span>
+                                                            <span class="comment-reply">
+                                                                <a class="comment-reply-link" style="cursor: pointer;" data-comment-id="@child.Id" onclick="setReply(event)">Reply</a>
+                                                            </span>
                                                         </div>
                                                         <div class="comment-text">
                                                             <p>@child.Content</p>
@@ -197,16 +200,18 @@
            data: formData,
            dataType: 'html',
            success: function(response, status, xhr){
-               e.currentTarget.reset();
-
                let parentId = xhr.getResponseHeader('commentParentId');
 
                if(parentId != null) {
-                   $(response).after(`[identifier=${parentId}]`);
+                   console.log(parentId)
+                   $(`[identifier="${parentId}"] > .children`).append(response);
                }
                else {
                  $('.comments').append(response);
                }
+
+               e.currentTarget.reset();
+               $('#comment-form div.comment').remove();
            },
            error: function(response){
                console.log(response);
@@ -214,5 +219,26 @@
          });
       });
     });
+
+    function setReply(ev){
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        const parentId = $(ev.currentTarget).data('comment-id');
+
+        $('#comment-form input[name="ParentId"]').val(parentId);
+
+        $('#comment-form div.post-comment').remove();
+        const comment = $(ev.currentTarget).closest('.post-comment').clone(true);
+
+        $(comment).find('.comment-reply > a').remove();
+        let trashBtn = $("<span class='trash-btn' style='color: red;cursor: pointer;'><i class='far fa-trash-alt'></i></span>");
+        $(trashBtn).click(() => {
+          $(comment).remove();
+        });
+        $(comment).find('.comment-reply').append(trashBtn);
+
+        $(comment).insertBefore($('#comment-form').children()[0]);
+    }
 </script>
 }

@@ -10,6 +10,9 @@
                 <span class="comment-author">@Model.User?.Name @Model.User?.Surname</span>
                 <span class="comment-time">@Model.CreatedDate.ToString("H:mm tt", CultureInfo.InvariantCulture)</span>
                 <span class="comment-date">@Model.CreatedDate.ToString("MMMM dd, yyyy")</span>
+                <span class="comment-reply">
+                    <a class="comment-reply-link" style="cursor: pointer;" data-comment-id="@Model.Id" onclick="setReply(event)">Reply</a>
+                </span>
             </div>
             <div class="comment-text">
                 <p>@Model.Content</p>
