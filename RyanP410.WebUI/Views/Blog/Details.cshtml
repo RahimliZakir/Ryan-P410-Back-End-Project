@@ -139,7 +139,7 @@
                         <div class="post-box">
                             <form id="comment-form" method="post">
                                 <input type="hidden" asp-for="BlogDto.Id" name="BlogId" />
-                                <input type="hidden" name="ParentId" value="2" />
+                                <input type="hidden" name="ParentId" />
                                 <div class="row">
                                     <div class="col col-d-12 col-t-12 col-m-12">
                                         <div class="group-val">
@@ -190,6 +190,11 @@
       $(form).on('submit', (e) => {
          e.preventDefault();
 
+         if($(e.currentTarget).find('textarea').val() == ""){
+             $(e.currentTarget).find('textarea').css('border-color', 'red');
+             return;
+         }
+
          let formData = new FormData(e.currentTarget);
 
          $.ajax({
@@ -200,14 +205,15 @@
            data: formData,
            dataType: 'html',
            success: function(response, status, xhr){
+               $(e.currentTarget).find('textarea').css('border-color', '#eeeeee');
+
                let parentId = xhr.getResponseHeader('commentParentId');
 
                if(parentId != null) {
-                   console.log(parentId)
-                   $(`[identifier="${parentId}"] > .children`).append(response);
+                   $(`[identifier="${parentId}"] .children`).append(response);
                }
                else {
-                 $('.comments').append(response);
+                 $(response).insertAfter($('.comments'));
                }
 
                e.currentTarget.reset();

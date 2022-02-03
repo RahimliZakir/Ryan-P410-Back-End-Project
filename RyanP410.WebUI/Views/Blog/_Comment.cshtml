@@ -1,6 +1,6 @@
 ﻿@model Comment
 
-<li class="comment post-comment">
+<li identifier="@Model.Id" class="comment post-comment">
     <div class="comment">
         <div class="comment-image image">
             <img src="@(!string.IsNullOrWhiteSpace(Model.User?.ImagePath) ? $"/uploads/users/{@Model.User?.ImagePath}" : "/uploads/users/default-non-user-no-photo-1.jpg")" class="avatar" height="80" width="80" alt="">
@@ -18,5 +18,7 @@
                 <p>@Model.Content</p>
             </div>
         </div>
+        <ul class="children">
+        </ul>
     </div>
 </li>
