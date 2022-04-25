@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RyanP410.WebUI.Models.DataContexts;
 using RyanP410.WebUI.Models.Entities;
@@ -599,37 +599,43 @@ namespace RyanP410.WebUI.AppCode.DataSeeds
                     await db.Works.AddAsync(new Work
                     {
                         Title = "To-Do List",
-                        ImagePath = "work-c052a6038bc24672b64c4ed5e8c160db.jpg"
+                        ImagePath = "work-c052a6038bc24672b64c4ed5e8c160db.jpg",
+                        CategoryId = 1
                     });
 
                     await db.Works.AddAsync(new Work
                     {
                         Title = "Cab Management System",
-                        ImagePath = "work-586f627b3ea44ed18619d55c2d592f7d.png"
+                        ImagePath = "work-586f627b3ea44ed18619d55c2d592f7d.png",
+                        CategoryId = 2
                     });
 
                     await db.Works.AddAsync(new Work
                     {
                         Title = "Waves",
-                        ImagePath = "work-a0189587e48345d69a65eca78f08a644.jpg"
+                        ImagePath = "work-a0189587e48345d69a65eca78f08a644.jpg",
+                        CategoryId = 3
                     });
 
                     await db.Works.AddAsync(new Work
                     {
                         Title = "Mindful Joint",
-                        ImagePath = "work-e4db03c808b24739b294ee35abc938dc.jpg"
+                        ImagePath = "work-e4db03c808b24739b294ee35abc938dc.jpg",
+                        CategoryId = 4
                     });
 
                     await db.Works.AddAsync(new Work
                     {
                         Title = "Steele",
-                        ImagePath = "work-8870ab3ea0764aff80cbfc6f9ad05c85.png"
+                        ImagePath = "work-8870ab3ea0764aff80cbfc6f9ad05c85.png",
+                        CategoryId = 3
                     });
 
                     await db.Works.AddAsync(new Work
                     {
                         Title = "Joystick",
-                        ImagePath = "work-002cb7e2e67f4b7d8ef8de29cc18536a.jpg"
+                        ImagePath = "work-002cb7e2e67f4b7d8ef8de29cc18536a.jpg",
+                        CategoryId = 4
                     });
 
                     await db.SaveChangesAsync();
